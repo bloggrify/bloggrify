@@ -46,4 +46,9 @@ export default defineNuxtConfig({
             remarkPlugins: ["remark-reading-time"],
         },
     },
+    nitro: {
+        prerender: {
+            routes: ["/sitemap.xml", "/rss.xml"],
+        },
+    },
 });
