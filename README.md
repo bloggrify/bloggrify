@@ -49,8 +49,7 @@ I personally recommend :
 
 ## Roadmap 
 
-sitemap
-flux rss
+notion de page non listé (dans sitemap et rss)
 search (?)
 commentaires 
 newsletter (?)
@@ -62,5 +61,3 @@ pagination sur la page d'accueil avec l'ensemble des articles
 
 2 variantes de mises en pages sur la page d'accueil (exemple : https://nuxt-ui-pro-template-saas.vercel.app/blog  ou https://darren.odden.io/)
 
-
-footer avec les liens vers les réseaux sociaux (ou dans le header ?)
