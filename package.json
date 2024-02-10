@@ -13,7 +13,8 @@
     "feed": "4.2.2",
     "nuxt": "^3.10.1",
     "remark-reading-time": "^2.0.1",
-    "sitemap": "7.1.1"
+    "sitemap": "7.1.1",
+    "@tailwindcss/typography": "0.5.10"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "12.1.0",

@@ -6,13 +6,16 @@ export default defineNuxtConfig({
             name: "Bloggr",
             description: "A blog about stuff",
 
+            table_of_contents: false,
+
             author: {
                 name: "John Doe",
                 description:
                     "lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-                image: "/images/avatar.webp",
+                avatar: "/images/avatar.webp",
                 socials: {
                     twitter: "https://twitter.com",
+                    twitter_username: "username",
                     mastodon: "https://piaille.fr",
                     youtube: "https://youtube.com",
                     linkedin: "https://linkedin.com",

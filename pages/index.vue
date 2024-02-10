@@ -81,7 +81,7 @@
                     class="col-span-1 p-4 hidden lg:block border-l border-gray-200 sticky top-28 h-screen overflow-y-auto"
                 >
                     <NuxtImg
-                        :src="config.public.author.image"
+                        :src="config.public.author.avatar"
                         :alt="config.public.author.name"
                         class="rounded-full border border-gray-300"
                         width="100"
@@ -182,16 +182,9 @@
     </main>
 </template>
 <script setup lang="ts">
-const config = useRuntimeConfig();
+import { formatDate } from "~/common/format";
 
-function formatDate(date: string | number): string {
-    const options: Intl.DateTimeFormatOptions = {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-    };
-    return new Date(date).toLocaleDateString("en", options);
-}
+const config = useRuntimeConfig();
 
 function desc(article: any): string {
     return (
