@@ -50,7 +50,6 @@ I personally recommend :
 ## Roadmap 
 
 seo
-analytics
 pagination sur la page d'accueil avec l'ensemble des articles
 dark mode
 notion de page non listé (dans sitemap et rss)
@@ -60,4 +59,4 @@ search (?)
 newsletter (?)
 
 2 variantes de mises en pages sur la page d'accueil (exemple : https://nuxt-ui-pro-template-saas.vercel.app/blog  ou https://darren.odden.io/)
-
+theming
