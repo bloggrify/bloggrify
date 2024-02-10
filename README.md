@@ -1,20 +1,19 @@
-# Content v2 Minimal Starter
+# Bloggr
 
-Look at the [Content documentation](https://content.nuxt.com/) to learn more.
+Bloggr is built on top of 
+* Nuxt.js 
+* Tailwind CSS
+* Nuxt-Content 
+
+It is a static blog generator that uses markdown files to generate blog posts.
 
 ## Setup
 
 Make sure to install the dependencies:
 
 ```bash
-# yarn
-yarn install
-
 # npm
 npm install
-
-# pnpm
-pnpm install
 ```
 
 ## Development Server
@@ -30,7 +29,7 @@ npm run dev
 Build the application for production:
 
 ```bash
-npm run build
+npm run generate
 ```
 
 Locally preview production build:
@@ -39,4 +38,29 @@ Locally preview production build:
 npm run preview
 ```
 
-Checkout the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Checkout the [official nuxt deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+I personally recommend : 
+- github pages
+- netlify
+- vercel
+- cloudflare pages
+
+
+## Roadmap 
+
+sitemap
+flux rss
+search (?)
+commentaires 
+newsletter (?)
+compteur de visite
+dark mode
+seo
+analytics 
+pagination sur la page d'accueil avec l'ensemble des articles
+
+2 variantes de mises en pages sur la page d'accueil (exemple : https://nuxt-ui-pro-template-saas.vercel.app/blog  ou https://darren.odden.io/)
+
+
+footer avec les liens vers les réseaux sociaux (ou dans le header ?)
