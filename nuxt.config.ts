@@ -1,10 +1,34 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+    app: {
+        head: {
+            htmlAttrs: {
+                lang: "en",
+            },
+            script: [
+                // {
+                //     src: "https://api.pirsch.io/pirsch.js",
+                //     id: "pirschjs",
+                //     defer: true,
+                //     "data-code": "YOUR_PIRSCH_CODE",
+                //     type: "text/javascript",
+                // },
+            ],
+        },
+    },
+
     runtimeConfig: {
         public: {
             url: "https://bloggr.com",
             name: "Bloggr",
             description: "A blog about stuff",
+
+            comments: {
+                enabled: true,
+                hyvor_talk: {
+                    website_id: "YOUR_HYVOR_TALK_WEBSITE_ID",
+                },
+            },
 
             table_of_contents: false,
 
@@ -52,6 +76,11 @@ export default defineNuxtConfig({
     nitro: {
         prerender: {
             routes: ["/sitemap.xml", "/rss.xml"],
+        },
+    },
+    vue: {
+        compilerOptions: {
+            isCustomElement: (tag) => ["hyvor-talk-comments"].includes(tag),
         },
     },
 });

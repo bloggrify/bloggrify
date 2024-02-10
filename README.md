@@ -49,15 +49,15 @@ I personally recommend :
 
 ## Roadmap 
 
-notion de page non listé (dans sitemap et rss)
-search (?)
-commentaires 
-newsletter (?)
-compteur de visite
-dark mode
 seo
-analytics 
+analytics
 pagination sur la page d'accueil avec l'ensemble des articles
+dark mode
+notion de page non listé (dans sitemap et rss)
+compteur de visite
+documentation sous forme de page de blog
+search (?)
+newsletter (?)
 
 2 variantes de mises en pages sur la page d'accueil (exemple : https://nuxt-ui-pro-template-saas.vercel.app/blog  ou https://darren.odden.io/)
 

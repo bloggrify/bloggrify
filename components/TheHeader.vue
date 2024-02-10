@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav
-            class="transition-colors fixed w-full z-10 top-0 inverted border-b border-gray-200"
+            class="transition-colors bg-gray-50 fixed w-full z-10 top-0 inverted border-b border-gray-200"
         >
             <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                 <div class="relative flex items-center justify-between h-16">

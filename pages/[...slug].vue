@@ -25,7 +25,7 @@
                             <ContentRenderer
                                 id="nuxtContent"
                                 :value="doc"
-                                class="prose font-proxima text-sm md:text-xl font-medium min-w-full md:p-10 mx-auto"
+                                class="prose text-sm md:text-xl min-w-full md:p-10 mx-auto"
                             />
                         </div>
                     </div>
@@ -33,34 +33,44 @@
 
                 <hr class="mb-8" />
 
-                <!--                    <SharingButtons-->
-                <!--                        :title="doc.title"-->
-                <!--                        :twitter_user="siteMetadata.twitter_user"-->
-                <!--                        :post-link="postLink"-->
-                <!--                    />-->
+                <SharingButtons :title="doc.title" :post-link="postLink" />
 
                 <hyvor-talk-comments
-                    website-id="7045"
+                    v-if="config.public.comments.enabled"
+                    :website-id="config.public.comments.hyvor_talk.website_id"
                     :page-id="doc.id"
                 ></hyvor-talk-comments>
             </div>
         </div>
     </main>
+    <TheFooter />
 </template>
 <script setup lang="ts">
 const config = useRuntimeConfig();
 const route = useRoute();
 const { data: doc } = await useAsyncData(route.path, async () => {
-    const doc = await queryContent("").where({ _path: route.path }).findOne();
-    return doc;
+    return await queryContent("").where({ _path: route.path }).findOne();
 });
+
+const postLink = `${config.public.url}${route.path}`;
 
 const isTocEnabled =
     doc.value?.body?.toc?.links.length &&
     doc.value?.body.toc?.links.length > 0 &&
     (config.public.table_of_contents || doc.value?.table_of_contents);
-
 onMounted(() => {
     useYoutubeTwitterEnhancer("nuxtContent");
 });
+
+if (config.public.comments.enabled) {
+    useHead({
+        script: [
+            {
+                async: true,
+                src: "https://talk.hyvor.com/embed/embed.js",
+                type: "module",
+            },
+        ],
+    });
+}
 </script>
