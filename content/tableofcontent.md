@@ -30,7 +30,7 @@ Example:
 ## Title 3
 ```
 
-::tip
+::alert
 Only the headers with a level 2 will be displayed in the table of content.
 ::
 
