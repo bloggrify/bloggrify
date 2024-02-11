@@ -4,7 +4,7 @@
         <div class="mx-auto max-w-[1330px] md:p-4">
             <div class="grid grid-cols-3 md:gap-4">
                 <div class="col-span-3 lg:col-span-2 md:p-4">
-                    <ContentList v-slot="{ list }" path="/p">
+                    <ContentList v-slot="{ list }">
                         <div class="space-y-8">
                             <div
                                 v-for="article in list"
@@ -12,9 +12,16 @@
                                 class="flex flex-col"
                             >
                                 <div class="grid grid-cols-3 gap-4">
-                                    <div class="col-span-2 p-4">
+                                    <div
+                                        class="col-span-2 p-4"
+                                        :class="
+                                            article.cover
+                                                ? 'col-span-2'
+                                                : 'col-span-3'
+                                        "
+                                    >
                                         <NuxtLink :to="article._path">
-                                            <h2 class="text-xl font-bold mb-1">
+                                            <h2 class="text-xl font-bold mb-2">
                                                 {{ article.title }}
                                             </h2>
                                             <p class="text-gray-700 mb-4">
@@ -46,10 +53,10 @@
                                         </div>
                                     </div>
                                     <div
+                                        v-if="article.cover"
                                         class="col-span-1 p-4 flex justify-center items-center"
                                     >
                                         <NuxtImg
-                                            v-if="article.cover"
                                             :src="'/images/' + article.cover"
                                             :alt="article.title"
                                             class="w-full object-cover cursor-pointer"
@@ -57,17 +64,6 @@
                                             format="webp"
                                             loading="lazy"
                                             placeholder
-                                            @click="navigateTo(article._path)"
-                                        />
-                                        <NuxtImg
-                                            v-else
-                                            src="https://via.placeholder.com/230x230"
-                                            class="w-full object-cover cursor-pointer"
-                                            sizes="233px sm:400px md:400px"
-                                            loading="lazy"
-                                            placeholder
-                                            format="webp"
-                                            :alt="article.title"
                                             @click="navigateTo(article._path)"
                                         />
                                     </div>

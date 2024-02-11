@@ -1,11 +1,11 @@
 <template>
-    <div class="relative inline-block text-left ml-2 block lg:hidden">
+    <div class="relative inline-block text-left ml-2 lg:hidden">
         <div>
             <span class="rounded-md shadow-sm">
                 <button
                     v-click-outside="onClickOutside"
                     type="button"
-                    class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-black hover:text-white hover:bg-smalt-blue-500 focus:outline-none transition ease-in-out duration-150"
+                    class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-black hover:text-gray-500 hover:bg-smalt-blue-500 focus:outline-none transition ease-in-out duration-150"
                     aria-haspopup="true"
                     aria-expanded="true"
                     @click="showOptions = !showOptions"
@@ -28,7 +28,7 @@
 
         <div
             v-if="showOptions === true"
-            class="origin-top-right absolute right-0 mt-2 w-64 rounded-md shadow-lg z-1000"
+            class="origin-top-right absolute mt-2 w-64 rounded-md shadow-lg z-1000"
         >
             <div class="rounded-md bg-white shadow-xs">
                 <div class="py-1" role="menu" aria-orientation="vertical">

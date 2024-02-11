@@ -1,5 +1,5 @@
 <template>
-    <div class="lg:sticky top-28 pt-5 -mt-5 font-proxima">
+    <div class="lg:sticky top-28 pt-5 -mt-5 text-sm">
         <!-- Desktop Sidebar -->
         <div v-if="toc.length > 0" class="toc hidden lg:block">
             <p class="border-b-4 pb-3 mb-3 border-gray-200 text-xl">
@@ -9,7 +9,7 @@
                 <li
                     v-for="subtitle in toc"
                     :key="subtitle.text"
-                    class="py-1"
+                    class="py-1 list-decimal ml-2"
                     :class="{ 'ml-4': subtitle.depth === 3 }"
                 >
                     <a
@@ -24,15 +24,15 @@
         </div>
 
         <!-- Responsive Sidebar -->
-        <div v-if="toc.length > 0" class="text-right mb-12">
+        <div v-if="toc.length > 0" class="fixed right-20">
             <FilterDropdown v-if="toc.length > 0">
-                <template #title>On this page</template>
+                <template #title>Table of contents</template>
                 <template #options>
                     <ul class="p-4">
                         <li
                             v-for="subtitle in toc"
                             :key="subtitle.text"
-                            class="py-1"
+                            class="py-1 list-decimal ml-2"
                             :class="{ 'ml-4': subtitle.depth === 3 }"
                         >
                             <a
@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import FilterDropdown from "~/components/Dropdown.vue";
-const props = defineProps({
+defineProps({
     toc: {
         type: Array,
         default: () => [],

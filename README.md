@@ -57,6 +57,9 @@ compteur de visite
 documentation sous forme de page de blog
 search (?)
 newsletter (?)
+la carte d'auteur comme sur https://preview.themeforest.net/item/axotic-jekyll-blog-website-template/full_screen_preview/22997948 (ou numerama)
+previous et next
+related articles
 
 2 variantes de mises en pages sur la page d'accueil (exemple : https://nuxt-ui-pro-template-saas.vercel.app/blog  ou https://darren.odden.io/)
 theming

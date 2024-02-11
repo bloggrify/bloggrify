@@ -58,8 +58,26 @@ const isTocEnabled =
     doc.value?.body?.toc?.links.length &&
     doc.value?.body.toc?.links.length > 0 &&
     (config.public.table_of_contents || doc.value?.table_of_contents);
+
 onMounted(() => {
     useYoutubeTwitterEnhancer("nuxtContent");
+});
+
+onMounted(() => {
+    const images = document.querySelectorAll(".prose img");
+
+    images.forEach((img) => {
+        const captionText = img.alt;
+        const captionElement = document.createElement("div");
+        captionElement.textContent = captionText;
+        captionElement.classList.add(
+            "text-sm",
+            "text-center",
+            "text-gray-600",
+            "mt-1",
+        );
+        img.parentNode?.insertBefore(captionElement, img.nextSibling);
+    });
 });
 
 if (config.public.comments.enabled) {

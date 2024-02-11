@@ -72,6 +72,13 @@ export default defineNuxtConfig({
         markdown: {
             remarkPlugins: ["remark-reading-time"],
         },
+        highlight: {
+            theme: {
+                default: "catppuccin-frappe",
+                // Theme used if `html.dark`
+                dark: "github-dark",
+            },
+        },
     },
     nitro: {
         prerender: {
