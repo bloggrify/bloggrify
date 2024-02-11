@@ -1,11 +1,13 @@
 ---
-id: "2"
-title: "Use markdown power"
-description: "Use markdown at its full potential."
+id: "7"
+title: "Theming"
+description: "Customize the theme of your blog"
 date: "2024-02-09"
 tags:
-  - markdown
-cover: "covers/thailand.jpg"
+  - theming
+  - ui
+  - front_matter
+cover: "covers/iceland.jpg"
 ---
 
 This blog is a static blog generator that uses markdown files to generate blog posts.

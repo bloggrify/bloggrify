@@ -1,11 +1,9 @@
 ---
-id: "2"
-title: "Use markdown power"
-description: "Use markdown at its full potential."
+id: "9"
+title: "Add a newsletter"
+description: "Add a newsletter to your blog to keep your readers updated."
 date: "2024-02-09"
-tags:
-  - markdown
-cover: "covers/thailand.jpg"
+cover: "covers/lyon.jpg"
 ---
 
 This blog is a static blog generator that uses markdown files to generate blog posts.

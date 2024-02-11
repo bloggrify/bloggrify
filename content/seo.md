@@ -1,11 +1,11 @@
 ---
-id: "2"
-title: "Use markdown power"
-description: "Use markdown at its full potential."
+id: "5"
+title: "SEO"
+description: "SEO is important for your blog. It helps search engines to understand your content and to display it in the search results."
 date: "2024-02-09"
 tags:
-  - markdown
-cover: "covers/thailand.jpg"
+  - seo
+cover: "covers/france.jpg"
 ---
 
 This blog is a static blog generator that uses markdown files to generate blog posts.

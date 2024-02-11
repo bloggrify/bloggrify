@@ -1,11 +1,9 @@
 ---
-id: "2"
-title: "Use markdown power"
-description: "Use markdown at its full potential."
+id: "10"
+title: "Global configuration"
+description: "The global configuration of the blog is done in the nuxt.config.ts file."
 date: "2024-02-09"
-tags:
-  - markdown
-cover: "covers/thailand.jpg"
+cover: "covers/sanfrancisco.jpg"
 ---
 
 This blog is a static blog generator that uses markdown files to generate blog posts.

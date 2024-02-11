@@ -1,11 +1,9 @@
 ---
-id: "2"
-title: "Use markdown power"
-description: "Use markdown at its full potential."
+title: "Archives"
+description: "This blog is a static blog generator that uses markdown files to generate blog posts."
 date: "2024-02-09"
-tags:
-  - markdown
-cover: "covers/thailand.jpg"
+cover: "doc/markdown.png"
+listed: false
 ---
 
 This blog is a static blog generator that uses markdown files to generate blog posts.

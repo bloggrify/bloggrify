@@ -1,11 +1,11 @@
 ---
-id: "2"
-title: "Use markdown power"
-description: "Use markdown at its full potential."
+id: "3"
+title: "Comments : Enable comments on your blog"
+description: "Comments are a great way to interact with your readers. It's a great way to get feedback and improve your content."
 date: "2024-02-09"
 tags:
-  - markdown
-cover: "covers/thailand.jpg"
+  - comments
+cover: "covers/tanzanie.jpg"
 ---
 
 This blog is a static blog generator that uses markdown files to generate blog posts.

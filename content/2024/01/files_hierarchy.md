@@ -1,11 +1,11 @@
 ---
-id: "2"
-title: "Use markdown power"
-description: "Use markdown at its full potential."
+id: "4"
+title: "Files hierarchy"
+description: "Understand the files hierarchy of the blog, how to add new pages and the url structure."
 date: "2024-02-09"
 tags:
   - markdown
-cover: "covers/thailand.jpg"
+cover: "covers/santorin.jpg"
 ---
 
 This blog is a static blog generator that uses markdown files to generate blog posts.

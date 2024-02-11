@@ -7,7 +7,7 @@ table_of_contents: true
 tags:
   - front_matter
   - configuration
-cover: "/doc/toc-mobile.jpg"
+cover: "covers/japan.jpg"
 ---
 
 ## Introduction
