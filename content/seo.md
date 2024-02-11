@@ -8,77 +8,57 @@ tags:
 cover: "covers/france.jpg"
 ---
 
-This blog is a static blog generator that uses markdown files to generate blog posts.
-It uses [Nuxt-content](https://content.nuxt.com/) under the hood. 
+:toc
 
-## Standard markdown features
-You can use all standard markdown features such as:
-text formatting, images, links, code blocks, etc.
-
-You should read the [official markdown documentation](https://www.markdownguide.org/) to learn more about markdown.   
-Edit this file to see how it works.
+## Choose your language
 
 
-This is a paragraph with a [link](https://www.google.com). And some **bold** and *italic* text.
+```typescript
+The content you'll write on your blog will be in the language you choose. It's important for bots to set up the right language in the html attribute of the `nuxt.config.ts` file. 
 
-This is a paragraph with an image ![the image is automatically centered on the page and the alt text is displayed below as a caption](/images/doc/image-eventuallycoding.jpg "title of the image you should add for accessibility").
+The default value is "en"
 
-Nuxt-content provide code highlighting with [shiki](https://github.com/shikijs/shiki). You can specify the language of the code block to enable syntax highlighting:
-This is a paragraph with a code block:
-```javascript
-console.log('Hello world');
+```typescript
+export default {
+  head: {
+    htmlAttrs: {
+      lang: 'en'
+    }
+  }
+}
 ```
 
-This is a paragraph with a list:
-- item 1
-- item 2
-- item 3
+## Sitemap and RSS feed
 
-This is a paragraph with a numbered list:
-1. item 1
-2. item 2
-3. item 3
+This blog generates automatically a sitemap.xml and a RSS feed (rss.xml).   
+All content is automatically added to the sitemap and the RSS feed except the content with the `listed: false` property in the frontmatter.
 
-This is a paragraph with a quote:
-> This is a quote
+## Open Graph and Twitter cards
 
-This is a paragraph with a table:
-| Header 1 | Header 2 |
-| -------- | -------- |
-| Cell 1   | Cell 2   |
-| Cell 3   | Cell 4   |
+This blog uses the [useHead](https://nuxt.com/docs/api/composables/use-head) composables to add metadata to the head of the pages.
 
-## Frontmatter
-It also supports frontmatter to add metadata to your markdown files.
+All pages have a default title and description. 
+You can tweak the image, title and description of each page in the frontmatter of the markdown file. 
 
-```yaml
----
-id: "2"
-title: "Use markdown power"
-description: "Use markdown at its full potential."
-date: "2024-02-09"
-tags:
-  - markdown
-cover: "doc/markdown.png"
----
+This is highly recommended to do so to have a good SEO, not even mentioning that your blog will look broken if you don't define title for each page...
+
+## Robots.txt
+By default, the robots.txt allows all robots to crawl the website. It's possible to modify the robots.txt file in the `public` folder.
+
+For example if you don't want to allow chatGpt or yandex: 
+```txt
+User-agent: GPTBot
+Disallow: /
+User-agent: yandex
+Disallow: /
 ```
 
-* `id` is mandatory if you want to use the comment system. It is used to identify the article.  
-* `title` and `description` are used for SEO and social sharing. It's also used on the index page. Don't forget to fill them.
-* `date` is used to sort the articles. Date in the future will not be displayed.
-* `tags` are only used to display the tags on the article page. It's optional.
-* `cover` is used to display an image on the index page. It's also used when you share your article on social media. It's optional (it's however better to have one). 
+## Performance
 
-## Custom components
-You can also use [custom components](https://content.nuxt.com/usage/markdown#vue-components) with vue.js to extend markdown features. Some components are already available such as:
+Performance are an important part of SEO. Here is the lighthouse score of this blog:
 
-::alert{type="TIP"}
-This is a tip
-::
+| index page                                | blog post                                          |
+|-------------------------------------------|----------------------------------------------------|
+| ![index page](/images/doc/lighthouse.jpg) | ![blog post](/images/doc/lighthouse-blog-post.jpg) |
 
-::alert{type="Warning"}
-This is a warning
-::
-
-
-And the [table of contents described on this page](/tableofcontent). 
+Performance could vary depending on the server and the network and images you use in your blog.

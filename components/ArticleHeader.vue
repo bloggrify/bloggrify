@@ -54,16 +54,6 @@
                     <div class="font-bold text-slate-500 text-xs">
                         {{ config.public.author.name }}
                     </div>
-                    <a
-                        target="_blank"
-                        :href="
-                            config.public.author.socials.twitter +
-                            config.public.author.socials.twitter_username
-                        "
-                        class="font-bold text-sky-500 text-xs hover:text-sky-600"
-                    >
-                        @{{ config.public.author.socials.twitter_username }}
-                    </a>
                 </div>
             </div>
         </div>

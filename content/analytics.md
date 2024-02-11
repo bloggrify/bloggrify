@@ -2,7 +2,7 @@
 id: "8"
 title: "Add analytics to your blog"
 description: "Add analytics to your blog to track your visitors."
-date: "2024-02-09"
+date: "2024-02-01"
 tags:
   - analytics
 cover: "covers/seoul.jpg"

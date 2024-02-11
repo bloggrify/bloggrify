@@ -1,8 +1,8 @@
 ---
 id: "11"
 title: "All features"
-description: "All features of the blog."
-date: "2024-02-07"
+description: "Discover all the features of Bloggr."
+date: "2024-02-11"
 cover: "covers/tokyo.jpg"
 table_of_contents: true
 ---

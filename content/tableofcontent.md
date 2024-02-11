@@ -2,7 +2,7 @@
 id: "1"
 title: "Display your table of contents"
 description: "The table of content is a great way to help your readers navigate through your blog post. It can be displayed as a sidebar or directly inside the blog post."
-date: "2024-02-09"
+date: "2024-02-08"
 table_of_contents: true
 tags:
   - front_matter

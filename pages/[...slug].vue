@@ -2,11 +2,15 @@
     <TheHeader />
     <main class="mt-28">
         <div v-if="doc">
-            <div v-if="doc.cover" class="flex justify-center mt-24">
+            <div
+                v-if="doc.cover"
+                class="md:flex justify-center mt-24 hidden lg:h-[500px]"
+            >
                 <NuxtImg
                     :src="'/images/' + doc.cover"
                     :alt="doc.title"
-                    class="object-cover w-96"
+                    fit="cover"
+                    placeholder
                 />
             </div>
             <div class="px-4 mx-auto sm:px-6 xl:max-w-7xl xl:px-0 mt-10">
@@ -91,4 +95,57 @@ if (config.public.comments.enabled) {
         ],
     });
 }
+
+useHead({
+    title: doc.value?.title + " | " + config.public.name,
+    meta: [
+        {
+            hid: "description",
+            name: "description",
+            content: doc.value?.description,
+        },
+        {
+            hid: "og:description",
+            name: "og:description",
+            content: doc.value?.description,
+        },
+        { hid: "og:type", name: "og:type", content: "article" },
+        { hid: "og:title", name: "og:title", content: doc.value?.title },
+        {
+            hid: "og:url",
+            name: "og:url",
+            content: config.public.url + doc.value?._path,
+        },
+        {
+            hid: "og:image",
+            name: "og:image",
+            content: config.public.url + "/images/" + doc.value?.cover,
+        },
+        { name: "og:image:alt", content: doc.value?.title },
+        { name: "twitter:text:title", content: doc.value?.title },
+        {
+            name: "twitter:image",
+            content: config.public.url + "/images/" + doc.value?.cover,
+        },
+        { name: "twitter:card", content: "summary" },
+        {
+            name: "article:published_time",
+            content: new Date(doc.value?.date).toISOString(),
+        },
+        {
+            name: "article:article:modified_time",
+            content: new Date(doc.value?.date).toISOString(),
+        },
+        {
+            name: "article:article:tag",
+            content: doc.value?.tags ? doc.value.tags?.toString() : "",
+        },
+    ],
+    link: [
+        {
+            rel: "canonical",
+            href: config.public.url + doc.value?._path,
+        },
+    ],
+});
 </script>

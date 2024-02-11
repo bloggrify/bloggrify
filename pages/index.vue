@@ -4,73 +4,87 @@
         <div class="mx-auto max-w-[1330px] md:p-4">
             <div class="grid grid-cols-3 md:gap-4">
                 <div class="col-span-3 lg:col-span-2 md:p-4">
-                    <ContentList v-slot="{ list }">
-                        <div class="space-y-8">
-                            <div
-                                v-for="article in list"
-                                :key="article._path"
-                                class="flex flex-col"
-                            >
-                                <div class="grid grid-cols-3 gap-4">
-                                    <div
-                                        class="col-span-2 p-4"
-                                        :class="
-                                            article.cover
-                                                ? 'col-span-2'
-                                                : 'col-span-3'
-                                        "
-                                    >
-                                        <NuxtLink :to="article._path">
-                                            <h2 class="text-xl font-bold mb-2">
-                                                {{ article.title }}
-                                            </h2>
-                                            <p class="text-gray-700 mb-4">
-                                                {{ desc(article) }}
-                                            </p>
-                                            <div class="mb-3">
+                    <ContentList :query="query">
+                        <template #not-found>
+                            <p>No posts found.</p>
+                        </template>
+                        <template #default="{ list }">
+                            <div class="space-y-8">
+                                <div
+                                    v-for="article in list"
+                                    :key="article._path"
+                                    class="flex flex-col"
+                                >
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div
+                                            class="col-span-2 p-4"
+                                            :class="
+                                                article.cover
+                                                    ? 'col-span-2'
+                                                    : 'col-span-3'
+                                            "
+                                        >
+                                            <NuxtLink :to="article._path">
+                                                <h2
+                                                    class="text-xl font-bold mb-2"
+                                                >
+                                                    {{ article.title }}
+                                                </h2>
+                                                <p class="text-gray-700 mb-4">
+                                                    {{ desc(article) }}
+                                                </p>
+                                                <div class="mb-3">
+                                                    <span
+                                                        class="text-sm text-gray-500"
+                                                        >{{
+                                                            formatDate(
+                                                                article.date,
+                                                            )
+                                                        }}
+                                                        ∙
+                                                    </span>
+                                                    <span
+                                                        class="text-sm text-gray-500"
+                                                        >{{
+                                                            article.readingTime
+                                                                .text
+                                                        }}</span
+                                                    >
+                                                </div>
+                                            </NuxtLink>
+                                            <div class="flex flex-wrap gap-2">
                                                 <span
-                                                    class="text-sm text-gray-500"
-                                                    >{{
-                                                        formatDate(article.date)
-                                                    }}
-                                                    ∙
-                                                </span>
-                                                <span
-                                                    class="text-sm text-gray-500"
-                                                    >{{
-                                                        article.readingTime.text
-                                                    }}</span
+                                                    v-for="tag in article.tags"
+                                                    :key="tag"
+                                                    class="bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-700"
+                                                    >{{ tag }}</span
                                                 >
                                             </div>
-                                        </NuxtLink>
-                                        <div class="flex flex-wrap gap-2">
-                                            <span
-                                                v-for="tag in article.tags"
-                                                :key="tag"
-                                                class="bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-700"
-                                                >{{ tag }}</span
-                                            >
+                                        </div>
+                                        <div
+                                            v-if="article.cover"
+                                            class="col-span-1 p-4 flex justify-center items-center"
+                                        >
+                                            <NuxtImg
+                                                :src="
+                                                    '/images/' + article.cover
+                                                "
+                                                :alt="article.title"
+                                                class="w-full object-cover cursor-pointer"
+                                                sizes="233px sm:400px md:400px"
+                                                format="webp"
+                                                loading="lazy"
+                                                placeholder
+                                                @click="
+                                                    navigateTo(article._path)
+                                                "
+                                            />
                                         </div>
                                     </div>
-                                    <div
-                                        v-if="article.cover"
-                                        class="col-span-1 p-4 flex justify-center items-center"
-                                    >
-                                        <NuxtImg
-                                            :src="'/images/' + article.cover"
-                                            :alt="article.title"
-                                            class="w-full object-cover cursor-pointer"
-                                            sizes="233px sm:400px md:400px"
-                                            format="webp"
-                                            loading="lazy"
-                                            placeholder
-                                            @click="navigateTo(article._path)"
-                                        />
-                                    </div>
+                                    <hr />
                                 </div>
-                                <hr />
                             </div>
-                        </div>
+                        </template>
                     </ContentList>
                 </div>
                 <div
@@ -179,8 +193,15 @@
 </template>
 <script setup lang="ts">
 import { formatDate } from "~/common/format";
+import type { QueryBuilderParams } from "@nuxt/content/dist/runtime/types";
 
 const config = useRuntimeConfig();
+
+const query: QueryBuilderParams = {
+    path: "",
+    where: [{ listed: { $ne: false } }],
+    sort: [{ date: -1 }],
+};
 
 function desc(article: any): string {
     return (

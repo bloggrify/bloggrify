@@ -2,7 +2,7 @@
 id: "10"
 title: "Global configuration"
 description: "The global configuration of the blog is done in the nuxt.config.ts file."
-date: "2024-02-09"
+date: "2024-02-10"
 cover: "covers/sanfrancisco.jpg"
 ---
 
@@ -71,7 +71,7 @@ cover: "doc/markdown.png"
 You can also use [custom components](https://content.nuxt.com/usage/markdown#vue-components) with vue.js to extend markdown features. Some components are already available such as:
 
 ::alert{type="TIP"}
-This is a tip
+This is a tip loren ipsum dolor sit amet, consectetur adipiscing elit. risus, at quisque. risus, at quisque. loren ipsum dolor sit amet, consectetur adipiscing elit. risus, at quisque. risus, at quisque. loren ipsum dolor sit amet, consectetur adipiscing elit. risus, at quisque. risus, at quisque.
 ::
 
 ::alert{type="Warning"}

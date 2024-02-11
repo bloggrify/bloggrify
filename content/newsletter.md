@@ -2,7 +2,7 @@
 id: "9"
 title: "Add a newsletter"
 description: "Add a newsletter to your blog to keep your readers updated."
-date: "2024-02-09"
+date: "2024-02-03"
 cover: "covers/lyon.jpg"
 ---
 

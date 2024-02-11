@@ -2,7 +2,7 @@
 id: "3"
 title: "Comments : Enable comments on your blog"
 description: "Comments are a great way to interact with your readers. It's a great way to get feedback and improve your content."
-date: "2024-02-09"
+date: "2024-02-02"
 tags:
   - comments
 cover: "covers/tanzanie.jpg"

@@ -76,7 +76,6 @@ I personally recommend :
 seo
 pagination sur la page d'accueil avec l'ensemble des articles
 dark mode
-notion de page non listé (dans sitemap et rss)
 compteur de visite
 documentation sous forme de page de blog
 search (?)

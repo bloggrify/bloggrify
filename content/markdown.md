@@ -2,7 +2,7 @@
 id: "2"
 title: "Use markdown power"
 description: "Use markdown at its full potential."
-date: "2024-02-09"
+date: "2024-02-08"
 tags:
   - markdown
 cover: "covers/thailand.jpg"
@@ -73,7 +73,7 @@ cover: "doc/markdown.png"
 You can also use [custom components](https://content.nuxt.com/usage/markdown#vue-components) with vue.js to extend markdown features. Some components are already available such as:
 
 ::alert{type="TIP"}
-This is a tip
+This is a tip 
 ::
 
 ::alert{type="Warning"}

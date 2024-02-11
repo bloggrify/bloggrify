@@ -1,7 +1,7 @@
 <template>
     <div class="admonition" :class="`admonition-${type.toLowerCase()}`">
         <div class="admonition-heading">
-            <h5>
+            <div class="admonition-header">
                 <Lightbulb
                     v-if="type.toLowerCase() === 'tip'"
                     :stroke-width="1"
@@ -13,7 +13,7 @@
                     class="inline-block -mt-1 mr-2"
                 />
                 <span>{{ type }}</span>
-            </h5>
+            </div>
         </div>
         <div class="admonition-content">
             <p>
@@ -46,30 +46,27 @@ defineProps({
 
 .admonition-tip {
     --bg-opacity: 1;
-    background-color: rgb(251, 255, 240);
+    background-color: rgb(250, 253, 246);
     border-left-width: 8px;
     --border-opacity: 1;
     border-color: rgb(67, 154, 30);
 
-    h5 {
+    .admonition-header {
         --text-opacity: 1;
-        color: rgb(128, 227, 133);
+        color: rgb(22, 100, 30);
     }
 }
 
 .admonition-warning {
     --bg-opacity: 1;
     background-color: #fffaf0;
-    background-color: rgba(255, 250, 240, var(--bg-opacity));
     border-left-width: 8px;
     --border-opacity: 1;
-    border-color: #dd6b20;
-    border-color: rgba(221, 107, 32, var(--border-opacity));
+    border-color: #dd6c22;
 
-    h5 {
+    .admonition-header {
         --text-opacity: 1;
-        color: #dd6b20;
-        color: rgba(221, 107, 32, var(--text-opacity));
+        color: #7e4211;
     }
 }
 </style>

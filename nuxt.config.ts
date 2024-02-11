@@ -24,7 +24,7 @@ export default defineNuxtConfig({
             description: "A blog about stuff",
 
             comments: {
-                enabled: true,
+                enabled: false,
                 hyvor_talk: {
                     website_id: "YOUR_HYVOR_TALK_WEBSITE_ID",
                 },
