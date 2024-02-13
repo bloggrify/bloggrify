@@ -119,16 +119,17 @@
                         >{{ item.name }}
                     </NuxtLink>
                     <NuxtLink
-                        aria-label="Open Mastodon profile"
+                        title="Subscribe to RSS feed"
+                        aria-label="Open RSS feed"
                         class="text-sm text-gray-500 transition hover:text-gray-600"
                         rel="me"
                         target="_blank"
-                        :to="config.public.author.socials.mastodon"
-                        ><span class="sr-only">Mastodon</span>
+                        to="/rss.xml"
+                        ><span class="sr-only">Subscribe to RSS feed</span>
                         <img
-                            alt="Icon for Mastodon"
-                            class="transition-transform hover:scale-110 w-8 h-8"
-                            src="~assets/icon/mastodon.svg"
+                            alt="Icon for RSS"
+                            class="ml-3 transition-transform hover:scale-110 w-6 h-6 mt-1"
+                            src="~assets/icon/rss.svg"
                         />
                     </NuxtLink>
                 </div>

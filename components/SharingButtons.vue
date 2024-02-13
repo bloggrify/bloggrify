@@ -42,7 +42,7 @@
                         '&text=' +
                         title +
                         '&via=' +
-                        config.public.author.socials.twitter_username
+                        author.socials.twitter_username
                     "
                     target="_blank"
                     title="Share on Twitter"
@@ -77,9 +77,19 @@
 </template>
 <script setup lang="ts">
 const config = useRuntimeConfig();
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps<{
     postLink: string;
     title: string;
+    authorId: string;
 }>();
+
+function findAuthor(authorId?: string) {
+    // find author from config.public.authors array or, if authorId is null, return the one with "default" is true
+    if (authorId === undefined) {
+        return config.public.authors.find((author) => author.default);
+    }
+    return config.public.authors.find((author) => author.username === authorId);
+}
+
+const author = findAuthor(props.authorId);
 </script>

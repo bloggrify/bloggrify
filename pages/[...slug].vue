@@ -1,5 +1,5 @@
 <template>
-    <TheHeader />
+    <TheHeader :author-id="doc.author" />
     <main class="mt-28">
         <div v-if="doc">
             <div
@@ -37,7 +37,11 @@
 
                 <hr class="mb-8" />
 
-                <SharingButtons :title="doc.title" :post-link="postLink" />
+                <SharingButtons
+                    :title="doc.title"
+                    :post-link="postLink"
+                    :author-id="doc.author"
+                />
 
                 <hyvor-talk-comments
                     v-if="config.public.comments.enabled"

@@ -91,18 +91,18 @@
                     class="col-span-1 p-4 hidden lg:block border-l border-gray-200 sticky top-28 h-screen overflow-y-auto"
                 >
                     <NuxtImg
-                        :src="config.public.author.avatar"
-                        :alt="config.public.author.name"
+                        :src="config.public.logo"
+                        :alt="config.public.name"
                         class="rounded-full border border-gray-300"
                         width="100"
                         height="100"
                     />
 
                     <div class="font-semibold text-xl mt-2">
-                        {{ config.public.author.name }}
+                        {{ config.public.name }}
                     </div>
                     <div class="text-gray-500 text-sm mt-2">
-                        {{ config.public.author.description }}
+                        {{ config.public.description }}
                     </div>
                     <div class="mt-4">
                         <div class="flex mb-3 space-x-4">
@@ -111,7 +111,7 @@
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 target="_blank"
                                 rel="me"
-                                :to="config.public.author.socials.youtube"
+                                :to="config.public.socials.youtube"
                                 ><span class="sr-only">Youtube</span>
                                 <img
                                     alt="Icon for Youtube"
@@ -124,7 +124,7 @@
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 rel="me"
                                 target="_blank"
-                                :to="config.public.author.socials.mastodon"
+                                :to="config.public.socials.mastodon"
                                 ><span class="sr-only">Mastodon</span>
                                 <img
                                     alt="Icon for Mastodon"
@@ -137,7 +137,7 @@
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 target="_blank"
                                 rel="nofollow noopener noreferrer"
-                                :to="config.public.author.socials.github"
+                                :to="config.public.socials.github"
                                 ><span class="sr-only">github</span>
                                 <img
                                     alt="Icon for Github"
@@ -150,7 +150,7 @@
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                :to="config.public.author.socials.facebook"
+                                :to="config.public.socials.facebook"
                                 ><span class="sr-only">Facebook</span>
                                 <img
                                     alt="Icon for Facebook"
@@ -163,7 +163,7 @@
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                :to="config.public.author.socials.linkedin"
+                                :to="config.public.socials.linkedin"
                                 ><span class="sr-only">Linkedin</span>
                                 <img
                                     alt="Icon for Linkedin"
@@ -175,7 +175,7 @@
                                 aria-label="Open twitter profile"
                                 target="_blank"
                                 rel="nofollow noopener noreferrer"
-                                :to="config.public.author.socials.twitter"
+                                :to="config.public.socials.twitter"
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                             >
                                 <img

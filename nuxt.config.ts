@@ -22,6 +22,17 @@ export default defineNuxtConfig({
             url: "https://bloggr.com",
             name: "Bloggr",
             description: "A blog about stuff",
+            logo: "/images/avatar.webp",
+
+            socials: {
+                twitter: "https://twitter.com/username",
+                mastodon: "https://piaille.fr",
+                youtube: "https://youtube.com",
+                linkedin: "https://linkedin.com",
+                facebook: "https://facebook.com",
+                instagram: "https://instagram.com",
+                github: "https://github.com",
+            },
 
             comments: {
                 enabled: false,
@@ -32,22 +43,26 @@ export default defineNuxtConfig({
 
             table_of_contents: false,
 
-            author: {
-                name: "John Doe",
-                description:
-                    "lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-                avatar: "/images/avatar.webp",
-                socials: {
-                    twitter: "https://twitter.com",
-                    twitter_username: "username",
-                    mastodon: "https://piaille.fr",
-                    youtube: "https://youtube.com",
-                    linkedin: "https://linkedin.com",
-                    facebook: "https://facebook.com",
-                    instagram: "https://instagram.com",
-                    github: "https://github.com",
+            authors: [
+                {
+                    default: true,
+                    username: "john-doe",
+                    name: "John Doe",
+                    description:
+                        "lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+                    avatar: "/images/avatar.webp",
+                    socials: {
+                        twitter: "https://twitter.com",
+                        twitter_username: "username",
+                        mastodon: "https://piaille.fr",
+                        youtube: "https://youtube.com",
+                        linkedin: "https://linkedin.com",
+                        facebook: "https://facebook.com",
+                        instagram: "https://instagram.com",
+                        github: "https://github.com",
+                    },
                 },
-            },
+            ],
 
             menu: [
                 { name: "Home", path: "/" },

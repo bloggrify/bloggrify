@@ -73,11 +73,9 @@ I personally recommend :
 
 ## Roadmap 
 
-seo
 pagination sur la page d'accueil avec l'ensemble des articles
 dark mode
 compteur de visite
-documentation sous forme de page de blog
 search (?)
 newsletter (?)
 la carte d'auteur comme sur https://preview.themeforest.net/item/axotic-jekyll-blog-website-template/full_screen_preview/22997948 (ou numerama)

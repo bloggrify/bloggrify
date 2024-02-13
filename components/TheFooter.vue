@@ -19,7 +19,7 @@
                     class="text-sm text-gray-500 transition hover:text-gray-600"
                     target="_blank"
                     rel="me"
-                    :to="config.public.author.socials.youtube"
+                    :to="config.public.socials.youtube"
                     ><span class="sr-only">Youtube</span>
                     <img
                         alt="Icon for Youtube"
@@ -32,7 +32,7 @@
                     class="text-sm text-gray-500 transition hover:text-gray-600"
                     target="_blank"
                     rel="me"
-                    :to="config.public.author.socials.mastodon"
+                    :to="config.public.socials.mastodon"
                     ><span class="sr-only">Mastodon</span>
                     <img
                         alt="Icon for Mastodon"
@@ -45,7 +45,7 @@
                     class="text-sm text-gray-500 transition hover:text-gray-600"
                     target="_blank"
                     rel="nofollow noopener noreferrer"
-                    :to="config.public.author.socials.github"
+                    :to="config.public.socials.github"
                     ><span class="sr-only">github</span>
                     <img
                         alt="Icon for Github"
@@ -57,7 +57,7 @@
                     class="text-sm text-gray-500 transition hover:text-gray-600"
                     target="_blank"
                     rel="noopener noreferrer"
-                    :to="config.public.author.socials.linkedin"
+                    :to="config.public.socials.linkedin"
                     ><span class="sr-only">Linkedin</span>
                     <img
                         alt="Icon for Linkedin"
@@ -69,11 +69,7 @@
                     aria-label="Open twitter profile"
                     target="_blank"
                     rel="nofollow noopener noreferrer"
-                    :to="
-                        config.public.author.socials.twitter +
-                        '/' +
-                        config.public.author.socials.twitter_username
-                    "
+                    :to="config.public.socials.twitter"
                     class="text-sm text-gray-500 transition hover:text-gray-600"
                 >
                     <img

@@ -45,14 +45,14 @@
             </div>
             <div class="flex items-center font-medium sm:mx-3 justify-center">
                 <NuxtImg
-                    :src="config.public.author.avatar"
+                    :src="author.avatar"
                     loading="lazy"
                     alt=""
                     class="mr-3 w-10 h-10 rounded-full bg-slate-50 dark:bg-slate-800"
                 />
                 <div>
                     <div class="font-bold text-slate-500 text-xs">
-                        {{ config.public.author.name }}
+                        {{ author.name }}
                     </div>
                 </div>
             </div>
@@ -63,7 +63,17 @@
 import { formatDate } from "~/common/format";
 const config = useRuntimeConfig();
 
-defineProps<{
+const props = defineProps<{
     article: any;
 }>();
+
+function findAuthor(authorId?: string) {
+    // find author from config.public.authors array or, if authorId is null, return the one with "default" is true
+    if (authorId === undefined) {
+        return config.public.authors.find((author) => author.default);
+    }
+    return config.public.authors.find((author) => author.username === authorId);
+}
+
+const author = findAuthor(props.article.author);
 </script>
