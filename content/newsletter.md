@@ -3,80 +3,56 @@ id: "9"
 title: "Add a newsletter"
 description: "Add a newsletter to your blog to keep your readers updated."
 date: "2024-02-03"
+table_of_contents: true
 cover: "covers/lyon.jpg"
 ---
 
-This blog is a static blog generator that uses markdown files to generate blog posts.
-It uses [Nuxt-content](https://content.nuxt.com/) under the hood. 
 
-## Standard markdown features
-You can use all standard markdown features such as:
-text formatting, images, links, code blocks, etc.
+## Add a newsletter to a static blog
 
-You should read the [official markdown documentation](https://www.markdownguide.org/) to learn more about markdown.   
-Edit this file to see how it works.
+You can add a newsletter to your blog to keep your readers updated when you publish new content.
 
+The tricky part here is that this blog is a static site, so you can't use a traditional newsletter service, or you'll have to manually send out emails every time you publish a new post and that's not very practical.
 
-This is a paragraph with a [link](https://www.google.com). And some **bold** and *italic* text.
+Instead, you can use a RSS-to-email service to create a newsletter and then add a form to your blog to allow your readers to sign up. 
+This is the approach I'm using for this blog. I'm using [Mailerlite](https://www.mailerlite.com/) 
 
-This is a paragraph with an image ![the image is automatically centered on the page and the alt text is displayed below as a caption](/images/doc/image-eventuallycoding.jpg "title of the image you should add for accessibility").
+Of course you can use another service, here you'll find an example of how to do it with Mailerlite but please feel free to use any other service you like.
 
-Nuxt-content provide code highlighting with [shiki](https://github.com/shikijs/shiki). You can specify the language of the code block to enable syntax highlighting:
-This is a paragraph with a code block:
-```javascript
-console.log('Hello world');
+## Enable RSS feed
+
+The RSS feed is enabled by default in this blog, you can find it at `/rss.xml`. You can check it by going to `https://yourblog.com/feed.xml`.
+
+## Create a Mailerlite account
+
+Go to [Mailerlite](https://www.mailerlite.com/) and create an account.
+
+## Create a new form
+
+Go to the [forms section](https://dashboard.mailerlite.com/forms/embedded) and create a new form. You can create a simple form with just an email field.
+Don't worry about the design, we won't use their form, we'll create our own.
+
+Look at the "HTML code" section and copy the form action URL, it should look like this:
+
+```html
+<form action="https://assets.mailerlite.com/jsonp/ID1/forms/ID2/subscribe"" method="post">
 ```
 
-This is a paragraph with a list:
-- item 1
-- item 2
-- item 3
+Copy the form action URL, you'll need it later.
 
-This is a paragraph with a numbered list:
-1. item 1
-2. item 2
-3. item 3
+## Add the form to your blog
 
-This is a paragraph with a quote:
-> This is a quote
+You just have to enable the newsletter section in the `nuxt.config.ts` file and add the form action URL you copied before.
 
-This is a paragraph with a table:
-| Header 1 | Header 2 |
-| -------- | -------- |
-| Cell 1   | Cell 2   |
-| Cell 3   | Cell 4   |
-
-## Frontmatter
-It also supports frontmatter to add metadata to your markdown files.
-
-```yaml
----
-id: "2"
-title: "Use markdown power"
-description: "Use markdown at its full potential."
-date: "2024-02-09"
-tags:
-  - markdown
-cover: "doc/markdown.png"
----
+```typescript
+newsletter: {
+  enabled: true,
+  form_action: "YOUR_FORM_ACTION_URL",
+},
 ```
 
-* `id` is mandatory if you want to use the comment system. It is used to identify the article.  
-* `title` and `description` are used for SEO and social sharing. It's also used on the index page. Don't forget to fill them.
-* `date` is used to sort the articles. Date in the future will not be displayed.
-* `tags` are only used to display the tags on the article page. It's optional.
-* `cover` is used to display an image on the index page. It's also used when you share your article on social media. It's optional (it's however better to have one). 
+## Create a new campaign
 
-## Custom components
-You can also use [custom components](https://content.nuxt.com/usage/markdown#vue-components) with vue.js to extend markdown features. Some components are already available such as:
+Go to the [campaigns section](https://dashboard.mailerlite.com/campaigns/status/ready) and create a new **RSS** campaign. Then, the rest should be straightforward, just follow the steps.
 
-::alert{type="TIP"}
-This is a tip
-::
-
-::alert{type="Warning"}
-This is a warning
-::
-
-
-And the [table of contents described on this page](/tableofcontent). 
+And voilà! You have a newsletter for your static blog. People can sign up and they'll receive an email every time you publish a new post.

@@ -34,6 +34,11 @@ export default defineNuxtConfig({
                 github: "https://github.com",
             },
 
+            newsletter: {
+                enabled: false,
+                form_action: "YOUR_NEWSLETTER_FORM_ACTION",
+            },
+
             comments: {
                 enabled: false,
                 hyvor_talk: {

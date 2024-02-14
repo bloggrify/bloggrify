@@ -80,7 +80,7 @@ const config = useRuntimeConfig();
 const props = defineProps<{
     postLink: string;
     title: string;
-    authorId: string;
+    authorId: string | undefined;
 }>();
 
 function findAuthor(authorId?: string) {

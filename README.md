@@ -73,8 +73,9 @@ I personally recommend :
 
 ## Roadmap 
 
-pagination sur la page d'accueil avec l'ensemble des articles
 dark mode
+page 404
+page archives
 compteur de visite
 search (?)
 newsletter (?)

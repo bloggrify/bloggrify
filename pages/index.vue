@@ -200,6 +200,7 @@ const config = useRuntimeConfig();
 const query: QueryBuilderParams = {
     path: "",
     where: [{ listed: { $ne: false } }],
+    limit: 10,
     sort: [{ date: -1 }],
 };
 
