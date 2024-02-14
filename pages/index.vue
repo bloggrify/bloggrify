@@ -115,7 +115,7 @@
                                 ><span class="sr-only">Youtube</span>
                                 <img
                                     alt="Icon for Youtube"
-                                    class="transition-transform hover:scale-110 w-8 h-8"
+                                    class="transition-transform hover:scale-110 w-6 h-6"
                                     src="~assets/icon/youtube.svg"
                                 />
                             </NuxtLink>
@@ -128,7 +128,7 @@
                                 ><span class="sr-only">Mastodon</span>
                                 <img
                                     alt="Icon for Mastodon"
-                                    class="transition-transform hover:scale-110 w-8 h-8"
+                                    class="transition-transform hover:scale-110 w-6 h-6"
                                     src="~assets/icon/mastodon.svg"
                                 />
                             </NuxtLink>
@@ -141,7 +141,7 @@
                                 ><span class="sr-only">github</span>
                                 <img
                                     alt="Icon for Github"
-                                    class="transition-transform hover:scale-110 w-8 h-8"
+                                    class="transition-transform hover:scale-110 w-6 h-6"
                                     src="~assets/icon/github_new.svg"
                                 />
                             </NuxtLink>
@@ -154,7 +154,7 @@
                                 ><span class="sr-only">Facebook</span>
                                 <img
                                     alt="Icon for Facebook"
-                                    class="transition-transform hover:scale-110 w-8 h-8"
+                                    class="transition-transform hover:scale-110 w-6 h-6"
                                     src="~assets/icon/facebook.svg"
                                 />
                             </NuxtLink>
@@ -167,7 +167,7 @@
                                 ><span class="sr-only">Linkedin</span>
                                 <img
                                     alt="Icon for Linkedin"
-                                    class="transition-transform hover:scale-110 w-8 h-8"
+                                    class="transition-transform hover:scale-110 w-6 h-6"
                                     src="~assets/icon/linkeding.svg"
                                 />
                             </NuxtLink>
@@ -176,11 +176,11 @@
                                 target="_blank"
                                 rel="nofollow noopener noreferrer"
                                 :to="config.public.socials.twitter"
-                                class="text-sm text-gray-500 transition hover:text-gray-600"
+                                class="text-gray-500 transition hover:text-gray-600"
                             >
                                 <img
                                     alt="Icon for Twitter"
-                                    class="transition-transform hover:scale-110 w-8 h-8"
+                                    class="transition-transform hover:scale-110 w-6 h-6"
                                     src="~assets/icon/twitter.svg"
                                 />
                             </NuxtLink>
