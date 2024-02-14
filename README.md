@@ -28,7 +28,6 @@ But you can also contribute in many other ways:
 - by giving this project a star on github
 - by contributing to the open source project to improve it
 
-
 ## Setup
 
 Make sure to install the dependencies:
@@ -70,18 +69,3 @@ I personally recommend :
 - vercel
 - cloudflare pages
 
-
-## Roadmap 
-
-dark mode
-page 404
-page archives
-compteur de visite
-search (?)
-newsletter (?)
-la carte d'auteur comme sur https://preview.themeforest.net/item/axotic-jekyll-blog-website-template/full_screen_preview/22997948 (ou numerama)
-previous et next
-related articles
-
-2 variantes de mises en pages sur la page d'accueil (exemple : https://nuxt-ui-pro-template-saas.vercel.app/blog  ou https://darren.odden.io/)
-theming

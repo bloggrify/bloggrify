@@ -5,6 +5,7 @@ description: "Discover all the features of Bloggr."
 date: "2024-02-11"
 cover: "covers/tokyo.jpg"
 table_of_contents: true
+listed: false
 ---
 
 ## Introduction
@@ -53,7 +54,3 @@ You can read more about it [here](/2024/01/files_hierarchy).
 You can add any analytics tool to your blog.  
 You can read more about it [here](/analytics).
 
-## Theming and configuration
-
-You can customize the theme of your blog. You can change the layouts, the colors, use dark mode, change the description, and more.  
-You can read more about [theming here](/theming) and [configuration here](/configuration).

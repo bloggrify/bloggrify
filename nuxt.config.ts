@@ -71,7 +71,7 @@ export default defineNuxtConfig({
 
             menu: [
                 { name: "Home", path: "/" },
-                { name: "About", path: "/about" },
+                { name: "Features", path: "/features" },
                 { name: "Archives", path: "/archives" },
             ],
         },
