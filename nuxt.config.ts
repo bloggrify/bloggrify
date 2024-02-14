@@ -22,7 +22,7 @@ export default defineNuxtConfig({
             url: "https://bloggr.com",
             name: "Bloggr",
             description: "A blog about stuff",
-            logo: "/images/avatar.webp",
+            logo: "/images/avatar.jpg",
 
             socials: {
                 twitter: "https://twitter.com/username",
