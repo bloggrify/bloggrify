@@ -1,4 +1,5 @@
 export const useYoutubeTwitterEnhancer = (id: string): void => {
+    debugger;
     let containTwitterScript = false;
     const rootElement = document.getElementById(id);
     if (rootElement) {
@@ -14,7 +15,7 @@ export const useYoutubeTwitterEnhancer = (id: string): void => {
                         const container = document.createElement("div");
                         container.setAttribute(
                             "class",
-                            "w-1/2 ml-auto mr-auto",
+                            "flex justify-center items-center ",
                         );
                         const iframe = document.createElement("iframe");
                         iframe.setAttribute(
@@ -41,7 +42,10 @@ export const useYoutubeTwitterEnhancer = (id: string): void => {
                 isTweet.forEach((match) => {
                     const tweetId = match;
                     const container = document.createElement("div");
-                    container.setAttribute("class", "w-1/2 ml-auto mr-auto");
+                    container.setAttribute(
+                        "class",
+                        "flex justify-center items-center",
+                    );
                     const blockQuote = document.createElement("blockquote");
                     blockQuote.setAttribute("class", "twitter-tweet");
                     const link = document.createElement("a");

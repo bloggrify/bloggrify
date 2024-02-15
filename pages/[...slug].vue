@@ -100,28 +100,20 @@ if (config.public.comments.enabled) {
     });
 }
 
+if (doc.value) {
+    useContentHead(doc.value);
+}
+
 useHead({
-    title: doc.value?.title + " | " + config.public.name,
     meta: [
+        { key: "og:type", name: "og:type", content: "article" },
         {
-            hid: "description",
-            name: "description",
-            content: doc.value?.description,
-        },
-        {
-            hid: "og:description",
-            name: "og:description",
-            content: doc.value?.description,
-        },
-        { hid: "og:type", name: "og:type", content: "article" },
-        { hid: "og:title", name: "og:title", content: doc.value?.title },
-        {
-            hid: "og:url",
+            key: "og:url",
             name: "og:url",
             content: config.public.url + doc.value?._path,
         },
         {
-            hid: "og:image",
+            key: "og:image",
             name: "og:image",
             content: config.public.url + "/images/" + doc.value?.cover,
         },

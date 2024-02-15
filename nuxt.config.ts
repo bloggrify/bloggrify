@@ -40,9 +40,9 @@ export default defineNuxtConfig({
             },
 
             comments: {
-                enabled: false,
+                enabled: true,
                 hyvor_talk: {
-                    website_id: "YOUR_HYVOR_TALK_WEBSITE_ID",
+                    website_id: "10519",
                 },
             },
 

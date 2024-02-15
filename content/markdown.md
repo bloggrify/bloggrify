@@ -69,6 +69,15 @@ cover: "doc/markdown.png"
 * `tags` are only used to display the tags on the article page. It's optional.
 * `cover` is used to display an image on the index page. It's also used when you share your article on social media. It's optional (it's however better to have one). 
 
+## Youtube and Twitter embed
+
+You can embed youtube videos and tweets in your markdown files.
+
+https://www.youtube.com/watch?v=su2gNQJkteg
+
+https://twitter.com/hugolassiege/status/1750435525071159309
+
+
 ## Custom components
 You can also use [custom components](https://content.nuxt.com/usage/markdown#vue-components) with vue.js to extend markdown features. Some components are already available such as:
 

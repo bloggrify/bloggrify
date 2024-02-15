@@ -28,7 +28,7 @@ import { Lightbulb, AlertTriangle } from "lucide-vue-next";
 defineProps({
     type: {
         type: String,
-        required: true,
+        required: false,
         default: "TIP",
     },
 });
