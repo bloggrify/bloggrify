@@ -23,7 +23,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            url: "https://bloggr.com",
+            url: "https://bloggr.eventuallycoding.com/",
             logo: "/images/logo.png",
 
             // If you only have one author, you can set the author here
