@@ -6,13 +6,17 @@ export default defineNuxtConfig({
                 lang: "en",
             },
             script: [
-                // {
-                //     src: "https://api.pirsch.io/pirsch.js",
-                //     id: "pirschjs",
-                //     defer: true,
-                //     "data-code": "YOUR_PIRSCH_CODE",
-                //     type: "text/javascript",
-                // },
+                ...(process.env.PIRSCH_CODE
+                    ? [
+                        {
+                            src: "https://api.pirsch.io/pirsch.js",
+                            id: "pirschjs",
+                            defer: true,
+                            "data-code": process.env.PIRSCH_CODE,
+                            type: "text/javascript",
+                        },
+                    ]
+                    : []),
             ],
         },
     },
@@ -20,9 +24,14 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             url: "https://bloggr.com",
+            logo: "/images/logo.png",
+
+            // If you only have one author, you can set the author here
+            // It will be used as the default author for all posts AND as the general logo/description/socials for the website
             name: "Bloggr",
-            description: "A blog about stuff",
-            logo: "/images/avatar.jpg",
+            avatar: "/images/avatar.jpg",
+            description:
+                "lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
 
             socials: {
                 twitter: "https://twitter.com/username",
@@ -35,19 +44,22 @@ export default defineNuxtConfig({
             },
 
             newsletter: {
-                enabled: false,
+                enabled: true,
                 form_action: "YOUR_NEWSLETTER_FORM_ACTION",
             },
 
             comments: {
                 enabled: true,
                 hyvor_talk: {
-                    website_id: "10519",
+                    website_id: process.env.HYVOR_ID
+                        ? process.env.HYVOR_ID
+                        : "YOUR_HYVOR_TALK_WEBSITE_ID",
                 },
             },
 
             table_of_contents: false,
 
+            // if you have multiple authors, you can set them here
             authors: [
                 {
                     default: true,
@@ -55,7 +67,7 @@ export default defineNuxtConfig({
                     name: "John Doe",
                     description:
                         "lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
-                    avatar: "/images/avatar.webp",
+                    avatar: "/images/avatar.jpg",
                     socials: {
                         twitter: "https://twitter.com",
                         twitter_username: "username",

@@ -72,7 +72,16 @@
                             <span
                                 class="text-base font-medium text-gray-500 hover:text-gray-900"
                             >
-                                <nuxt-link to="/">{{ blogName }}</nuxt-link>
+                                <div class="flex">
+                                    <img
+                                        v-if="config.public.logo"
+                                        src="/images/logo.png"
+                                        class="h-10"
+                                    />
+                                    <nuxt-link class="mt-2" to="/">{{
+                                        blogName
+                                    }}</nuxt-link>
+                                </div>
                             </span>
                         </div>
                         <div

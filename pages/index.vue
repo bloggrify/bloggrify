@@ -91,7 +91,7 @@
                     class="col-span-1 p-4 hidden lg:block border-l border-gray-200 sticky top-28 h-screen overflow-y-auto"
                 >
                     <NuxtImg
-                        :src="config.public.logo"
+                        :src="config.public.avatar"
                         :alt="config.public.name"
                         class="rounded-full border border-gray-300"
                         width="100"
@@ -190,6 +190,7 @@
             </div>
         </div>
     </main>
+    <TheFooter />
 </template>
 <script setup lang="ts">
 import { formatDate } from "~/common/format";
