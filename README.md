@@ -20,7 +20,7 @@ All this work, which can take days to do, I'll spare you - **and it's free**.
 However, **if you consider that you've really saved time**, **you might consider supporting this work**.
 It's optional, but it will be much appreciated.
 
-The first option is to offer me a [virtual coffee](https://www.buymeacoffee.com/hlassiege) representing the value of the time you've saved (10 euros, 20, more?).
+The first option is to offer me a [virtual coffee](https://www.buymeacoffee.com/hlassiege) representing the value of the time you've saved.
 
 But you can also contribute in many other ways:
 
