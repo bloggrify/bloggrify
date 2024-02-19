@@ -2,7 +2,7 @@
 id: "2"
 title: "Use markdown power"
 description: "Use markdown at its full potential."
-date: "2024-02-08"
+date: "2024-02-10"
 tags:
   - markdown
 cover: "covers/thailand.jpg"
@@ -10,6 +10,8 @@ cover: "covers/thailand.jpg"
 
 This blog is a static blog generator that uses markdown files to generate blog posts.
 It uses [Nuxt-content](https://content.nuxt.com/) under the hood. 
+
+:toc
 
 ## Standard markdown features
 You can use all standard markdown features such as:
@@ -19,34 +21,143 @@ You should read the [official markdown documentation](https://www.markdownguide.
 Edit this file to see how it works.
 
 
-This is a paragraph with a [link](https://www.google.com). And some **bold** and *italic* text.
 
-This is a paragraph with an image ![the image is automatically centered on the page and the alt text is displayed below as a caption](/images/doc/image-eventuallycoding.jpg "title of the image you should add for accessibility").
+## Horizontal Rules
+
+___
+
+---
+
+***
+
+
+## Emphasis
+
+**This is bold text**
+
+__This is bold text__
+
+*This is italic text*
+
+_This is italic text_
+
+~~Strikethrough~~
+
+## Blockquotes
+
+
+> Blockquotes can also be nested...
+>> ...by using additional greater-than signs right next to each other...
+> > > ...or with spaces between arrows.
+
+
+## Lists
+
+Unordered
+
++ Create a list by starting a line with `+`, `-`, or `*`
++ Sub-lists are made by indenting 2 spaces:
+    - Marker character change forces new list start:
+        * Ac tristique libero volutpat at
+        + Facilisis in pretium nisl aliquet
+        - Nulla volutpat aliquam velit
++ Very easy!
+
+Ordered
+
+1. Lorem ipsum dolor sit amet
+2. Consectetur adipiscing elit
+3. Integer molestie lorem at massa
+
+
+1. You can use sequential numbers...
+1. ...or keep all the numbers as `1.`
+
+Start numbering with offset:
+
+57. foo
+1. bar
+
+
+## Code
+
+Inline `code`
+
+Indented code
+
+    // Some comments
+    line 1 of code
+    line 2 of code
+    line 3 of code
+
+
+Block code "fences"
+
+```
+Sample text here...
+```
 
 Nuxt-content provide code highlighting with [shiki](https://github.com/shikijs/shiki). You can specify the language of the code block to enable syntax highlighting:
 This is a paragraph with a code block:
-```javascript
-console.log('Hello world');
+``` js
+var foo = function (bar) {
+  return bar++;
+};
+
+console.log(foo(5));
 ```
 
-This is a paragraph with a list:
-- item 1
-- item 2
-- item 3
 
-This is a paragraph with a numbered list:
-1. item 1
-2. item 2
-3. item 3
+## Tables
 
-This is a paragraph with a quote:
-> This is a quote
+| Option | Description |
+| ------ | ----------- |
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default. |
+| ext    | extension to be used for dest files. |
 
-This is a paragraph with a table:
-| Header 1 | Header 2 |
-| -------- | -------- |
-| Cell 1   | Cell 2   |
-| Cell 3   | Cell 4   |
+Right aligned columns
+
+| Option | Description |
+| ------:| -----------:|
+| data   | path to data files to supply the data that will be passed into templates. |
+| engine | engine to be used for processing templates. Handlebars is the default. |
+| ext    | extension to be used for dest files. |
+
+
+## Links
+
+[link text](https://www.google.com)
+
+[link with title](https://www.google.com "title text!")
+
+Autoconverted link https://www.google.com
+
+## Images
+
+
+This is a paragraph with an image ![the image is automatically centered on the page and the alt text is displayed below as a caption](/images/doc/image-eventuallycoding.jpg "title of the image you should add for accessibility").
+
+
+## Emojies
+
+> Classic markup: :wink: :cry: :laughing: :yum:
+
+
+
+### [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
+
+Footnote 1 link[^first].
+
+Footnote 2 link[^second].
+
+Duplicated footnote reference[^second].
+
+[^first]: Footnote **can have markup**
+
+    and multiple paragraphs.
+
+[^second]: Footnote text.
 
 ## Frontmatter
 It also supports frontmatter to add metadata to your markdown files.
@@ -90,4 +201,6 @@ This is a warning
 ::
 
 
-And the [table of contents described on this page](/tableofcontent). 
+And the table of contents : 
+
+:toc
