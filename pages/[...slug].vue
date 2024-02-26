@@ -1,5 +1,5 @@
 <template>
-    <TheHeader :author-id="doc.author" />
+    <component :is="headerComponent" />
     <main class="mt-28">
         <div v-if="doc">
             <div
@@ -51,10 +51,19 @@
             </div>
         </div>
     </main>
-    <TheFooter />
+    <component :is="footerComponent" />
 </template>
 <script setup lang="ts">
+import { defineAsyncComponent } from "vue";
 const config = useRuntimeConfig();
+
+const headerComponent = defineAsyncComponent(
+    () => import(`../components/themes/${config.public.theme}/Header.vue`),
+);
+const footerComponent = defineAsyncComponent(
+    () => import(`../components/themes/${config.public.theme}/Footer.vue`),
+);
+
 const route = useRoute();
 const { data: doc } = await useAsyncData(route.path, async () => {
     return await queryContent("").where({ _path: route.path }).findOne();

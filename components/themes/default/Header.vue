@@ -89,7 +89,7 @@
                         >
                             <div class="flex space-x-4">
                                 <NuxtLink
-                                    v-for="item in navLinks"
+                                    v-for="item in menu"
                                     :key="item.path"
                                     :to="item.path"
                                     class="text-white hover:bg-gray-700 hover:text-white px-3 py-1 rounded-md text-base font-medium font-to-invert-to-black"
@@ -121,7 +121,7 @@
             <div :class="mobileMenuOpen ? '' : 'hidden'">
                 <div class="px-2 pt-2 pb-3 space-y-1">
                     <NuxtLink
-                        v-for="item in navLinks"
+                        v-for="item in menu"
                         :key="item.path"
                         :to="item.path"
                         class="text-white hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium font-to-invert-to-black"
@@ -152,7 +152,6 @@ const config = useRuntimeConfig();
 const menu = config.public.menu;
 const blogName = config.public.name;
 
-const navLinks = ref(menu);
 const mobileMenuOpen = ref(false);
 </script>
 

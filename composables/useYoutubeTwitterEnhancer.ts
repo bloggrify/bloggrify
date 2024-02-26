@@ -1,5 +1,4 @@
 export const useYoutubeTwitterEnhancer = (id: string): void => {
-    debugger;
     let containTwitterScript = false;
     const rootElement = document.getElementById(id);
     if (rootElement) {

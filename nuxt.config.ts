@@ -26,6 +26,8 @@ export default defineNuxtConfig({
             url: "https://bloggr.eventuallycoding.com/",
             logo: "/images/logo.png",
 
+            theme: "default",
+
             // If you only have one author, you can set the author here
             // It will be used as the default author for all posts AND as the general logo/description/socials for the website
             name: "Bloggr",

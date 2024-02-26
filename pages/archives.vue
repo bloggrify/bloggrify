@@ -1,5 +1,5 @@
 <template>
-    <TheHeader />
+    <component :is="headerComponent" />
     <main class="mt-28">
         <div class="mx-auto max-w-[1330px] md:p-4">
             <div class="col-span-3 lg:col-span-2 md:p-4">
@@ -38,15 +38,21 @@
             </div>
         </div>
     </main>
-    <TheFooter />
+    <component :is="footerComponent" />
 </template>
 <script setup lang="ts">
 import { formatDate } from "~/common/format";
-import type { QueryBuilderParams } from "@nuxt/content/dist/runtime/types";
-
+import { defineAsyncComponent } from "vue";
 const config = useRuntimeConfig();
 
-const query: QueryBuilderParams = {
+const headerComponent = defineAsyncComponent(
+    () => import(`../components/themes/${config.public.theme}/Header.vue`),
+);
+const footerComponent = defineAsyncComponent(
+    () => import(`../components/themes/${config.public.theme}/Footer.vue`),
+);
+
+const query = {
     path: "",
     where: [{ listed: { $ne: false } }],
     sort: [{ date: -1 }],
