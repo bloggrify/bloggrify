@@ -109,6 +109,7 @@
                     <div class="mt-4">
                         <div class="flex mb-3 space-x-4">
                             <NuxtLink
+                                v-if="config.public.socials.youtube"
                                 aria-label="Open Youtube profile"
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 target="_blank"
@@ -122,6 +123,7 @@
                                 />
                             </NuxtLink>
                             <NuxtLink
+                                v-if="config.public.socials.mastodon"
                                 aria-label="Open Mastodon profile"
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 rel="me"
@@ -135,6 +137,7 @@
                                 />
                             </NuxtLink>
                             <NuxtLink
+                                v-if="config.public.socials.github"
                                 aria-label="Open github profile"
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 target="_blank"
@@ -148,6 +151,7 @@
                                 />
                             </NuxtLink>
                             <NuxtLink
+                                v-if="config.public.socials.facebook"
                                 aria-label="Open Facebook profile"
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 target="_blank"
@@ -161,6 +165,7 @@
                                 />
                             </NuxtLink>
                             <NuxtLink
+                                v-if="config.public.socials.linkedin"
                                 aria-label="Open linkedin profile"
                                 class="text-sm text-gray-500 transition hover:text-gray-600"
                                 target="_blank"
@@ -174,6 +179,7 @@
                                 />
                             </NuxtLink>
                             <NuxtLink
+                                v-if="config.public.socials.twitter"
                                 aria-label="Open twitter profile"
                                 target="_blank"
                                 rel="nofollow noopener noreferrer"
