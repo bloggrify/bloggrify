@@ -1,5 +1,7 @@
 <template>
-    <div>
+    <header
+        class="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white text-sm py-4 dark:bg-gray-800 border"
+    >
         <nav
             class="transition-colors bg-gray-50 fixed w-full z-10 top-0 inverted border-b border-gray-200"
         >
@@ -70,7 +72,7 @@
                     >
                         <div class="flex-shrink-0 flex items-center">
                             <span
-                                class="text-base font-medium text-gray-500 hover:text-gray-900"
+                                class="text-base font-medium text-gray-700 hover:text-gray-900"
                             >
                                 <div class="flex">
                                     <img
@@ -78,7 +80,7 @@
                                         src="/images/logo.png"
                                         class="h-10"
                                     />
-                                    <nuxt-link class="mt-2" to="/">{{
+                                    <nuxt-link class="text-3xl" to="/">{{
                                         blogName
                                     }}</nuxt-link>
                                 </div>
@@ -92,7 +94,7 @@
                                     v-for="item in menu"
                                     :key="item.path"
                                     :to="item.path"
-                                    class="text-white hover:bg-gray-700 hover:text-white px-3 py-1 rounded-md text-base font-medium font-to-invert-to-black"
+                                    class="text-white hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-base font-medium font-to-invert-to-black"
                                     >{{ item.name }}
                                 </NuxtLink>
                                 <NuxtLink
@@ -107,7 +109,7 @@
                                     >
                                     <img
                                         alt="Icon for RSS"
-                                        class="transition-transform hover:scale-110 w-6 h-6 mt-1"
+                                        class="transition-transform hover:scale-110 w-6 h-6 mt-2"
                                         src="~assets/icon/rss.svg"
                                     />
                                 </NuxtLink>
@@ -144,7 +146,7 @@
                 </div>
             </div>
         </nav>
-    </div>
+    </header>
 </template>
 
 <script setup lang="ts">

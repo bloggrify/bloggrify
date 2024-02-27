@@ -25,7 +25,7 @@
                                         >
                                             <NuxtLink :to="article._path">
                                                 <h2
-                                                    class="text-xl font-bold mb-2"
+                                                    class="text-3xl font-bold mb-2"
                                                 >
                                                     {{ article.title }}
                                                 </h2>
@@ -64,17 +64,23 @@
                                             v-if="article.cover"
                                             class="col-span-1 p-4 flex justify-center items-center"
                                         >
-                                            <img
-                                                :src="
-                                                    '/images/' + article.cover
-                                                "
-                                                :alt="article.title"
-                                                class="w-full object-cover cursor-pointer"
-                                                loading="lazy"
-                                                @click="
-                                                    navigateTo(article._path)
-                                                "
-                                            />
+                                            <NuxtLink
+                                                :to="article._path"
+                                                class="w-full"
+                                            >
+                                                <NuxtImg
+                                                    :src="
+                                                        '/images/' +
+                                                        article.cover
+                                                    "
+                                                    :alt="article.title"
+                                                    class="w-full object-cover"
+                                                    sizes="233px sm:400px md:400px"
+                                                    format="webp"
+                                                    loading="lazy"
+                                                    placeholder
+                                                />
+                                            </NuxtLink>
                                         </div>
                                     </div>
                                     <hr />
