@@ -92,7 +92,7 @@ export default defineNuxtConfig({
     },
 
     devtools: { enabled: true },
-    css: ["./assets/main.scss"],
+    css: ["~/assets/css/main.scss"],
     modules: ["@nuxt/content", "@nuxt/image"],
     postcss: {
         plugins: {
