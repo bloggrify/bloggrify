@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nuxt/content": "^2.11.0",
+    "@nuxtjs/robots": "3.0.0",
     "@tailwindcss/typography": "0.5.10",
     "feed": "4.2.2",
     "lucide-vue-next": "0.323.0",

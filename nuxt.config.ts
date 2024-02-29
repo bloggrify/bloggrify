@@ -1,4 +1,6 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// You should define your website url here (with a trailing slash)
+const URL = "https://bloggr.eventuallycoding.com/";
+
 export default defineNuxtConfig({
     app: {
         head: {
@@ -23,7 +25,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            url: "https://bloggr.eventuallycoding.com/",
+            url: URL,
             logo: "/images/logo.svg",
 
             theme: "default",
@@ -93,11 +95,18 @@ export default defineNuxtConfig({
 
     devtools: { enabled: true },
     css: ["~/assets/css/main.scss"],
-    modules: ["@nuxt/content", "@nuxt/image"],
+    modules: ["@nuxt/content", "@nuxt/image", "@nuxtjs/robots"],
     postcss: {
         plugins: {
             tailwindcss: {},
             autoprefixer: {},
+        },
+    },
+    robots: {
+        rules: {
+            UserAgent: "*",
+            Disallow: "",
+            Sitemap: URL + "sitemap.xml",
         },
     },
     image: {
