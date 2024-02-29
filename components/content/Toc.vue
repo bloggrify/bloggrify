@@ -9,8 +9,8 @@
                         <li
                             v-for="subtitle in doc.body.toc.links"
                             :key="subtitle.text"
-                            class="py-1 list-decimal ml-2"
-                            :class="{ 'ml-4': subtitle.depth === 3 }"
+                            class="py-1 list-decimal ml-4"
+                            :class="{ 'ml-6': subtitle.depth === 3 }"
                         >
                             <a
                                 class="hover:text-smalt-blue-700 font-normal"
