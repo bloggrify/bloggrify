@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             url: "https://bloggr.eventuallycoding.com/",
-            logo: "/images/logo.png",
+            logo: "/images/logo.svg",
 
             theme: "default",
 

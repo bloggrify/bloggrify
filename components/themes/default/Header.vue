@@ -77,8 +77,9 @@
                                 <div class="flex">
                                     <img
                                         v-if="config.public.logo"
-                                        src="/images/logo.png"
-                                        class="h-10"
+                                        :src="config.public.logo"
+                                        class="h-10 rounded-full mr-2"
+                                        alt="logo"
                                     />
                                     <nuxt-link class="text-3xl" to="/">{{
                                         blogName
