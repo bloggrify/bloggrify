@@ -14,7 +14,6 @@
     "@nuxtjs/tailwindcss": "6.11.4",
     "@tailwindcss/typography": "0.5.10",
     "feed": "4.2.2",
-    "lucide-vue-next": "0.323.0",
     "nuxt": "3.10.3",
     "remark-reading-time": "2.0.1",
     "sitemap": "7.1.1",
