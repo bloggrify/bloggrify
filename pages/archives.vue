@@ -4,39 +4,37 @@
     <component :is="footerComponent" />
 </template>
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
-const config = useRuntimeConfig();
+const config = useAppConfig();
+function capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
-const headerComponent = defineAsyncComponent(
-    () => import(`../components/themes/${config.public.theme}/Header.vue`),
-);
-const footerComponent = defineAsyncComponent(
-    () => import(`../components/themes/${config.public.theme}/Footer.vue`),
-);
-const archiveComponent = defineAsyncComponent(
-    () => import(`../components/themes/${config.public.theme}/Archive.vue`),
-);
+const theme = capitalizeFirstLetter(config.theme);
+
+const headerComponent = resolveComponent(`Themes${theme}Header`);
+const footerComponent = resolveComponent(`Themes${theme}Footer`);
+const archiveComponent = resolveComponent(`Themes${theme}Archive`);
 
 useHead({
-    title: config.public.name,
+    title: config.name,
     meta: [
         {
             key: "description",
             name: "description",
-            content: config.public.description,
+            content: config.description,
         },
         {
             key: "og:description",
             name: "og:description",
-            content: config.public.description,
+            content: config.description,
         },
         { key: "og:type", name: "og:type", content: "website" },
-        { key: "og:title", name: "og:title", content: config.public.name },
-        { key: "og:url", name: "og:url", content: config.public.url },
+        { key: "og:title", name: "og:title", content: config.name },
+        { key: "og:url", name: "og:url", content: useRequestURL() },
         {
             key: "twitter:text:title",
             name: "twitter:text:title",
-            content: config.public.name,
+            content: config.name,
         },
         { key: "twitter:card", name: "twitter:card", content: "summary" },
     ],

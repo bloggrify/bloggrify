@@ -4,7 +4,7 @@
     </div>
 </template>
 <script setup lang="ts">
-const config = useRuntimeConfig();
+const config = useAppConfig();
 
 useHead({
     link: [
@@ -36,8 +36,24 @@ useHead({
         {
             key: "bloggr-theme",
             name: "bloggr-theme",
-            content: config.public.theme,
+            content: config.theme,
         },
     ],
 });
 </script>
+<style lang="scss">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.prose {
+    a {
+        text-decoration: none;
+    }
+
+    img {
+        max-width: 80%;
+        margin: auto;
+    }
+}
+</style>

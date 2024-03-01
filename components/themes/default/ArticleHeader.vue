@@ -61,19 +61,10 @@
 </template>
 <script setup lang="ts">
 import { formatDate } from "~/common/format";
-const config = useRuntimeConfig();
 
 const props = defineProps<{
     article: any;
 }>();
-
-function findAuthor(authorId?: string) {
-    // find author from config.public.authors array or, if authorId is null, return the one with "default" is true
-    if (authorId === undefined) {
-        return config.public.authors.find((author) => author.default);
-    }
-    return config.public.authors.find((author) => author.username === authorId);
-}
 
 const author = findAuthor(props.article.author);
 </script>

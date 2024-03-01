@@ -43,8 +43,8 @@
                 />
 
                 <hyvor-talk-comments
-                    v-if="config.public.comments.enabled"
-                    :website-id="config.public.comments.hyvor_talk.website_id"
+                    v-if="config.comments.enabled"
+                    :website-id="config.comments.hyvor_talk.website_id"
                     :page-id="doc.id"
                 ></hyvor-talk-comments>
             </div>
@@ -58,13 +58,13 @@ import PageSidebar from "~/components/themes/default/PageSidebar.vue";
 const props = defineProps<{
     doc: any;
 }>();
-const route = useRoute();
-const config = useRuntimeConfig();
 
-const postLink = `${config.public.url}${route.path}`;
+const config = useAppConfig();
+
+const postLink = useRequestURL();
 
 const isTocEnabled =
     props.doc?.body?.toc?.links.length &&
     props.doc?.body.toc?.links.length > 0 &&
-    (config.public.table_of_contents || props.doc?.table_of_contents);
+    (config.table_of_contents || props.doc?.table_of_contents);
 </script>

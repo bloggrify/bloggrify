@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import FilterDropdown from "~/components/Dropdown.vue";
+import FilterDropdown from "~/components/themes/default/Dropdown.vue";
 defineProps({
     toc: {
         type: Array,

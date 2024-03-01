@@ -2,7 +2,11 @@ import { serverQueryContent } from "#content/server";
 import { Feed } from "feed";
 
 export default defineEventHandler(async (event) => {
-    const config = useRuntimeConfig();
+    const config = useAppConfig();
+
+    const scheme = event.req.headers["x-forwarded-proto"] || "https";
+    const host = event.req.headers.host;
+    const url = `${scheme}://${host}`;
 
     const docs = await serverQueryContent(event)
         .where({ listed: { $ne: false } })
@@ -12,12 +16,12 @@ export default defineEventHandler(async (event) => {
     const now = new Date();
 
     const feed = new Feed({
-        title: config.public.name,
-        description: config.public.description,
-        id: config.public.url,
-        link: config.public.url,
-        favicon: config.public.url + "/favicon.ico",
-        copyright: `All rights reserved ${now.getFullYear()}, ${config.public.name}`,
+        title: config.name,
+        description: config.description,
+        id: url,
+        link: url,
+        favicon: url + "/favicon.ico",
+        copyright: `All rights reserved ${now.getFullYear()}, ${config.name}`,
         generator: "https://github.com/jpmonette/feed",
     });
     docs.forEach((post) => {
@@ -25,8 +29,8 @@ export default defineEventHandler(async (event) => {
 
         feed.addItem({
             title: post.title ?? "-",
-            id: config.public.url + path,
-            link: config.public.url + path,
+            id: url + path,
+            link: url + path,
             description: post.description,
             date: new Date(post.date),
         });

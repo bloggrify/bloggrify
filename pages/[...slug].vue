@@ -4,18 +4,17 @@
     <component :is="footerComponent" />
 </template>
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
-const config = useRuntimeConfig();
+const config = useAppConfig();
 
-const headerComponent = defineAsyncComponent(
-    () => import(`../components/themes/${config.public.theme}/Header.vue`),
-);
-const footerComponent = defineAsyncComponent(
-    () => import(`../components/themes/${config.public.theme}/Footer.vue`),
-);
-const postComponent = defineAsyncComponent(
-    () => import(`../components/themes/${config.public.theme}/Post.vue`),
-);
+function capitalizeFirstLetter(str: string): string {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+const theme = capitalizeFirstLetter(config.theme);
+
+const headerComponent = resolveComponent(`Themes${theme}Header`);
+const footerComponent = resolveComponent(`Themes${theme}Footer`);
+const postComponent = resolveComponent(`Themes${theme}Post`);
 
 const route = useRoute();
 const { data: doc } = await useAsyncData(route.path, async () => {
@@ -43,7 +42,7 @@ onMounted(() => {
     });
 });
 
-if (config.public.comments.enabled) {
+if (config.comments.enabled) {
     useHead({
         script: [
             {
@@ -59,24 +58,28 @@ if (doc.value) {
     useContentHead(doc.value);
 }
 
+const URL = useRequestURL();
+const urlWithoutQueryParam = useRequestURL().toString().split("?")[0];
+const host = `${URL.protocol}//${URL.host}`;
+
 useHead({
     meta: [
         { key: "og:type", name: "og:type", content: "article" },
         {
             key: "og:url",
             name: "og:url",
-            content: config.public.url + doc.value?._path,
+            content: urlWithoutQueryParam,
         },
         {
             key: "og:image",
             name: "og:image",
-            content: config.public.url + "/images/" + doc.value?.cover,
+            content: host + "/images/" + doc.value?.cover,
         },
         { name: "og:image:alt", content: doc.value?.title },
         { name: "twitter:text:title", content: doc.value?.title },
         {
             name: "twitter:image",
-            content: config.public.url + "/images/" + doc.value?.cover,
+            content: host + "/images/" + doc.value?.cover,
         },
         { name: "twitter:card", content: "summary" },
         {
@@ -95,7 +98,7 @@ useHead({
     link: [
         {
             rel: "canonical",
-            href: config.public.url + doc.value?._path,
+            href: host + doc.value?._path,
         },
     ],
 });
