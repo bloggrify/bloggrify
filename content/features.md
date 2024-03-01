@@ -14,7 +14,6 @@ Bloggr is built on top of
 * [Nuxt.js 3.x](https://nuxt.com/)
 * [Tailwind CSS](https://tailwindcss.com/)
 * [Nuxt-Content](https://content.nuxt.com/)
-* [Lucide icons](https://lucide.dev/)
 * [Hyvor Talk](https://talk.hyvor.com/)
 * and other cool stuff
 
