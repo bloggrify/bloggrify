@@ -60,8 +60,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { formatDate } from "~/common/format";
-
 const props = defineProps<{
     article: any;
 }>();

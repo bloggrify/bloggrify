@@ -230,8 +230,6 @@
     </main>
 </template>
 <script setup lang="ts">
-import { formatDate } from "~/common/format";
-
 const config = useAppConfig();
 
 const query = {
