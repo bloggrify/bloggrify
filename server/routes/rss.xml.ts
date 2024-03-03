@@ -1,10 +1,10 @@
 import { serverQueryContent } from "#content/server";
 import { Feed } from "feed";
-import { useWebsiteUrl } from "~/composables/useWebsiteUrl";
 
 export default defineEventHandler(async (event) => {
     const config = useAppConfig();
-    const url = useWebsiteUrl();
+    // @ts-ignore
+    const url = config.url?.replace(/\/$/, "");
 
     const docs = await serverQueryContent(event)
         .where({ listed: { $ne: false } })

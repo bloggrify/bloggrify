@@ -1,9 +1,7 @@
-import { serverQueryContent } from "#content/server";
-import { useWebsiteUrl } from "~/composables/useWebsiteUrl";
-
 export default defineEventHandler(async (event) => {
     const config = useAppConfig();
-    const url = useWebsiteUrl();
+    // @ts-ignore
+    const url = config.url?.replace(/\/$/, "");
 
     const robotsConfig = config.robots || [
         {

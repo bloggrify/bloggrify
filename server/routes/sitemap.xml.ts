@@ -1,8 +1,9 @@
 import { serverQueryContent } from "#content/server";
 import { SitemapStream, streamToPromise } from "sitemap";
-import { useWebsiteUrl } from "~/composables/useWebsiteUrl";
 export default defineEventHandler(async (event) => {
-    const url = useWebsiteUrl();
+    const config = useAppConfig();
+    // @ts-ignore
+    const url = config.url?.replace(/\/$/, "");
 
     const docs = await serverQueryContent(event)
         .where({ listed: { $ne: false } })
