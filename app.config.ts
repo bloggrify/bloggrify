@@ -1,4 +1,7 @@
 export default defineAppConfig({
+    // replace with your website name !
+    url: "https://www.example.com",
+
     logo: "/images/logo.svg",
 
     theme: "default",
@@ -60,5 +63,14 @@ export default defineAppConfig({
         { name: "Home", path: "/" },
         { name: "Features", path: "/features" },
         { name: "Archives", path: "/archives" },
+    ],
+
+    // robots.txt
+    robots: [
+        {
+            UserAgent: "*",
+            Allow: ["/"],
+            Disallow: [],
+        },
     ],
 });

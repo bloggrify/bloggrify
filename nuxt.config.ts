@@ -21,12 +21,7 @@ export default defineNuxtConfig({
     },
 
     devtools: { enabled: true },
-    modules: [
-        "@nuxtjs/tailwindcss",
-        "@nuxt/content",
-        "@nuxt/image",
-        "@nuxtjs/robots",
-    ],
+    modules: ["@nuxtjs/tailwindcss", "@nuxt/content", "@nuxt/image"],
     image: {
         format: ["webp"],
     },

@@ -1,12 +1,10 @@
 import { serverQueryContent } from "#content/server";
 import { Feed } from "feed";
+import { useWebsiteUrl } from "~/composables/useWebsiteUrl";
 
 export default defineEventHandler(async (event) => {
     const config = useAppConfig();
-
-    const scheme = event.req.headers["x-forwarded-proto"] || "https";
-    const host = event.req.headers.host;
-    const url = `${scheme}://${host}`;
+    const url = useWebsiteUrl();
 
     const docs = await serverQueryContent(event)
         .where({ listed: { $ne: false } })
