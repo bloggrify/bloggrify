@@ -69,9 +69,25 @@ if (doc.value) {
     useContentHead(doc.value);
 }
 
-const URL = useRequestURL();
-const urlWithoutQueryParam = useRequestURL().toString().split("?")[0];
-const host = `${URL.protocol}//${URL.host}`;
+const url = useAppConfig().url;
+const postLink = useAppConfig().url + doc.value?._path;
+
+const alternates =
+    doc.value?.alternates?.map((alternate: any) => {
+        const key = Object.keys(alternate)[0];
+        const value = alternate[key];
+        return {
+            rel: "alternate",
+            href: value,
+            hreflang: key,
+        };
+    }) || [];
+
+alternates.push({
+    rel: "alternate",
+    href: postLink,
+    hreflang: doc.value?.language || "en",
+});
 
 useHead({
     meta: [
@@ -79,18 +95,18 @@ useHead({
         {
             key: "og:url",
             name: "og:url",
-            content: urlWithoutQueryParam,
+            content: postLink,
         },
         {
             key: "og:image",
             name: "og:image",
-            content: host + "/images/" + doc.value?.cover,
+            content: url + "/images/" + doc.value?.cover,
         },
         { name: "og:image:alt", content: doc.value?.title },
         { name: "twitter:text:title", content: doc.value?.title },
         {
             name: "twitter:image",
-            content: host + "/images/" + doc.value?.cover,
+            content: url + "/images/" + doc.value?.cover,
         },
         { name: "twitter:card", content: "summary" },
         {
@@ -109,8 +125,9 @@ useHead({
     link: [
         {
             rel: "canonical",
-            href: host + doc.value?._path,
+            href: postLink,
         },
+        ...alternates,
     ],
 });
 </script>
