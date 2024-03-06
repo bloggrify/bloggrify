@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout :name="theme"> <ContentDoc /> </NuxtLayout>
+    <NuxtLayout :name="theme" :doc="doc"> </NuxtLayout>
 </template>
 <script setup lang="ts">
 import { navigateTo } from "#app";
@@ -58,25 +58,12 @@ onMounted(() => {
     });
 });
 
-// fix me, should be in a component and not here
-if (config.comments.enabled) {
-    useHead({
-        script: [
-            {
-                async: true,
-                src: "https://talk.hyvor.com/embed/embed.js",
-                type: "module",
-            },
-        ],
-    });
-}
-
 if (doc.value) {
     useContentHead(doc.value);
 }
 
-const url = useAppConfig().url;
-const postLink = useAppConfig().url + doc.value?._path;
+const url = useAppConfig().url.replace(/\/$/, "");
+const postLink = url + doc.value?._path;
 
 useHead({
     meta: [
