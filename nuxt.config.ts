@@ -30,6 +30,27 @@ export default defineNuxtConfig({
             remarkPlugins: ["remark-reading-time"],
         },
         highlight: {
+            langs: [
+                "json",
+                "js",
+                "javascript",
+                "ts",
+                "typescript",
+                "html",
+                "css",
+                "vue",
+                "shell",
+                "bash",
+                "mdc",
+                "md",
+                "yaml",
+                "python",
+                "c",
+                "cpp",
+                "sql",
+                "java",
+                "xml",
+            ],
             theme: {
                 default: "catppuccin-frappe",
                 // Theme used if `html.dark`
