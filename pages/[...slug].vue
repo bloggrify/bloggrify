@@ -4,6 +4,8 @@
     <component :is="footerComponent" />
 </template>
 <script setup lang="ts">
+import { navigateTo } from "#app";
+
 const config = useAppConfig();
 
 function capitalizeFirstLetter(str: string): string {
@@ -20,6 +22,15 @@ const route = useRoute();
 const { data: doc } = await useAsyncData(route.path, async () => {
     return await queryContent("").where({ _path: route.path }).findOne();
 });
+
+if (doc.value?.redirect_to_domain) {
+    const redirect = doc.value?.redirect_to_domain + doc.value?._path;
+    navigateTo(redirect, { external: true, redirectCode: 301 });
+}
+if (doc.value?.redirect_to_full_url) {
+    const redirect = doc.value?.redirect_to_full_url;
+    navigateTo(redirect, { external: true, redirectCode: 301 });
+}
 
 onMounted(() => {
     useYoutubeTwitterEnhancer("nuxtContent");

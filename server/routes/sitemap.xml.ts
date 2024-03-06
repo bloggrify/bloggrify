@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     const url = config.url?.replace(/\/$/, "");
 
     const docs = await serverQueryContent(event)
-        .where({ listed: { $ne: false } })
+        .where({ hidden: { $ne: true } })
         .find();
     const sitemap = new SitemapStream({
         hostname: url,
