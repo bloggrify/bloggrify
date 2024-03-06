@@ -50,6 +50,8 @@ export default defineNuxtConfig({
                 "sql",
                 "java",
                 "xml",
+                "scala",
+                "kotlin",
             ],
             theme: {
                 default: "catppuccin-frappe",
