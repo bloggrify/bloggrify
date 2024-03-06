@@ -60,17 +60,17 @@ export default defineAppConfig({
     ],
 
     menu: [
-        { name: "Home", path: "/" },
-        { name: "Features", path: "/features" },
-        { name: "Archives", path: "/archives" },
+        // { name: "Home", path: "/" },
+        // { name: "Features", path: "/features" },
+        // { name: "Archives", path: "/archives" },
     ],
 
     // robots.txt
     robots: [
-        {
-            UserAgent: "*",
-            Allow: ["/"],
-            Disallow: [],
-        },
+        // {
+        //     UserAgent: "*",
+        //     Allow: ["/"],
+        //     Disallow: [],
+        // },
     ],
 });
