@@ -4,7 +4,7 @@ export default defineAppConfig({
 
     logo: "/images/logo.svg",
 
-    theme: "default",
+    theme: "mistral",
 
     // If you only have one author, you can set the author here
     // It will be used as the default author for all posts AND as the general logo/description/socials for the website

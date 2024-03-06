@@ -1,27 +1,20 @@
 <template>
-    <component :is="headerComponent" />
-    <component :is="postComponent" :doc="doc" />
-    <component :is="footerComponent" />
+    <NuxtLayout :name="theme"> <ContentDoc /> </NuxtLayout>
 </template>
 <script setup lang="ts">
 import { navigateTo } from "#app";
-
-const config = useAppConfig();
-
-function capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-const theme = capitalizeFirstLetter(config.theme);
-
-const headerComponent = resolveComponent(`Themes${theme}Header`);
-const footerComponent = resolveComponent(`Themes${theme}Footer`);
-const postComponent = resolveComponent(`Themes${theme}Post`);
 
 const route = useRoute();
 const { data: doc } = await useAsyncData(route.path, async () => {
     return await queryContent("").where({ _path: route.path }).findOne();
 });
+
+const config = useAppConfig();
+let theme = `themes-${config.theme}-default`;
+
+if (doc.value?.layout) {
+    theme = doc.value.layout;
+}
 
 if (doc.value?.redirect_to_domain) {
     const redirect = doc.value?.redirect_to_domain + doc.value?._path;
@@ -65,6 +58,7 @@ onMounted(() => {
     });
 });
 
+// fix me, should be in a component and not here
 if (config.comments.enabled) {
     useHead({
         script: [
