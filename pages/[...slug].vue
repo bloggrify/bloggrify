@@ -25,22 +25,14 @@ const { data: doc } = await useAsyncData(route.path, async () => {
 
 if (doc.value?.redirect_to_domain) {
     const redirect = doc.value?.redirect_to_domain + doc.value?._path;
-    useHead({
-        script: [
-            {
-                innerHTML: `window.location = "${redirect || "/"}"`,
-            },
-        ],
+    useAsyncData(redirect, async () => {
+        await navigateTo(redirect);
     });
 }
-if (doc.value?.redirect_to_domain) {
+if (doc.value?.redirect_to_full_url) {
     const redirect = doc.value?.redirect_to_full_url;
-    useHead({
-        script: [
-            {
-                innerHTML: `window.location = "${redirect || "/"}"`,
-            },
-        ],
+    useAsyncData(redirect, async () => {
+        await navigateTo(redirect);
     });
 }
 
