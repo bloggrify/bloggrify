@@ -2,8 +2,6 @@
     <NuxtLayout :name="theme" :doc="doc"> </NuxtLayout>
 </template>
 <script setup lang="ts">
-import { navigateTo } from "#app";
-
 const route = useRoute();
 const { data: doc } = await useAsyncData(route.path, async () => {
     return await queryContent("").where({ _path: route.path }).findOne();
