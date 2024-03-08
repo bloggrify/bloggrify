@@ -3,7 +3,6 @@ import { Feed } from "feed";
 
 export default defineEventHandler(async (event) => {
     const config = useAppConfig();
-    // @ts-ignore
     const url = config.url?.replace(/\/$/, "");
 
     const docs = await serverQueryContent(event)

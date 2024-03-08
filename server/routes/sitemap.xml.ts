@@ -2,7 +2,6 @@ import { serverQueryContent } from "#content/server";
 import { SitemapStream, streamToPromise } from "sitemap";
 export default defineEventHandler(async (event) => {
     const config = useAppConfig();
-    // @ts-ignore
     const url = config.url?.replace(/\/$/, "");
 
     const docs = await serverQueryContent(event)
