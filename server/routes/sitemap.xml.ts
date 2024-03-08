@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
     for (const doc of docs) {
         sitemap.write({
             url: url + doc._path,
+            lastmod: doc.date,
         });
     }
     sitemap.end();
