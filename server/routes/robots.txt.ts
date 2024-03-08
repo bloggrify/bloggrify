@@ -1,6 +1,11 @@
+interface RobotRule {
+    UserAgent: string;
+    Disallow: string[];
+    Allow: string[];
+}
+
 export default defineEventHandler(async (event) => {
     const config = useAppConfig();
-    // @ts-ignore
     const url = config.url?.replace(/\/$/, "");
 
     const robotsConfig = config.robots || [
@@ -12,7 +17,7 @@ export default defineEventHandler(async (event) => {
     ];
 
     let robotsContent = "";
-    robotsConfig.forEach((rule) => {
+    robotsConfig.forEach((rule: RobotRule) => {
         if (rule.UserAgent) {
             robotsContent += `User-agent: ${rule.UserAgent}\n`;
         }
