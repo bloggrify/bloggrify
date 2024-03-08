@@ -25,11 +25,23 @@ const { data: doc } = await useAsyncData(route.path, async () => {
 
 if (doc.value?.redirect_to_domain) {
     const redirect = doc.value?.redirect_to_domain + doc.value?._path;
-    navigateTo(redirect, { external: true, redirectCode: 301 });
+    useHead({
+        script: [
+            {
+                innerHTML: `window.location = "${redirect || "/"}"`,
+            },
+        ],
+    });
 }
-if (doc.value?.redirect_to_full_url) {
+if (doc.value?.redirect_to_domain) {
     const redirect = doc.value?.redirect_to_full_url;
-    navigateTo(redirect, { external: true, redirectCode: 301 });
+    useHead({
+        script: [
+            {
+                innerHTML: `window.location = "${redirect || "/"}"`,
+            },
+        ],
+    });
 }
 
 onMounted(() => {
