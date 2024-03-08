@@ -84,23 +84,6 @@ if (doc.value) {
 const url = useAppConfig().url;
 const postLink = useAppConfig().url + doc.value?._path;
 
-const alternates =
-    doc.value?.alternates?.map((alternate: any) => {
-        const key = Object.keys(alternate)[0];
-        const value = alternate[key];
-        return {
-            rel: "alternate",
-            href: value,
-            hreflang: key,
-        };
-    }) || [];
-
-alternates.push({
-    rel: "alternate",
-    href: postLink,
-    hreflang: doc.value?.language || "en",
-});
-
 useHead({
     meta: [
         { key: "og:type", name: "og:type", content: "article" },
@@ -109,26 +92,8 @@ useHead({
             name: "og:url",
             content: postLink,
         },
-        {
-            key: "og:image",
-            name: "og:image",
-            content: url + "/images/" + doc.value?.cover,
-        },
-        { name: "og:image:alt", content: doc.value?.title },
         { name: "twitter:text:title", content: doc.value?.title },
-        {
-            name: "twitter:image",
-            content: url + "/images/" + doc.value?.cover,
-        },
         { name: "twitter:card", content: "summary" },
-        {
-            name: "article:published_time",
-            content: new Date(doc.value?.date).toISOString(),
-        },
-        {
-            name: "article:article:modified_time",
-            content: new Date(doc.value?.date).toISOString(),
-        },
         {
             name: "article:article:tag",
             content: doc.value?.tags ? doc.value.tags?.toString() : "",
@@ -139,7 +104,84 @@ useHead({
             rel: "canonical",
             href: postLink,
         },
-        ...alternates,
     ],
 });
+
+if (doc.value?.alternates) {
+    const alternates =
+        doc.value?.alternates?.map((alternate: any) => {
+            const key = Object.keys(alternate)[0];
+            const value = alternate[key];
+            return {
+                rel: "alternate",
+                href: value,
+                hreflang: key,
+            };
+        }) || [];
+
+    alternates.push({
+        rel: "alternate",
+        href: postLink,
+        hreflang: doc.value?.language || "en",
+    });
+
+    useHead({
+        link: alternates,
+    });
+}
+
+useHead({
+    meta: [
+        { key: "og:type", name: "og:type", content: "article" },
+        {
+            key: "og:url",
+            name: "og:url",
+            content: postLink,
+        },
+        { name: "twitter:text:title", content: doc.value?.title },
+        { name: "twitter:card", content: "summary" },
+        {
+            name: "article:article:tag",
+            content: doc.value?.tags ? doc.value.tags?.toString() : "",
+        },
+    ],
+    link: [
+        {
+            rel: "canonical",
+            href: postLink,
+        },
+    ],
+});
+
+if (doc.value?.cover) {
+    useHead({
+        meta: [
+            {
+                key: "og:image",
+                name: "og:image",
+                content: url + "/images/" + doc.value?.cover,
+            },
+            { name: "og:image:alt", content: doc.value?.title },
+            {
+                name: "twitter:image",
+                content: url + "/images/" + doc.value?.cover,
+            },
+        ],
+    });
+}
+
+if (doc.value?.date) {
+    useHead({
+        meta: [
+            {
+                name: "article:published_time",
+                content: new Date(doc.value?.date).toISOString(),
+            },
+            {
+                name: "article:article:modified_time",
+                content: new Date(doc.value?.date).toISOString(),
+            },
+        ],
+    });
+}
 </script>
