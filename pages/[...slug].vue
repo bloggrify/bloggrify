@@ -109,29 +109,6 @@ if (doc.value?.alternates) {
     });
 }
 
-useHead({
-    meta: [
-        { key: "og:type", name: "og:type", content: "article" },
-        {
-            key: "og:url",
-            name: "og:url",
-            content: postLink,
-        },
-        { name: "twitter:text:title", content: doc.value?.title },
-        { name: "twitter:card", content: "summary" },
-        {
-            name: "article:article:tag",
-            content: doc.value?.tags ? doc.value.tags?.toString() : "",
-        },
-    ],
-    link: [
-        {
-            rel: "canonical",
-            href: postLink,
-        },
-    ],
-});
-
 if (doc.value?.cover) {
     useHead({
         meta: [
