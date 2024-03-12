@@ -23,14 +23,15 @@ export default defineEventHandler(async (event) => {
     });
     docs.forEach((post) => {
         const path = post._path;
-
-        feed.addItem({
-            title: post.title ?? "-",
-            id: url + path,
-            link: url + path,
-            description: post.description,
-            date: new Date(post.date),
-        });
+        if (post.date) {
+            feed.addItem({
+                title: post.title ?? "-",
+                id: url + path,
+                link: url + path,
+                description: post.description,
+                date: new Date(post.date),
+            });
+        }
     });
 
     event.node.res.setHeader("content-type", "text/xml");
