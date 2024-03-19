@@ -1,6 +1,7 @@
 {
   "private": true,
-  "type": "module",
+    "name": "bloggrify",
+    "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

@@ -1,19 +1,19 @@
 <div align="center">
-  <a href="https://bloggr.eventuallycoding.com">
+  <a href="https://bloggrify.com">
     <img src="public/android-chrome-192x192.png"  width="80px" height="80px">
   </a>
   <h1 align="center">
     Bloggr
   </h1>
 
-[Getting started](https://bloggr.eventuallycoding.com/introduction/getting-started) | [Homepage](https://bloggr.eventuallycoding.com)
+[Getting started](https://bloggrify.com/introduction/getting-started) | [Homepage](https://bloggr.eventuallycoding.com)
 
-  <a href="https://github.com/hlassiege/bloggr/releases/latest">
-    <img src="https://img.shields.io/github/release/hlassiege/bloggr.svg?style=flat-square" alt="">
+  <a href="https://github.com/hlassiege/bloggrify/releases/latest">
+    <img src="https://img.shields.io/github/release/hlassiege/bloggrify.svg?style=flat-square" alt="">
   </a>
 
-  <a href="https://github.com/hlassiege/bloggr/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/hlassiege/bloggr.svg?style=flat-square" alt="">
+  <a href="https://github.com/hlassiege/bloggrify/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/hlassiege/bloggrify.svg?style=flat-square" alt="">
   </a>
 
 </div>
@@ -26,7 +26,7 @@ Bloggr is built on top of
 
 It is a **static** blog generator that uses markdown files to generate blog posts.
 
-Discover all features on the [official website](https://bloggr.eventuallycoding.com)
+Discover all features on the [official website](https://bloggrify.com)
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/hlassiege)
 
