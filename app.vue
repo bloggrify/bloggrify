@@ -31,11 +31,11 @@ useHead({
         {
             key: "poweredBy",
             name: "poweredBy",
-            content: "bloggr",
+            content: "bloggrify",
         },
         {
-            key: "bloggr-theme",
-            name: "bloggr-theme",
+            key: "bloggrify-theme",
+            name: "bloggrify-theme",
             content: config.theme,
         },
     ],

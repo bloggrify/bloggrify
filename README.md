@@ -3,10 +3,10 @@
     <img src="public/android-chrome-192x192.png"  width="80px" height="80px">
   </a>
   <h1 align="center">
-    Bloggr
+    Bloggrify
   </h1>
 
-[Getting started](https://bloggrify.com/introduction/getting-started) | [Homepage](https://bloggr.eventuallycoding.com)
+[Getting started](https://bloggrify.com/introduction/getting-started) | [Homepage](https://bloggrify.com)
 
   <a href="https://github.com/hlassiege/bloggrify/releases/latest">
     <img src="https://img.shields.io/github/release/hlassiege/bloggrify.svg?style=flat-square" alt="">
@@ -18,7 +18,7 @@
 
 </div>
 
-Bloggr is built on top of 
+Bloggrify is built on top of 
 * Nuxt.js 
 * Tailwind CSS
 * Nuxt-Content 
