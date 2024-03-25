@@ -1,8 +1,7 @@
 export default defineNuxtConfig({
     routeRules: {
         '/api/search': {
-            prerender: true,
-            cache: true
+            prerender: true
         }
     },
     app: {
