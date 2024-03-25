@@ -1,25 +1,20 @@
 module.exports = {
     root: true,
-    env: {
-        browser: true,
-        es2022: true,
-        node: true,
-    },
-    plugins: ['@typescript-eslint', 'vue', 'nuxt'],
-    extends: ['@nuxtjs/eslint-config-typescript', 'plugin:nuxt/recommended', 'plugin:vue/vue3-recommended', 'plugin:prettier/recommended'],
-    parserOptions: {
-        ecmaVersion: 'latest',
-        parser: '@typescript-eslint/parser',
-        sourceType: 'module',
-    },
-
+    extends: [
+        '@nuxt/eslint-config'
+    ],
     rules: {
-        'import/named': 'off',
-        'import/order': 'off',
-        'vue/multi-word-component-names': 'off',
-        'vue/no-deprecated-slot-attribute': 'off',
-        'vue/no-multiple-template-root': 'off',
-        'indent': ['error', 4]
-    },
-
-};
+        // Global
+        semi: ['error', 'never'],
+        quotes: ['error', 'single'],
+        'quote-props': ['error', 'as-needed'],
+        // Vue
+        'vue/multi-word-component-names': 0,
+        'vue/max-attributes-per-line': 'off',
+        'vue/no-v-html': 0,
+        'vue/html-indent': ['error', 4],
+        'vue/script-indent': ['error', 4, { baseIndent: 0 }],
+        // Typescript
+        '@typescript-eslint/indent': ['error', 4],
+    }
+}
