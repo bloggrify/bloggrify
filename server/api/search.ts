@@ -2,8 +2,6 @@ import { defineEventHandler } from 'h3'
 import { serverQueryContent } from '#content/server'
 
 export default defineEventHandler(async (event) => {
-    const appConfig = useAppConfig()
-
     // Fetch all documents
     let docs = await serverQueryContent(event).find()
 
