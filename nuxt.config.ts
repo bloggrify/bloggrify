@@ -51,6 +51,7 @@ export default defineNuxtConfig({
                 'yaml',
                 'python',
                 'c',
+                'csharp',
                 'cpp',
                 'sql',
                 'java',
