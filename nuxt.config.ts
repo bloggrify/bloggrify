@@ -26,7 +26,12 @@ export default defineNuxtConfig({
     },
 
     devtools: { enabled: true },
-    modules: ['@nuxtjs/tailwindcss', '@nuxt/content', '@nuxt/image'],
+    modules: [
+        '@nuxtjs/tailwindcss',
+        '@nuxt/content',
+        '@nuxt/image',
+        '@stefanobartoletti/nuxt-social-share'
+    ],
     image: {
         format: ['webp'],
     },

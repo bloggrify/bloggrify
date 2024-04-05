@@ -1,17 +1,17 @@
 export default defineAppConfig({
     // replace with your website name !
-    url: "https://www.example.com",
+    url: 'https://www.example.com',
 
-    logo: "/images/logo.svg",
+    logo: '/images/logo.svg',
 
-    theme: "mistral",
+    theme: 'mistral',
 
     // If you only have one author, you can set the author here
     // It will be used as the default author for all posts AND as the general logo/description/socials for the website
-    name: "Bloggrify",
-    avatar: "/images/avatar.jpg",
+    name: 'Bloggrify',
+    avatar: '/images/avatar.jpg',
     description:
-        "lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+        'lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.',
 
     socials: {
         // twitter: "https://twitter.com",
@@ -21,17 +21,21 @@ export default defineAppConfig({
         // facebook: "https://facebook.com",
         // instagram: "https://instagram.com",
         // github: "https://github.com",
+
+        // possible values : 'facebook', 'twitter', 'linkedin', 'email', 'pinterest', 'reddit', 'pocket', 'whatsapp', 'telegram', 'skype'
+        // see https://github.com/stefanobartoletti/nuxt-social-share
+        sharing_networks: []
     },
 
     newsletter: {
         enabled: false,
-        form_action: "YOUR_NEWSLETTER_FORM_ACTION",
+        form_action: 'YOUR_NEWSLETTER_FORM_ACTION',
     },
 
     comments: {
         enabled: false,
         hyvor_talk: {
-            website_id: "YOUR_HYVOR_TALK_WEBSITE_ID",
+            website_id: 'YOUR_HYVOR_TALK_WEBSITE_ID',
         },
     },
 
@@ -73,4 +77,4 @@ export default defineAppConfig({
         //     Disallow: [],
         // },
     ],
-});
+})
