@@ -22,8 +22,7 @@
         "fuse.js": "^6.6.2",
         "nuxt": "3.10.3",
         "remark-reading-time": "2.0.1",
-        "sitemap": "7.1.1",
-        "tailwindcss": "3.4.1"
+        "sitemap": "7.1.1"
     },
     "devDependencies": {
         "@nuxt/eslint-config": "^0.2.0",
