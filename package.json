@@ -1,7 +1,7 @@
 {
   "private": true,
-    "name": "bloggrify",
-    "type": "module",
+  "name": "bloggrify",
+  "type": "module",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@nuxt/image": "1.3.0",
     "@nuxt/content": "^2.11.0",
     "@nuxtjs/tailwindcss": "6.11.4",
     "@tailwindcss/typography": "0.5.10",
@@ -20,11 +21,9 @@
     "focus-trap": "^7.5.3",
     "nuxt": "3.10.3",
     "remark-reading-time": "2.0.1",
-    "sitemap": "7.1.1",
-    "v-click-outside": "3.1.2"
+    "sitemap": "7.1.1"
   },
   "devDependencies": {
-    "@nuxt/image": "1.3.0",
     "@nuxt/eslint-config": "^0.2.0",
     "autoprefixer": "10.4.17",
     "eslint": "8.57.0",
