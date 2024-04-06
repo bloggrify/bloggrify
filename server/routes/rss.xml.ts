@@ -1,39 +1,41 @@
-import { serverQueryContent } from "#content/server";
-import { Feed } from "feed";
+import { serverQueryContent } from '#content/server'
+import { Feed } from 'feed'
 
 export default defineEventHandler(async (event) => {
-    const config = useAppConfig();
-    const url = config.url?.replace(/\/$/, "");
+    const config = useAppConfig()
+    const url = config.url?.replace(/\/$/, '')
 
     const docs = await serverQueryContent(event)
         .where({ hidden: { $ne: true } })
         .sort({ date: -1 })
-        .find();
+        .find()
 
-    const now = new Date();
+    const now = new Date()
 
     const feed = new Feed({
         title: config.name,
         description: config.description,
         id: url,
         link: url,
-        favicon: url + "/favicon.ico",
+        language: config.language,
+        favicon: url + '/favicon.ico',
         copyright: `All rights reserved ${now.getFullYear()}, ${config.name}`,
-        generator: "https://github.com/jpmonette/feed",
-    });
+        generator: 'bloggrify',
+    })
     docs.forEach((post) => {
-        const path = post._path;
+        const path = post._path
         if (post.date) {
             feed.addItem({
-                title: post.title ?? "-",
+                title: post.title ?? '-',
                 id: url + path,
                 link: url + path,
                 description: post.description,
                 date: new Date(post.date),
-            });
+                image: post.cover ? url + post.cover : undefined,
+            })
         }
-    });
+    })
 
-    event.node.res.setHeader("content-type", "text/xml");
-    return feed.rss2();
-});
+    event.node.res.setHeader('content-type', 'text/xml')
+    return feed.rss2()
+})
