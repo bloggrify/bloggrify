@@ -9,19 +9,14 @@ export default defineEventHandler(async (event) => {
         docs
             .filter(
                 (doc) => {
-                    // Only use `.md` files which are not drafts and has content
                     return doc?._extension === 'md' &&
                         doc?._draft === false &&
+                        doc?.hidden === true &&
                         !doc?._empty
                 }
             )
             .map(
-                async ({ _id: id, _path: path, _dir: dir, title = '', description = '', body = undefined, ...rest }) => {
-                    const { directoryIcon } = rest
-
-                    if (directoryIcon) {
-                        console.log({ directoryIcon })
-                    }
+                async ({ _id: id, _path: path, _dir: dir, title = '', description = '', body = undefined}) => {
 
                     return {
                         id,
@@ -39,7 +34,7 @@ export default defineEventHandler(async (event) => {
     return docs
 })
 
-function extractTextFromAst(node: any) {
+function extractTextFromAst(node: any) : string {
     let text = ''
     if (node.type === 'text') {
         text += node.value
