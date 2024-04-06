@@ -2,6 +2,8 @@ export default defineAppConfig({
     // replace with your website name !
     url: 'https://www.example.com',
 
+    language: 'en',
+
     logo: '/images/logo.svg',
 
     theme: 'mistral',

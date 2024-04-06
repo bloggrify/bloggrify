@@ -6,9 +6,6 @@ export default defineNuxtConfig({
     },
     app: {
         head: {
-            htmlAttrs: {
-                lang: 'en',
-            },
             script: [
                 ...(process.env.PIRSCH_CODE
                     ? [
