@@ -1,8 +1,16 @@
+type Author = {
+    username: string
+    name: string
+    avatar: string
+    description: string
+    default: boolean
+}
+
 export const findAuthor = (authorId?: string) => {
-    const config = useAppConfig();
+    const config = useAppConfig()
 
     if (authorId === undefined) {
-        return config.authors.find((author) => author.default);
+        return config.authors.find((author: Author) => author.default)
     }
-    return config.authors.find((author) => author.username === authorId);
-};
+    return config.authors.find((author: Author) => author.username === authorId)
+}

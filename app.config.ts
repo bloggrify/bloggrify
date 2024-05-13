@@ -32,6 +32,7 @@ export default defineAppConfig({
     newsletter: {
         enabled: false,
         form_action: 'YOUR_NEWSLETTER_FORM_ACTION',
+        provider: 'demo',
     },
 
     comments: {
