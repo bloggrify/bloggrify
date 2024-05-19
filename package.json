@@ -2,7 +2,7 @@
     "name": "@bloggrify/core",
     "description": "A Nuxt.js app to create a blog with Nuxt Content and Tailwind CSS",
     "license": "MIT",
-    "version": "1.1.5",
+    "version": "1.1.6-SNAPSHOT",
     "author": "Eventually Coding <contact@eventuallycoding.com>",
     "main": "./nuxt.config.ts",
     "files": [
