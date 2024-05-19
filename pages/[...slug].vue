@@ -11,7 +11,14 @@ const config = useAppConfig()
 let theme = `themes-${config.theme}-default`
 
 if (doc.value?.layout) {
-    theme = doc.value.layout
+    const documentLayout = doc.value.layout
+    // a document Layout can be either : themes-something-${config.theme} or layout
+    // if it's a layout, we need to prefix it with themes-${config.theme}-
+    if (!documentLayout.startsWith('themes')) {
+        theme = `themes-${config.theme}-${documentLayout}`
+    } else {
+        theme = documentLayout
+    }
 }
 
 if (doc.value?.redirect_to_domain) {
