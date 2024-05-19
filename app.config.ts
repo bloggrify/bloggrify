@@ -29,6 +29,10 @@ export default defineAppConfig({
         sharing_networks: []
     },
 
+    pagination: {
+        per_page: 10,
+    },
+
     newsletter: {
         enabled: false,
         form_action: 'YOUR_NEWSLETTER_FORM_ACTION',
