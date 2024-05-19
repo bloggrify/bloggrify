@@ -7,11 +7,13 @@
         :network="network"
         :styled="styled"
         :label="false"
+        :url="url"
         :class="classButton"
     />
 </template>
 <script setup lang="ts">
 const config = useAppConfig()
+const route = useRoute()
 const sharingNetworks = config.socials?.sharing_networks || []
 defineProps<{
     title: string;
@@ -19,5 +21,15 @@ defineProps<{
     classButton: string | undefined;
     styled: boolean | undefined;
 }>()
+
+const url = function () {
+    let baseUrl = useAppConfig().url
+    // remove trailing slash if exists
+    if (baseUrl.endsWith('/')) {
+        baseUrl = baseUrl.slice(0, -1)
+    }
+    return baseUrl + route.path
+}
+
 
 </script>
