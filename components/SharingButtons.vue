@@ -7,7 +7,7 @@
         :network="network"
         :styled="styled"
         :label="false"
-        :url="url"
+        :url="url()"
         :class="classButton"
     />
 </template>
@@ -17,9 +17,9 @@ const route = useRoute()
 const sharingNetworks = config.socials?.sharing_networks || []
 defineProps<{
     title: string;
-    cover: string | undefined;
-    classButton: string | undefined;
-    styled: boolean | undefined;
+    cover?: string;
+    classButton?: string;
+    styled?: boolean;
 }>()
 
 const url = function () {
