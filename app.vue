@@ -50,10 +50,6 @@ useHead({
 @tailwind utilities;
 
 .prose {
-    a {
-        text-decoration: none;
-    }
-
     img {
         max-width: 80%;
         margin: auto;
