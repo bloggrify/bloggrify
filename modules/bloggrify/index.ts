@@ -1,7 +1,7 @@
 import {consola} from 'consola'
 import {colors} from 'consola/utils'
 import {defineNuxtModule} from '@nuxt/kit'
-import fse from 'fs-extra'
+import fs from 'node:fs'
 
 export default defineNuxtModule({
     meta: {
@@ -11,17 +11,15 @@ export default defineNuxtModule({
     setup (options, nuxt) {
 
         nuxt.hook('build:before', async () => {
-            fse.pathExists(nuxt.options.rootDir + '/content', (err: any, exists: any) => {
-                if (exists) return
+            if (!fs.existsSync(nuxt.options.rootDir + '/content')) {
                 consola.box(
                     colors.greenBright('Bloggrify') + '\n\n' +
                     'Missing `content` folder, please add it to your project. Most of the time, this error occurs when you try to start Bloggrify without using an existing theme.  \n\n' +
                     colors.blueBright('Bloggrify is not designed to work without any content. You should follow the documentation here https://bloggrify.com/introduction/installation .')
                 )
                 throw _createError('Missing `content` folder.')
-            })
+            }
         })
-
     }
 })
 
