@@ -64,6 +64,9 @@ npm install
 
 Start the development server on http://localhost:3000
 
+Running bloggrify alone without templates won't be really useful.   
+
+
 ```bash
 npm run dev
 ```
