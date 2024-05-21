@@ -27,10 +27,15 @@ if (isCategory) {
     category = slug[1]
     page = Number.parseInt(slug[3]) || 1
     const result = await useAsyncData(route.path, async () => {
-        return await queryContent('')
+        let queryBuilder = queryContent('')
             .where({ categories: {$in : category  }})
             .sort({ date: -1 })
-            .limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage).find()
+
+        if (numberOfPostsPerPage != -1) {
+            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
+        }
+
+        return await queryBuilder.find()
     })
     totalNumberOfPages = await queryContent('').where({ categories: {$in : category  }}).count()
     docs = result.data
@@ -39,9 +44,14 @@ if (isCategory) {
     tag = slug[1]
     page = Number.parseInt(slug[2]) || 1
     const result = await useAsyncData(route.path, async () => {
-        return await queryContent('').where({ tags: {$in : tag  }})
+        let queryBuilder = queryContent('').where({ tags: {$in : tag  }})
             .sort({ date: -1 })
-            .limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage).find()
+
+        if (numberOfPostsPerPage != -1) {
+            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
+        }
+
+        return await queryBuilder.find()
     })
     totalNumberOfPages = await queryContent('').where({ tags: {$in : tag  }}).count()
     docs = result.data
@@ -49,10 +59,14 @@ if (isCategory) {
 } else if (isPage) {
     page = Number.parseInt(slug[2]) || 1
     const result = await useAsyncData(route.path, async () => {
-        return await queryContent('')
+        let queryBuilder = queryContent('')
             .sort({ date: -1 })
-            .limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
-            .find()
+
+        if (numberOfPostsPerPage != -1) {
+            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
+        }
+
+        return await queryBuilder.find()
     })
     totalNumberOfPages = await queryContent('').count()
     docs = result.data
@@ -180,8 +194,6 @@ if (isCategory) {
         })
     }
 }
-
-
 
 onMounted(() => {
     useYoutubeTwitterEnhancer('nuxtContent')
