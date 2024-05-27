@@ -9,10 +9,10 @@ const slug = route.params.slug as string[]
 // detect if we are on a special page like :
 // /categories/something/page/2
 // /tags/something/page/2
-// /pages/2
+// /archives/page/1
 const isCategory = slug[0] === 'categories'
 const isTag = slug[0] === 'tags'
-const isPage = slug[0] === 'pages'
+const isArchives = slug[0] === 'archives'
 
 let doc = null
 let docs = null
@@ -26,9 +26,10 @@ const numberOfPostsPerPage = config.pagination?.per_page || 10
 if (isCategory) {
     category = slug[1]
     page = Number.parseInt(slug[3]) || 1
+    const where = { categories: { $in: category }, hidden: { $ne: true }, listed: { $ne: false } }
     const result = await useAsyncData(route.path, async () => {
         let queryBuilder = queryContent('')
-            .where({ categories: {$in : category  }})
+            .where(where)
             .sort({ date: -1 })
 
         if (numberOfPostsPerPage != -1) {
@@ -37,29 +38,35 @@ if (isCategory) {
 
         return await queryBuilder.find()
     })
-    totalNumberOfPages = await queryContent('').where({ categories: {$in : category  }}).count()
+    totalNumberOfPages = await queryContent('').where(where).count()
     docs = result.data
     theme = `themes-${config.theme}-category`
+} else if (isArchives) {
+    page = Number.parseInt(slug[2]) || 1
+    const where = { hidden: { $ne: true }, listed: { $ne: false }}
+
+    const result = await useAsyncData(route.path, async () => {
+        let queryBuilder = queryContent('')
+            .where(where)
+            .sort({ date: -1 })
+
+        if (numberOfPostsPerPage != -1) {
+            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
+        }
+
+        return await queryBuilder.find()
+    })
+    totalNumberOfPages = await queryContent('').where(where).count()
+    docs = result.data
+    theme = `themes-${config.theme}-archive`
+
 } else if (isTag) {
     tag = slug[1]
     page = Number.parseInt(slug[2]) || 1
-    const result = await useAsyncData(route.path, async () => {
-        let queryBuilder = queryContent('').where({ tags: {$in : tag  }})
-            .sort({ date: -1 })
-
-        if (numberOfPostsPerPage != -1) {
-            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
-        }
-
-        return await queryBuilder.find()
-    })
-    totalNumberOfPages = await queryContent('').where({ tags: {$in : tag  }}).count()
-    docs = result.data
-    theme = `themes-${config.theme}-tag`
-} else if (isPage) {
-    page = Number.parseInt(slug[2]) || 1
+    const where = { tags: { $in: tag }, hidden: { $ne: true }, listed: { $ne: false } }
     const result = await useAsyncData(route.path, async () => {
         let queryBuilder = queryContent('')
+            .where(where)
             .sort({ date: -1 })
 
         if (numberOfPostsPerPage != -1) {
@@ -68,9 +75,9 @@ if (isCategory) {
 
         return await queryBuilder.find()
     })
-    totalNumberOfPages = await queryContent('').count()
+    totalNumberOfPages = await queryContent('').where(where).count()
     docs = result.data
-    theme = `themes-${config.theme}-page`
+    theme = `themes-${config.theme}-tag`
 } else {
     const result = await useAsyncData(route.path, async () => {
         return await queryContent('').where({ _path: route.path }).findOne()
