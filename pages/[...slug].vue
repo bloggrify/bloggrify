@@ -25,6 +25,18 @@ const numberOfPostsPerPage = config.pagination?.per_page || 10
 
 if (isCategory) {
     category = slug[1]
+    const title = 'Category: ' + category
+    const description = title
+    useHead({
+        title: 'Archives',
+        meta: [
+            { name: 'description', content: description },
+            { name: 'og:title', content: title },
+            { name: 'og:description', content: description },
+            { name: 'twitter:title', content: title },
+            { name: 'twitter:description', content: description },
+        ],
+    })
     page = Number.parseInt(slug[3]) || 1
     const where = { categories: { $in: category }, hidden: { $ne: true }, listed: { $ne: false } }
     const result = await useAsyncData(route.path, async () => {
@@ -42,6 +54,19 @@ if (isCategory) {
     docs = result.data
     theme = `themes-${config.theme}-category`
 } else if (isArchives) {
+    const title = 'Archives'
+    const description = 'Archives'
+    useHead({
+        title: 'Archives',
+        meta: [
+            { name: 'description', content: description },
+            { name: 'og:title', content: title },
+            { name: 'og:description', content: description },
+            { name: 'twitter:title', content: title },
+            { name: 'twitter:description', content: description },
+        ],
+    })
+
     page = Number.parseInt(slug[2]) || 1
     const where = { hidden: { $ne: true }, listed: { $ne: false }}
 
@@ -62,6 +87,18 @@ if (isCategory) {
 
 } else if (isTag) {
     tag = slug[1]
+    const title = 'Tag: ' + tag
+    const description = title
+    useHead({
+        title: 'Archives',
+        meta: [
+            { name: 'description', content: description },
+            { name: 'og:title', content: title },
+            { name: 'og:description', content: description },
+            { name: 'twitter:title', content: title },
+            { name: 'twitter:description', content: description },
+        ],
+    })
     page = Number.parseInt(slug[2]) || 1
     const where = { tags: { $in: tag }, hidden: { $ne: true }, listed: { $ne: false } }
     const result = await useAsyncData(route.path, async () => {
