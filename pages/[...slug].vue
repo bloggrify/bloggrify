@@ -23,14 +23,14 @@ let category = ''
 let tag = ''
 const numberOfPostsPerPage = config.pagination?.per_page || 10
 
-async function fillAllDataForCategoryPages() {
+if (isCategory) {
     category = slug[1]
     page = Number.parseInt(slug[3]) || 1
-    const where = {categories: {$in: category}, hidden: {$ne: true}, listed: {$ne: false}}
+    const where = { categories: { $in: category }, hidden: { $ne: true }, listed: { $ne: false } }
     const result = await useAsyncData(route.path, async () => {
         let queryBuilder = queryContent('')
             .where(where)
-            .sort({date: -1})
+            .sort({ date: -1 })
 
         if (numberOfPostsPerPage != -1) {
             queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
@@ -40,54 +40,43 @@ async function fillAllDataForCategoryPages() {
     })
     totalNumberOfPages = await queryContent('').where(where).count()
     docs = result.data
-}
-
-async function fillAllDataForArchivePages() {
-    page = Number.parseInt(slug[2]) || 1
-    const where = {hidden: {$ne: true}, listed: {$ne: false}}
-
-    const result = await useAsyncData(route.path, async () => {
-        let queryBuilder = queryContent('')
-            .where(where)
-            .sort({date: -1})
-
-        if (numberOfPostsPerPage != -1) {
-            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
-        }
-
-        return await queryBuilder.find()
-    })
-    totalNumberOfPages = await queryContent('').where(where).count()
-    docs = result.data
-}
-
-async function fillAllDataForTagPages() {
-    tag = slug[1]
-    page = Number.parseInt(slug[2]) || 1
-    const where = {tags: {$in: tag}, hidden: {$ne: true}, listed: {$ne: false}}
-    const result = await useAsyncData(route.path, async () => {
-        let queryBuilder = queryContent('')
-            .where(where)
-            .sort({date: -1})
-
-        if (numberOfPostsPerPage != -1) {
-            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
-        }
-
-        return await queryBuilder.find()
-    })
-    totalNumberOfPages = await queryContent('').where(where).count()
-    docs = result.data
-}
-
-if (isCategory) {
-    await fillAllDataForCategoryPages()
     theme = `themes-${config.theme}-category`
 } else if (isArchives) {
-    await fillAllDataForArchivePages()
+    page = Number.parseInt(slug[2]) || 1
+    const where = { hidden: { $ne: true }, listed: { $ne: false }}
+
+    const result = await useAsyncData(route.path, async () => {
+        let queryBuilder = queryContent('')
+            .where(where)
+            .sort({ date: -1 })
+
+        if (numberOfPostsPerPage != -1) {
+            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
+        }
+
+        return await queryBuilder.find()
+    })
+    totalNumberOfPages = await queryContent('').where(where).count()
+    docs = result.data
     theme = `themes-${config.theme}-archive`
+
 } else if (isTag) {
-    await fillAllDataForTagPages()
+    tag = slug[1]
+    page = Number.parseInt(slug[2]) || 1
+    const where = { tags: { $in: tag }, hidden: { $ne: true }, listed: { $ne: false } }
+    const result = await useAsyncData(route.path, async () => {
+        let queryBuilder = queryContent('')
+            .where(where)
+            .sort({ date: -1 })
+
+        if (numberOfPostsPerPage != -1) {
+            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
+        }
+
+        return await queryBuilder.find()
+    })
+    totalNumberOfPages = await queryContent('').where(where).count()
+    docs = result.data
     theme = `themes-${config.theme}-tag`
 } else {
     const result = await useAsyncData(route.path, async () => {
