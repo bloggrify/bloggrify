@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.3.2
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.3.1...v1.3.2)
+
+### 🩹 Fixes
+
+- Revert refactoring that breaks the website with "nuxt instance called outside of a plugin" ([69f0dd9](https://github.com/bloggrify/bloggrify/commit/69f0dd9))
+- Add title to automatic pages ([7bc7aac](https://github.com/bloggrify/bloggrify/commit/7bc7aac))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v1.3.1
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.3.0...v1.3.1)
