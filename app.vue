@@ -59,4 +59,8 @@ useHead({
         margin: auto;
     }
 }
+
+.katex-html {
+    display: none;
+}
 </style>
