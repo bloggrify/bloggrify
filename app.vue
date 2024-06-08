@@ -4,7 +4,11 @@
     </div>
 </template>
 <script setup lang="ts">
+import {useAnalytics} from '~/composables/useAnalytics'
+
 const config = useAppConfig()
+
+useAnalytics()
 
 useHead({
     htmlAttrs: {
