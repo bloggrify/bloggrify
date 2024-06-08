@@ -7,7 +7,7 @@
     "main": "./nuxt.config.ts",
     "repository": {
         "type": "git",
-        "url": "https://github.com/hlassiege/bloggrify.git"
+        "url": "https://github.com/bloggrify/bloggrify.git"
     },
     "files": [
         "components",

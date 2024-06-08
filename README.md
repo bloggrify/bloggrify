@@ -8,12 +8,12 @@
 
 [Getting started](https://bloggrify.com/introduction/getting-started) | [Homepage](https://bloggrify.com)
 
-  <a href="https://github.com/hlassiege/bloggrify/releases/latest">
-    <img src="https://img.shields.io/github/release/hlassiege/bloggrify.svg?style=flat-square" alt="">
+  <a href="https://github.com/bloggrify/bloggrify/releases/latest">
+    <img src="https://img.shields.io/github/release/bloggrify/bloggrify.svg?style=flat-square" alt="">
   </a>
 
-  <a href="https://github.com/hlassiege/bloggrify/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/hlassiege/bloggrify.svg?style=flat-square" alt="">
+  <a href="https://github.com/bloggrify/bloggrify/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/bloggrify/bloggrify.svg?style=flat-square" alt="">
   </a>
 
 </div>
