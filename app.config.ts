@@ -6,7 +6,7 @@ export default defineAppConfig({
 
     logo: '/images/logo.svg',
 
-    theme: 'mistral',
+    theme: 'minimalist',
 
     analytics: {
         provider: 'pirsch', // possible values : 'pirsch', 'plausible'
