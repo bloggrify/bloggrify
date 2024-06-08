@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.3.1
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.3.0...v1.3.1)
+
+### 🩹 Fixes
+
+- This control don't work with folder presents in extended module... ([2312532](https://github.com/bloggrify/bloggrify/commit/2312532))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v1.3.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/1.0.0...v1.3.0)
