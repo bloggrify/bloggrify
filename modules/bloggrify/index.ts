@@ -11,6 +11,15 @@ export default defineNuxtModule({
     setup (options, nuxt) {
 
         nuxt.hook('build:before', async () => {
+
+            if (!fs.existsSync(nuxt.options.rootDir + '/layouts/themes')) {
+                consola.box(
+                    colors.greenBright('Bloggrify') + '\n\n' +
+                    'Missing themes folder. Please add it to your project. You tried to start Bloggrify with no theme.  \n\n'
+                )
+                throw _createError('Starting Bloggrify with a non-existing theme.')
+            }
+
             if (!fs.existsSync(nuxt.options.rootDir + '/content')) {
                 consola.box(
                     colors.greenBright('Bloggrify') + '\n\n' +
