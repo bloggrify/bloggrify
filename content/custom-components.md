@@ -18,24 +18,80 @@ You can use [custom components](https://content.nuxt.com/usage/markdown#vue-comp
 
 ## Youtube and Twitter embed
 
-You can embed youtube videos and tweets in your markdown files.
+::mdd
 
-https://www.youtube.com/watch?v=su2gNQJkteg
+#preview    
+    :::mdd
+    
+    #preview    
+    _Showing a result_
+    
+    #markup
+    ```markdown
+    _Showing the markup_
+    ```
+    :::
 
-https://twitter.com/hugolassiege/status/1750435525071159309
+#markup
+```markdown
+    ::mdd
+    
+    #preview    
+    _Showing a result_
+    
+    #markup
+    ```markdown
+    _Showing the markup_
+    ```
+    ::
+```
+::
 
 
 ## Alerts
 
+::mdd
+
+#preview    
 ::alert{type="TIP"}
-This is a tip 
+This is a tip
 ::
 
+#markup
+```markdown
+::alert{type="TIP"}
+This is a tip
+::
+```
+::
+
+::mdd
+
+#preview    
 ::alert{type="Warning"}
 This is a warning
 ::
 
+#markup
+```markdown
+::alert{type="Warning"}
+This is a warning
+::
+```
+::
+
+
 
 ## table of contents 
 
+::mdd
+
+#preview    
 :toc
+
+#markup
+```markdown
+:toc
+```
+::
+
