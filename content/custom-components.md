@@ -16,7 +16,53 @@ You can use [custom components](https://content.nuxt.com/usage/markdown#vue-comp
 
 :toc
 
-## Youtube and Twitter embed
+## Code
+
+### Code group
+
+::mdd
+
+#preview    
+:::code-group
+
+```bash [npm]
+npm run dev
+```
+
+```bash [yarn]
+yarn dev
+```
+
+```bash [pnpm]
+pnpm run dev
+```
+
+:::
+
+#markup
+```markdown
+    ::code-group
+    
+    ```bash [npm]
+    npm run dev
+    ```
+    
+    ```bash [yarn]
+    yarn dev
+    ```
+    
+    ```bash [pnpm]
+    pnpm run dev
+    ```
+    
+    ::
+```
+::
+
+
+
+
+### Markdown code block
 
 ::mdd
 
