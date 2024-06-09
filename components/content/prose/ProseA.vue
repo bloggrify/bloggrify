@@ -40,24 +40,27 @@ const props = defineProps({
 
 const youtubeUrl = ref('')
 const twitterUrl = ref('')
+const isTwitter = ref(false)
 
 const isYoutube = computed(() => {
     return props.href.includes('youtube.com') || props.href.includes('youtu.be')
 })
 
-const isTwitter = props.href.match(
-    /^https:\/\/twitter\.com\/[0-9a-zA-Z_]*\/status\/([0-9a-zA-Z]*)$/,
-) || props.href.match(/^https:\/\/mobile\.twitter\.com\/[0-9a-zA-Z_]*\/status\/([0-9a-zA-Z]*)$/)
-    || props.href.match(/^https:\/\/x\.com\/[0-9a-zA-Z_]*\/status\/([0-9a-zA-Z]*)$/)
+isTwitter.value = props.href.includes('twitter.com') || props.href.includes('x.com')
 
 if (isTwitter) {
-    isTwitter.forEach((match) => {
-        twitterUrl.value = `https://x.com/x/status/${match}`
-    })
+    const tweetId = extractTweetId(props.href)
+
+    twitterUrl.value = `https://twitter.com/x/status/${tweetId}`
+}
+
+function extractTweetId(tweetUrl: string): string | null {
+    const tweetIdMatch = tweetUrl.match(/status\/(\d+)/)
+    return tweetIdMatch ? tweetIdMatch[1] : null
 }
 
 onMounted(() => {
-    if (isTwitter) {
+    if (isTwitter.value) {
         useHead({
             script: [
                 {
