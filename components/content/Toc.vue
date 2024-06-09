@@ -24,7 +24,6 @@
             </p>
         </div>
     </div>
-    <div v-else />
 </template>
 <script setup lang="ts">
 const route = useRoute()
