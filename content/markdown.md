@@ -128,6 +128,13 @@ var foo = function (bar) {
 console.log(foo(5));
 ```
 
+It's also possible to display a code block with a specific file name:
+```js [file.js]
+  export default () => {
+    console.log('Code block')
+  }
+```
+
 
 ## Tables
 
@@ -153,6 +160,15 @@ Right aligned columns
 [link with title](https://www.google.com "title text!")
 
 Autoconverted link https://www.google.com
+
+## Youtube and Twitter embed
+
+You can embed youtube videos and tweets in your markdown files.
+
+https://www.youtube.com/watch?v=su2gNQJkteg
+
+https://twitter.com/hugolassiege/status/1750435525071159309
+
 
 ## Images
 
@@ -211,17 +227,9 @@ https://twitter.com/hugolassiege/status/1750435525071159309
 
 
 ## Custom components
-You can also use [custom components](https://content.nuxt.com/usage/markdown#vue-components) with vue.js to extend markdown features. Some components are already available such as:
 
-::alert{type="TIP"}
-This is a tip 
+::alert{type="tip"}
+On top of the standard markdown features, you can also use custom components with Vue.js to extend markdown features.  
+Read the [custom components documentation](/custom-components) to learn more.
+
 ::
-
-::alert{type="Warning"}
-This is a warning
-::
-
-
-And the table of contents : 
-
-:toc
