@@ -173,7 +173,7 @@ https://twitter.com/hugolassiege/status/1750435525071159309
 ## Images
 
 
-This is a paragraph with an image ![the image is automatically centered on the page and the alt text is displayed below as a caption](/images/doc/image-eventuallycoding.jpg "title of the image you should add for accessibility").
+This is a paragraph with an image ![the image is automatically centered on the page and the alt text is displayed below as a caption](/android-chrome-192x192.png).
 
 
 ## Emojies
