@@ -39,3 +39,21 @@ defineProps<{
 const config = useAppConfig()
 const menu = config.menu
 </script>
+<style lang="scss">
+.prose {
+    a {
+        @apply underline underline-offset-2 decoration-dotted;
+    }
+
+    h1 a,
+    h2 a,
+    h3 a,
+    h4 a,
+    h5 a,
+    h6 a {
+        @apply no-underline ;
+    }
+}
+
+</style>
+
