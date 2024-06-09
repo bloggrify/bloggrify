@@ -238,8 +238,4 @@ if (isCategory) {
         })
     }
 }
-
-onMounted(() => {
-    useYoutubeTwitterEnhancer('nuxtContent')
-})
 </script>
