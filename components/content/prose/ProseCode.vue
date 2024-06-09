@@ -4,7 +4,7 @@
             <span>{{ filename }}</span>
         </div>
 
-        <div class="absolute top-2.5 right-2.5">
+        <div v-if="isSupported" class="absolute top-2.5 right-2.5">
             <div class="flex border border-gray-200 rounded-lg dark:border-neutral-700">
                 <!-- Clipboard -->
                 <button
