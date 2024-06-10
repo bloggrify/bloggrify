@@ -20,7 +20,7 @@ export default defineAppConfig({
     name: 'Bloggrify',
     avatar: '/images/avatar.jpg',
     description:
-        'lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.',
+        'This is a blog made with Bloggrify. It is a simple and minimalist blog template. You can customize it as you want or use another template from Bloggrify. Enjoy !',
 
     socials: {
         // twitter: "https://twitter.com",

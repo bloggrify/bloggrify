@@ -17,7 +17,7 @@ export default defineNuxtConfig({
     },
     content: {
         markdown: {
-            remarkPlugins: ['remark-reading-time', 'remark-math'],
+            remarkPlugins: ['remark-reading-time', 'remark-math', 'remark-mermaidjs'],
             rehypePlugins: ['rehype-katex'],
         },
         highlight: {
@@ -33,6 +33,7 @@ export default defineNuxtConfig({
                 'shell',
                 'bash',
                 'mdc',
+                'mermaid',
                 'md',
                 'yaml',
                 'python',
