@@ -94,4 +94,21 @@ export default defineAppConfig({
         //     Disallow: [],
         // },
     ],
+
+    ui: {
+        components: {
+            mdd: {
+                classes: {
+                    nav_bar: 'flex flex-wrap items-center gap-x-1.5 md:gap-x-2',
+                    nav_container : 'flex bg-gray-100 rounded-lg p-0.5 dark:bg-neutral-800',
+                    nav: 'flex gap-x-0.5 md:gap-x-1',
+                    nav_item: 'text-xs md:text-sm text-gray-800 border border-transparent hover:border-gray-400 font-medium rounded-md py-2 px-2.5 dark:text-neutral-200 dark:hover:text-white dark:hover:border-neutral-500',
+                    nav_item_active : 'bg-white text-gray-800 shadow-sm hover:border-transparent dark:bg-neutral-700 dark:text-neutral-200 dark:hover:border-transparent',
+                    preview : 'border rounded-xl p-6 dark:bg-neutral-800 dark:border-neutral-700',
+                    markup : '',
+                    content : 'mt-3',
+                }
+            }
+        }
+    }
 })
