@@ -12,13 +12,25 @@
                         class="py-1 list-decimal ml-4"
                         :class="{ 'ml-6': subtitle.depth === 3 }"
                     >
-                        <a
+                        <NuxtLink
                             class="hover:text-smalt-blue-700 font-normal"
                             :class="{ 'text-shark-400': subtitle.depth === 3 }"
-                            :href="'#' + subtitle.id"
+                            :to="'#' + subtitle.id"
                         >
                             {{ subtitle.text }}
-                        </a>
+                        </NuxtLink>
+                        <ul v-if="subtitle.children && showTocChildren" class="my-2">
+                            <li
+                                v-for="{ id: childId, text: childText } in subtitle.children"
+                                :id="`toc-${childId}`"
+                                :key="childId"
+                                class="mb-2 text-xs last:mb-0"
+                            >
+                                <NuxtLink :to="`#toc-${childId}`">
+                                    {{ childText }}
+                                </NuxtLink>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </p>
@@ -26,11 +38,22 @@
     </div>
 </template>
 <script setup lang="ts">
+const props = defineProps({
+    showChildren: {
+        type: Boolean,
+        default: false
+    }
+})
+
+const config = useAppConfig()
+
+const showTocChildren = props.showChildren || (config.toc?.showChildren ?? false)
+
 const route = useRoute()
 const { data: doc } = await useAsyncData(route.path, async () => {
     return await queryContent('').where({ _path: route.path }).findOne()
 })
 
-const isTocEnabled =
-    doc.value?.body?.toc?.links.length && doc.value?.body.toc?.links.length > 0
+const isTocEnabled = doc.value?.body?.toc?.links.length && doc.value?.body.toc?.links.length > 0
+
 </script>

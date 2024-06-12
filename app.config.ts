@@ -54,6 +54,9 @@ export default defineAppConfig({
     },
 
     table_of_contents: false,
+    toc : {
+        showChildren: false,
+    },
 
     // if you have multiple authors, you can set them here
     authors: [
