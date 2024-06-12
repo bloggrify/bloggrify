@@ -97,8 +97,25 @@ export default defineAppConfig({
 
     ui: {
         components: {
+            alert: {
+                classes: {
+                    component: 'bg-purple-50 bg-opacity-100 border-l-8 border-opacity-100 mb-2 p-4',
+                    tip: {
+                        component: 'bg-green-50 border-l-8 border-green-600 mb-2 p-4',
+                        header : 'text-green-700 flex justify-start items-center',
+                        icon: 'inline-block mr-3 -mt-1 h-6 w-6 fill-green-700'
+                    },
+                    warning: {
+                        component: 'bg-yellow-50 border-l-8 border-orange-600 mb-2 p-4',
+                        header : 'text-orange-800 flex justify-start items-center',
+                        icon: 'inline-block mr-3 -mt-1 h-6 w-6 fill-amber-600'
+                    },
+                    content: 'dark:text-slate-900',
+                }
+            },
             mdd: {
                 classes: {
+                    component: 'mt-4',
                     nav_bar: 'flex flex-wrap items-center gap-x-1.5 md:gap-x-2',
                     nav_container : 'flex bg-gray-100 rounded-lg p-0.5 dark:bg-neutral-800',
                     nav: 'flex gap-x-0.5 md:gap-x-1',

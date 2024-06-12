@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div :class="ui.component">
         <div :class="ui.nav_bar">
             <!-- Nav Tabs -->
             <div :class="ui.nav_container">
