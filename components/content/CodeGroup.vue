@@ -1,16 +1,13 @@
 <template>
     <div>
-        <div class="mt-5 space-y-4">
-            <div class="flex flex-wrap items-center gap-x-1.5 md:gap-x-2 rounded-t border p-2">
+        <div :class="ui.nav_container">
+            <nav :class="ui.nav">
                 <!-- Nav Tabs -->
-                <div v-for="(tab, index) in tabs" :key="index" class="flex  rounded-lg p-0.5 dark:bg-neutral-800">
-                    <nav class="flex gap-x-0.5 md:gap-x-1" aria-label="Tabs" role="tablist">
+                <div v-for="(tab, index) in tabs" :key="index" class="">
+                    <nav :class="ui.nav_item" aria-label="Tabs" role="tablist">
                         <button
-                            :class="selectedIndex == index ? 'bg-gray-100 text-gray-800 shadow-sm hover:border-transparent dark:bg-neutral-700 dark:text-neutral-200 dark:hover:border-transparent' : ''"
+                            :class="selectedIndex == index ? ui.nav_button_active + ui.nav_button : ui.nav_button"
                             type="button"
-                            class="text-xs md:text-sm text-gray-800 hover:bg-gray-100 border border-transparent hover:border-gray-400 font-medium rounded-md py-2 px-2.5
-                            dark:text-neutral-200 dark:hover:text-white dark:hover:border-neutral-500
-                            "
                             role="tab" @click="selectTab(index)"
                         >
                             {{ tab.label }}
@@ -18,13 +15,17 @@
                     </nav>
                 </div>
                 <!-- Nav Tabs -->
-            </div>
+            </nav>
         </div>
-
-        <component :is="selectedTab?.component" :key="selectedIndex" hide-header />
+        <div class="ui.content">
+            <component :is="selectedTab?.component" :key="selectedIndex" hide-header />
+        </div>
     </div>
 </template>
 <script setup lang="ts">
+
+const config = useAppConfig()
+const ui = config.ui.components.codeGroup.classes
 
 const selectedIndex = ref(0)
 const slots = useSlots()
