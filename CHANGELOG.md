@@ -1,6 +1,38 @@
 # Changelog
 
 
+## v1.4.0
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.3.2...v1.4.0)
+
+### 🚀 Enhancements
+
+- Add copy paste ability to all block of code and add the filename if available on top of the block ([5e6ee80](https://github.com/bloggrify/bloggrify/commit/5e6ee80))
+- Add new custom component to show markdown and preview all together ([dfd5391](https://github.com/bloggrify/bloggrify/commit/dfd5391))
+- Add new custom component : code group to display several files grouped alltogether ([5e52b1e](https://github.com/bloggrify/bloggrify/commit/5e52b1e))
+- Add support for mermaid graphs ([34d998f](https://github.com/bloggrify/bloggrify/commit/34d998f))
+- Expand table of content with H3 headers (optional) See https://github.com/bloggrify/bloggrify/issues/2 ([0840cbe](https://github.com/bloggrify/bloggrify/commit/0840cbe))
+- Add style configuration to the MDD component ([0b660cb](https://github.com/bloggrify/bloggrify/commit/0b660cb))
+- Add style configuration to the code group component ([b889016](https://github.com/bloggrify/bloggrify/commit/b889016))
+- Add style configuration to alert component ([a135e6c](https://github.com/bloggrify/bloggrify/commit/a135e6c))
+
+### 🩹 Fixes
+
+- Twitter thread embedding was not working correctly ([db5ae9d](https://github.com/bloggrify/bloggrify/commit/db5ae9d))
+- Weird behaviour with alert component ([568a9df](https://github.com/bloggrify/bloggrify/commit/568a9df))
+
+### 📦 Build
+
+- Add github action to check the application builds correctly after each commit ([5dab332](https://github.com/bloggrify/bloggrify/commit/5dab332))
+
+### 🎨 Styles
+
+- Some styling for the default theme ([af60d82](https://github.com/bloggrify/bloggrify/commit/af60d82))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v1.3.2
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.3.1...v1.3.2)
