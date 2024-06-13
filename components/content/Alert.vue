@@ -46,8 +46,8 @@ type AlertClasses = {
     component: string;
     tip?: { component: string };
     warning?: { component: string };
-    [key: string]: any; // Pour permettre l'indexation dynamique
-};
+    [key: string]: any;
+}
 
 const config = useAppConfig()
 const ui = config.ui.components.alert.classes as AlertClasses
@@ -59,3 +59,8 @@ const componentClass = computed(() => {
 })
 
 </script>
+<style lang="scss" scoped>
+.admonition-warning .admonition-header {
+    @apply text-orange-800;
+}
+</style>
