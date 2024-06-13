@@ -22,11 +22,11 @@
                         <ul v-if="subtitle.children && showTocChildren" class="my-2">
                             <li
                                 v-for="{ id: childId, text: childText } in subtitle.children"
-                                :id="`toc-${childId}`"
+                                :id="`${childId}`"
                                 :key="childId"
                                 class="mb-2 text-xs last:mb-0"
                             >
-                                <NuxtLink :to="`#toc-${childId}`">
+                                <NuxtLink :to="`#${childId}`">
                                     {{ childText }}
                                 </NuxtLink>
                             </li>
