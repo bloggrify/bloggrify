@@ -1,40 +1,29 @@
 <template>
-    <nav class="mt-10 w-3/4 mx-auto">
-        <div class="flex gap-4">
-            <NuxtLink
-                to="/"
-                class="underline"
-            >
-                Home
-            </NuxtLink>
-            <NuxtLink
-                v-for="item in menu"
-                :key="item.path"
-                :to="item.path"
-                class="underline"
-            >
-                {{ item.name }}
-            </NuxtLink>
-        </div>
-    </nav>
+    <div>
+        <nav class="mt-10 w-3/4 mx-auto">
+            <h1 class="text-3xl font-bold">
+                {{ title }}
+            </h1>
+        </nav>
 
-    <main class="mt-10 w-3/4 mx-auto">
-        <h1 class="text-3xl font-bold">
-            {{ title }}
-        </h1>
+        <MinimalistMenu />
 
-        <div class="mt-4">
-            {{ description }}
-        </div>
+        <main class="mt-10 w-3/4 mx-auto">
+            <div class="mt-4">
+                {{ description }}
+            </div>
 
-        <div class="mt-10">
-            <NuxtLink class="underline " to="/archives">
-                Read all posts
-            </NuxtLink>
-        </div>
-    </main>
+            <div class="mt-10">
+                <NuxtLink class="underline " to="/archives">
+                    Read all posts
+                </NuxtLink>
+            </div>
+        </main>
+    </div>
 </template>
 <script setup lang="ts">
+import MinimalistMenu from '~/components/MinimalistMenu.vue'
+
 defineProps<{
     doc: any;
     docs: any;
@@ -47,5 +36,9 @@ defineProps<{
 const config = useAppConfig()
 const title = config.name
 const description = config.description
-const menu = config.menu
 </script>
+<style>
+body {
+    @apply bg-white dark:bg-slate-900 dark:text-white;
+}
+</style>

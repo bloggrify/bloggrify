@@ -63,4 +63,18 @@ useHead({
 .katex-html {
     display: none;
 }
+
+.dark .pieTitleText,
+.dark .titleText,
+.dark .sectionTitle,
+.dark  .legend text,
+.dark  .legend tspan,
+.dark  .tick text,
+.dark .messageText,
+.dark .loopText tspan  {
+    fill: white !important;
+}
+.dark .messageLine0, .dark .messageLine1 {
+    stroke: #d9d9d9 !important;
+}
 </style>

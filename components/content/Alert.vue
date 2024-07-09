@@ -28,7 +28,7 @@
                 {{ type }}
             </div>
         </div>
-        <div :class="ui.content">
+        <div :class="ui.content" class="not-prose">
             <slot />
         </div>
     </div>

@@ -1,33 +1,31 @@
 <template>
-    <nav class="mt-10 w-3/4 mx-auto">
-        <div class="flex gap-4">
-            <NuxtLink
-                to="/"
-                class="underline"
-            >
-                Home
-            </NuxtLink>
-            <NuxtLink
-                v-for="item in menu"
-                :key="item.path"
-                :to="item.path"
-                class="underline"
-            >
-                {{ item.name }}
-            </NuxtLink>
-        </div>
-    </nav>
-    <main class="mt-10 w-3/4 mx-auto">
-        <div v-if="doc">
-            <ContentRenderer
-                id="nuxtContent"
-                :value="doc"
-                class="prose text-sm md:text-xl min-w-full md:p-10 mx-auto"
-            />
-        </div>
-    </main>
+    <div>
+        <nav class="mt-10 w-3/4 mx-auto">
+            <h1 class="text-3xl font-bold">
+                {{ title }}
+            </h1>
+        </nav>
+
+        <MinimalistMenu />
+
+        <main class="mt-10 w-3/4 mx-auto">
+            <div v-if="doc">
+                <h2 class="text-2xl font-bold">
+                    {{ doc.title }}
+                </h2>
+
+                <ContentRenderer
+                    id="nuxtContent"
+                    :value="doc"
+                    class="prose pt-6 text-sm md:text-xl dark:prose-invert"
+                />
+            </div>
+        </main>
+    </div>
 </template>
 <script setup lang="ts">
+import MinimalistMenu from '~/components/MinimalistMenu.vue'
+
 defineProps<{
     doc: any;
     docs: any;
@@ -37,7 +35,7 @@ defineProps<{
     tag: string;
 }>()
 const config = useAppConfig()
-const menu = config.menu
+const title = config.name
 </script>
 <style lang="scss">
 .prose {
@@ -54,6 +52,5 @@ const menu = config.menu
         @apply no-underline ;
     }
 }
-
 </style>
 

@@ -6,7 +6,7 @@
         :width="width"
         :height="height"
     />
-    <div v-if="alt" class="text-sm  text-center text-gray-600 mt-1">
+    <div v-if="alt" class="text-sm  text-center text-gray-600 dark:text-gray-300 mt-1">
         {{ alt }}
     </div>
 </template>

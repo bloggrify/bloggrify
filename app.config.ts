@@ -99,7 +99,7 @@ export default defineAppConfig({
         components: {
             alert: {
                 classes: {
-                    component: 'bg-purple-50 bg-opacity-100 border-l-8 border-opacity-100 mb-2 p-4',
+                    component: 'bg-opacity-100 border-l-8 border-opacity-100 mb-2 p-4',
                     tip: {
                         component: 'bg-green-50 border-l-8 border-green-600 mb-2 p-4',
                         header : 'text-green-700 flex justify-start items-center',
@@ -110,7 +110,7 @@ export default defineAppConfig({
                         header : 'text-orange-800 flex justify-start items-center',
                         icon: 'inline-block mr-3 -mt-1 h-6 w-6 fill-amber-600'
                     },
-                    content: 'dark:text-slate-900',
+                    content: 'dark:text-slate-900 py-4',
                 }
             },
             mdd: {
