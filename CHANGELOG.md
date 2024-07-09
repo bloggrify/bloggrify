@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.4.2
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.1...v1.4.2)
+
+### 📦 Build
+
+- Add files to the final package ([297da67](https://github.com/bloggrify/bloggrify/commit/297da67))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v1.4.1
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.0...v1.4.1)
