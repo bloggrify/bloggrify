@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.4.1
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.0...v1.4.1)
+
+### 🩹 Fixes
+
+- Fix toc links ([1c9b23e](https://github.com/bloggrify/bloggrify/commit/1c9b23e))
+- Colors in dark mode for mermaid and custom components ([4174719](https://github.com/bloggrify/bloggrify/commit/4174719))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v1.4.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.3.2...v1.4.0)
