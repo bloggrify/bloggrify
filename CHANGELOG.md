@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.4.3
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.2...v1.4.3)
+
+### 🩹 Fixes
+
+- Bug related to https://github.com/nuxt/content/issues/2711 ([c4d72fa](https://github.com/bloggrify/bloggrify/commit/c4d72fa))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v1.4.2
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.1...v1.4.2)
