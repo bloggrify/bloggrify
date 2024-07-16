@@ -1,13 +1,15 @@
 <template>
-    <component
-        :is="imgComponent"
-        :src="refinedSrc"
-        :alt="alt"
-        :width="width"
-        :height="height"
-    />
-    <div v-if="alt" class="text-sm  text-center text-gray-600 dark:text-gray-300 mt-1">
-        {{ alt }}
+    <div>
+        <component
+            :is="imgComponent"
+            :src="refinedSrc"
+            :alt="alt"
+            :width="width"
+            :height="height"
+        />
+        <div v-if="alt" class="text-sm  text-center text-gray-600 dark:text-gray-300 mt-1">
+            {{ alt }}
+        </div>
     </div>
 </template>
 
