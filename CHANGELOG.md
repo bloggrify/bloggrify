@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.4.4
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.3...v1.4.4)
+
+### 📦 Build
+
+- Add dependency to playwright for build purpose ([f1480c5](https://github.com/bloggrify/bloggrify/commit/f1480c5))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v1.4.3
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.2...v1.4.3)
