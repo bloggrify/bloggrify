@@ -37,7 +37,7 @@ export default defineAppConfig({
     },
 
     pagination: {
-        per_page: 10,
+        per_page: 5,
     },
 
     newsletter: {

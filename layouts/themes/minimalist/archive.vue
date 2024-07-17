@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="mt-10 w-3/4 mx-auto">
-            <h1 class="text-3xl font-bold">
+            <h1 class="text-4xl font-bold">
                 {{ title }}
             </h1>
         </nav>
@@ -17,11 +17,17 @@
                     </NuxtLink>
                 </div>
             </section>
+            <section class="mt-10">
+                <MinimalistPaginationBar :total="total" :current-page="currentPage" />
+            </section>
         </main>
+        <MinimalistFooter />
     </div>
 </template>
 <script setup lang="ts">
 import MinimalistMenu from '~/components/MinimalistMenu.vue'
+import MinimalistPaginationBar from '~/components/MinimalistPaginationBar.vue'
+import MinimalistFooter from '~/components/MinimalistFooter.vue'
 
 defineProps<{
     doc: any;

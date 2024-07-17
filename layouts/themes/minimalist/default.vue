@@ -1,18 +1,20 @@
 <template>
     <div>
         <nav class="mt-10 w-3/4 mx-auto">
-            <h1 class="text-3xl font-bold">
+            <h1 class="text-4xl font-bold">
                 {{ title }}
             </h1>
         </nav>
 
         <MinimalistMenu />
 
-        <main class="mt-10 w-3/4 mx-auto">
+        <main class="mt-10 w-full lg:w-3/5 mx-6 lg:mx-auto">
             <div v-if="doc">
-                <h2 class="text-2xl font-bold">
-                    {{ doc.title }}
-                </h2>
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold">
+                        {{ doc.title }}
+                    </h2>
+                </div>
 
                 <ContentRenderer
                     id="nuxtContent"
@@ -21,10 +23,12 @@
                 />
             </div>
         </main>
+        <MinimalistFooter />
     </div>
 </template>
 <script setup lang="ts">
 import MinimalistMenu from '~/components/MinimalistMenu.vue'
+import MinimalistFooter from '~/components/MinimalistFooter.vue'
 
 defineProps<{
     doc: any;
