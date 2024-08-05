@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isYoutube" class="flex justify-center items-center">
+    <div v-if="isLinkToYoutubeVideo" class="flex justify-center items-center">
         <iframe
             :src="youtubeUrl"
             width="560"
@@ -15,7 +15,7 @@
     </div>
 
     <NuxtLink
-        v-if="!isYoutube && !isTwitter"
+        v-if="!isLinkToYoutubeVideo && !isTwitter"
         :href="href"
         :target="target"
     >
@@ -42,8 +42,15 @@ const youtubeUrl = ref('')
 const twitterUrl = ref('')
 const isTwitter = ref(false)
 
-const isYoutube = computed(() => {
-    return props.href.includes('youtube.com') || props.href.includes('youtu.be')
+const isLinkToYoutubeVideo = computed(() => {
+    const isYoutubeLink = props.href.includes('youtube.com') || props.href.includes('youtu.be')
+
+    if (!isYoutubeLink) {
+        return false
+    }
+    const videoId = getVideoId()
+
+    return isYoutubeLink && videoId
 })
 
 isTwitter.value = props.href.includes('twitter.com') || props.href.includes('x.com')
@@ -73,10 +80,16 @@ onMounted(() => {
     }
 })
 
-if (isYoutube.value) {
+function getVideoId() {
     const regExpMatchArray = props.href.match(/v=(.*)$/) || props.href.match(/youtu.be\/(.*)$/)
     if (regExpMatchArray) {
-        const videoId = regExpMatchArray[1]
+        return regExpMatchArray[1]
+    }
+}
+
+if (isLinkToYoutubeVideo.value) {
+    const videoId = getVideoId()
+    if (videoId) {
         youtubeUrl.value = `https://www.youtube-nocookie.com/embed/${videoId}`
     }
 }

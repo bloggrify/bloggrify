@@ -163,12 +163,15 @@ Autoconverted link https://www.google.com
 
 ## Youtube and Twitter embed
 
-You can embed youtube videos and tweets in your markdown files.
+You can embed youtube videos and tweets in your markdown files
 
 https://www.youtube.com/watch?v=su2gNQJkteg
 
 https://twitter.com/hugolassiege/status/1750435525071159309
 
+Links to a channel won't be transformed : 
+
+https://youtube.com/@eventuallycoding
 
 ## Images
 
