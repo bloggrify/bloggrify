@@ -36,7 +36,7 @@
         "@nuxt/content": "^2.12.1",
         "@nuxt/image": "1.7.0",
         "@nuxtjs/tailwindcss": "6.11.4",
-        "@stefanobartoletti/nuxt-social-share": "^0.7.0",
+        "@stefanobartoletti/nuxt-social-share": "^1.2.0",
         "@tailwindcss/typography": "0.5.13",
         "@vueuse/integrations": "^10.10.0",
         "@vueuse/nuxt": "^10.10.0",
