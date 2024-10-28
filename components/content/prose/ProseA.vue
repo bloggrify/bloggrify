@@ -18,6 +18,7 @@
         v-if="!isLinkToYoutubeVideo && !isTwitter"
         :href="href"
         :target="target"
+        v-bind="attrs"
     >
         <slot />
     </NuxtLink>
@@ -25,6 +26,12 @@
 
 <script setup lang="ts">
 import type {PropType} from 'vue'
+
+defineOptions({
+    inheritAttrs: false
+})
+
+const attrs = useAttrs()
 
 const props = defineProps({
     href: {
