@@ -1,5 +1,6 @@
 {
     "recommendations": [
-        "nuxt.mdc"
+        "nuxt.mdc",
+        "nuxtr.nuxtr-vscode"
     ]
 }
