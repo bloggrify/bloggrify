@@ -34,16 +34,16 @@
     },
     "dependencies": {
         "@nuxt/content": "^2.12.1",
-        "@nuxt/image": "1.7.0",
-        "@nuxtjs/tailwindcss": "6.11.4",
+        "@nuxt/image": "1.8.1",
+        "@nuxtjs/tailwindcss": "6.12.2",
         "@stefanobartoletti/nuxt-social-share": "^1.2.0",
-        "@tailwindcss/typography": "0.5.13",
+        "@tailwindcss/typography": "0.5.15",
         "@vueuse/integrations": "^10.10.0",
         "@vueuse/nuxt": "^10.10.0",
         "feed": "4.2.2",
         "focus-trap": "^7.5.3",
         "fuse.js": "^6.6.2",
-        "nuxt": "3.11.2",
+        "nuxt": "3.14.1592",
         "rehype-katex": "^7.0.0",
         "remark-math": "^6.0.0",
         "remark-mermaidjs": "^6.0.0",
@@ -52,9 +52,9 @@
     },
     "devDependencies": {
         "@nuxt/eslint-config": "^0.2.0",
-        "autoprefixer": "10.4.17",
+        "autoprefixer": "10.4.20",
         "@playwright/test": "^1.45.1",
-        "eslint": "8.57.0",
-        "sass": "1.70.0"
+        "eslint": "8.57.1",
+        "sass": "1.81.0"
     }
 }
