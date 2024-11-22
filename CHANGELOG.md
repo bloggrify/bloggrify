@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v1.7.0
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.5...v1.7.0)
+
+### 🚀 Enhancements
+
+- Upgrade social share module and benefit from bluesky share feature ([448a0c5](https://github.com/bloggrify/bloggrify/commit/448a0c5))
+
+### 🩹 Fixes
+
+- Warning about non inheritable attributes ([9423b9d](https://github.com/bloggrify/bloggrify/commit/9423b9d))
+- Seo meta tags ([6531338](https://github.com/bloggrify/bloggrify/commit/6531338))
+- Wrong html markup ([7d9120b](https://github.com/bloggrify/bloggrify/commit/7d9120b))
+
+### 🏡 Chore
+
+- Update dependencies ([a2b5d9a](https://github.com/bloggrify/bloggrify/commit/a2b5d9a))
+- **release:** V1.6.0 ([caa5bba](https://github.com/bloggrify/bloggrify/commit/caa5bba))
+- Update dependencies (again) ([fcc7e8f](https://github.com/bloggrify/bloggrify/commit/fcc7e8f))
+
+### ❤️ Contributors
+
+- Hugo Lassiège <hugo@malt.com>
+- IO-Fire ([@IO-Fire](http://github.com/IO-Fire))
+
 ## v1.6.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.5...v1.6.0)
