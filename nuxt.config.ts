@@ -6,6 +6,13 @@ export default defineNuxtConfig({
     },
 
     devtools: { enabled: true },
+
+    // Easy access to enabling sourcemaps for debugging
+    sourcemap: {
+        // server: true,
+        // client: true
+    },
+
     modules: [
         '@nuxtjs/tailwindcss',
         '@nuxt/content',
