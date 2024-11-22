@@ -2,9 +2,23 @@
     <NuxtLayout :name="theme" :doc="doc" :docs="docs" :current-page="page" :total="totalNumberOfPages" :category="category" :tag="tag" />
 </template>
 <script setup lang="ts">
+import type { NuxtError } from '#app'
+
 const route = useRoute()
 const config = useAppConfig()
 const slug = route.params.slug as string[]
+
+/**
+ * Checks and throws errors from Nuxt data fetching composables
+ * @param error Error property from useAsyncData()
+ */
+function checkFetchError(error: Ref<NuxtError<unknown> | null>){
+    // Check for error after fetching result
+    if (error.value) {
+        // Error must be declared as fatal or it will be ignored in production CSR mode
+        throw createError({...error.value, fatal:true})
+    }
+}
 
 // detect if we are on a special page like :
 // /categories/something/page/2
@@ -37,7 +51,7 @@ if (isCategory) {
     })
     page = Number.parseInt(slug[3]) || 1
     const where = { categories: { $in: category }, hidden: { $ne: true }, listed: { $ne: false } }
-    const result = await useAsyncData(route.path, async () => {
+    const {data: result, error} = await useAsyncData(route.path, async () => {
         let queryBuilder = queryContent('')
             .where(where)
             .sort({ date: -1 })
@@ -48,8 +62,12 @@ if (isCategory) {
 
         return await queryBuilder.find()
     })
+
+    // Check for fetch error
+    checkFetchError(error)
+
     totalNumberOfPages = await queryContent('').where(where).count()
-    docs = result.data
+    docs = result
     theme = `themes-${config.theme}-category`
 } else if (isArchives) {
     const title = 'Archives'
@@ -66,7 +84,7 @@ if (isCategory) {
     page = Number.parseInt(slug[2]) || 1
     const where = { hidden: { $ne: true }, listed: { $ne: false }}
 
-    const result = await useAsyncData(route.path, async () => {
+    const {data: result, error } = await useAsyncData(route.path, async () => {
         let queryBuilder = queryContent('')
             .where(where)
             .sort({ date: -1 })
@@ -77,8 +95,14 @@ if (isCategory) {
 
         return await queryBuilder.find()
     })
+
+    // Check for fetch error
+    checkFetchError(error)
+
+    // TODO: handle fetch error
     totalNumberOfPages = await queryContent('').where(where).count()
-    docs = result.data
+
+    docs = result
     theme = `themes-${config.theme}-archive`
 
 } else if (isTag) {
@@ -95,7 +119,7 @@ if (isCategory) {
     })
     page = Number.parseInt(slug[2]) || 1
     const where = { tags: { $in: tag }, hidden: { $ne: true }, listed: { $ne: false } }
-    const result = await useAsyncData(route.path, async () => {
+    const {data: result, error} = await useAsyncData(route.path, async () => {
         let queryBuilder = queryContent('')
             .where(where)
             .sort({ date: -1 })
@@ -106,14 +130,24 @@ if (isCategory) {
 
         return await queryBuilder.find()
     })
+
+    // Check for fetch error
+    checkFetchError(error)
+
+    // TODO: handle fetch error
     totalNumberOfPages = await queryContent('').where(where).count()
-    docs = result.data
+
+    docs = result
     theme = `themes-${config.theme}-tag`
 } else {
-    const result = await useAsyncData(route.path, async () => {
+    const {data: result, error} = await useAsyncData(route.path, async () => {
         return await queryContent('').where({ _path: route.path }).findOne()
     })
-    doc = result.data
+
+    // Check for fetch error
+    checkFetchError(error)
+
+    doc = result
 
     if (doc.value?.layout) {
         const documentLayout = doc.value.layout
