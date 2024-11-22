@@ -27,15 +27,13 @@ if (isCategory) {
     category = slug[1]
     const title = 'Category: ' + category
     const description = title
-    useHead({
+    useSeoMeta({
         title: 'Archives',
-        meta: [
-            { name: 'description', content: description },
-            { name: 'og:title', content: title },
-            { name: 'og:description', content: description },
-            { name: 'twitter:title', content: title },
-            { name: 'twitter:description', content: description },
-        ],
+        description: description,
+        ogTitle: title,
+        ogDescription: description,
+        twitterTitle: title,
+        twitterDescription: description
     })
     page = Number.parseInt(slug[3]) || 1
     const where = { categories: { $in: category }, hidden: { $ne: true }, listed: { $ne: false } }
@@ -56,15 +54,13 @@ if (isCategory) {
 } else if (isArchives) {
     const title = 'Archives'
     const description = 'Archives'
-    useHead({
-        title: 'Archives',
-        meta: [
-            { name: 'description', content: description },
-            { name: 'og:title', content: title },
-            { name: 'og:description', content: description },
-            { name: 'twitter:title', content: title },
-            { name: 'twitter:description', content: description },
-        ],
+    useSeoMeta({
+        title: title,
+        description: description,
+        ogTitle: title,
+        ogDescription: description,
+        twitterTitle: title,
+        twitterDescription: description
     })
 
     page = Number.parseInt(slug[2]) || 1
@@ -89,15 +85,13 @@ if (isCategory) {
     tag = slug[1]
     const title = 'Tag: ' + tag
     const description = title
-    useHead({
+    useSeoMeta({
         title: 'Archives',
-        meta: [
-            { name: 'description', content: description },
-            { name: 'og:title', content: title },
-            { name: 'og:description', content: description },
-            { name: 'twitter:title', content: title },
-            { name: 'twitter:description', content: description },
-        ],
+        description: description,
+        ogTitle: title,
+        ogDescription: description,
+        twitterTitle: title,
+        twitterDescription: description
     })
     page = Number.parseInt(slug[2]) || 1
     const where = { tags: { $in: tag }, hidden: { $ne: true }, listed: { $ne: false } }
@@ -160,21 +154,14 @@ if (isCategory) {
     const url = useAppConfig().url.replace(/\/$/, '')
     const postLink = url + doc.value?._path
 
+    useSeoMeta({
+        ogType: 'article',
+        ogUrl: postLink,
+        twitterTitle: doc.value?.title,
+        twitterCard: 'summary',
+        articleTag: doc.value?.tags ? doc.value.tags?.toString() : ''
+    })
     useHead({
-        meta: [
-            { key: 'og:type', name: 'og:type', content: 'article' },
-            {
-                key: 'og:url',
-                name: 'og:url',
-                content: postLink,
-            },
-            { name: 'twitter:text:title', content: doc.value?.title },
-            { name: 'twitter:card', content: 'summary' },
-            {
-                name: 'article:article:tag',
-                content: doc.value?.tags ? doc.value.tags?.toString() : '',
-            },
-        ],
         link: [
             {
                 rel: 'canonical',
@@ -207,34 +194,17 @@ if (isCategory) {
     }
 
     if (doc.value?.cover) {
-        useHead({
-            meta: [
-                {
-                    key: 'og:image',
-                    name: 'og:image',
-                    content: url + '/images/' + doc.value?.cover,
-                },
-                { name: 'og:image:alt', content: doc.value?.title },
-                {
-                    name: 'twitter:image',
-                    content: url + '/images/' + doc.value?.cover,
-                },
-            ],
+        useSeoMeta({
+            ogImage: url + '/images/' + doc.value?.cover,
+            ogImageAlt: doc.value?.title,
+            twitterImage: url + '/images/' + doc.value?.cover
         })
     }
 
     if (doc.value?.date) {
-        useHead({
-            meta: [
-                {
-                    name: 'article:published_time',
-                    content: new Date(doc.value?.date).toISOString(),
-                },
-                {
-                    name: 'article:article:modified_time',
-                    content: new Date(doc.value?.date).toISOString(),
-                },
-            ],
+        useSeoMeta({
+            articlePublishedTime: new Date(doc.value?.date).toISOString(),
+            articleModifiedTime: new Date(doc.value?.date).toISOString()
         })
     }
 }
