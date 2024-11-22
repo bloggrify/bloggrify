@@ -4,7 +4,7 @@
             <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-100">
                 Table of contents
             </h2>
-            <p class="mb-3 font-normal ">
+            <div class="mb-3 font-normal ">
                 <ul class="pl-0">
                     <li
                         v-for="subtitle in doc.body.toc.links"
@@ -33,7 +33,7 @@
                         </ul>
                     </li>
                 </ul>
-            </p>
+            </div>
         </div>
     </div>
 </template>
