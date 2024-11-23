@@ -2,6 +2,7 @@
     "recommendations": [
         "nuxt.mdc",
         "nuxtr.nuxt-vscode-extentions",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "yoavbls.pretty-ts-errors"
     ]
 }
