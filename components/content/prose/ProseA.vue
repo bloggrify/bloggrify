@@ -60,7 +60,7 @@ const isLinkToYoutubeVideo = computed(() => {
     return isYoutubeLink && videoId
 })
 
-isTwitter.value = props.href.includes('twitter.com') || props.href.includes('x.com')
+isTwitter.value = (props.href.includes('twitter.com') || props.href.includes('x.com')) && props.href.includes('status')
 
 if (isTwitter) {
     const tweetId = extractTweetId(props.href)
