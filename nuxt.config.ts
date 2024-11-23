@@ -19,9 +19,11 @@ export default defineNuxtConfig({
         '@nuxt/image',
         '@stefanobartoletti/nuxt-social-share'
     ],
+
     image: {
         format: ['webp'],
     },
+
     content: {
         markdown: {
             remarkPlugins: ['remark-reading-time', 'remark-math', 'remark-mermaidjs'],
@@ -60,14 +62,18 @@ export default defineNuxtConfig({
             },
         },
     },
+
     nitro: {
         prerender: {
             routes: ['/sitemap.xml', '/rss.xml', '/robots.txt'],
         },
     },
+
     vue: {
         compilerOptions: {
             isCustomElement: (tag) => ['hyvor-talk-comments'].includes(tag),
         },
     },
-})
+
+    compatibilityDate: '2024-11-23',
+  })
