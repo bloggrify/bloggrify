@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "nuxt.mdc",
-        "nuxtr.nuxt-vscode-extentions"
+        "nuxtr.nuxt-vscode-extentions",
+        "bradlc.vscode-tailwindcss"
     ]
 }
