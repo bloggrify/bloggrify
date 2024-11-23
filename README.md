@@ -58,6 +58,9 @@ Make sure to install the dependencies:
 ```bash
 # npm
 npm install
+
+# pnpm
+pnpm install
 ```
 
 ### Development Server
@@ -68,7 +71,11 @@ Running bloggrify alone without templates won't be really useful.
 
 
 ```bash
+# npm
 npm run dev
+
+# pnpm
+pnpm run dev
 ```
 
 ### Production
@@ -76,13 +83,21 @@ npm run dev
 Build the application for production:
 
 ```bash
+# npm
 npm run generate
+
+# pnpm
+pnpm run generate
 ```
 
 Locally preview production build:
 
 ```bash
+# npm
 npm run preview
+
+# pnpm
+pnpm run preview
 ```
 
 
