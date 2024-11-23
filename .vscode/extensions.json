@@ -3,6 +3,7 @@
         "nuxt.mdc",
         "nuxtr.nuxt-vscode-extentions",
         "bradlc.vscode-tailwindcss",
-        "yoavbls.pretty-ts-errors"
+        "yoavbls.pretty-ts-errors",
+        "ms-vscode.vscode-js-profile-flame"
     ]
 }
