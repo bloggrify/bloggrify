@@ -3,45 +3,68 @@ import { serverQueryContent } from '#content/server'
 
 export default defineEventHandler(async (event) => {
     // Fetch all documents
-    let docs = await serverQueryContent(event).find()
-
-    docs = await Promise.all(
-        docs
-            .filter(
-                (doc) => {
-                    return doc?._extension === 'md' &&
-                        doc?._draft === false &&
-                        doc?.hidden === true &&
-                        !doc?._empty
-                }
-            )
-            .map(
-                async ({ _id: id, _path: path, _dir: dir, title = '', description = '', body = undefined}) => {
-
-                    return {
-                        id,
-                        path,
-                        dir,
-                        title,
-                        description,
-                        keywords: body?.toc?.links.map(link => link?.text),
-                        body: extractTextFromAst(body) || ''
-                    }
-                }
-            )
+    const docs = (await serverQueryContent(event).where({$and: [
+        {
+            _extension: { $eq: "md" },
+        },
+        {
+            _partial: { $eq: false },
+        },
+        {
+            _draft: { $ne: true },
+        },
+        {
+            hidden: { $ne: true },
+        }
+    ]}).find()).filter(
+        (doc) => {
+            // Remove empty docs
+            return doc.body?.children.length !== 0;
+        }
     )
 
-    return docs
+    // TODO: Allow body limit customisation
+    const bodyLimit = Math.min(500, 20000 / docs.length)
+
+    const data = docs.map(
+        ({ _id: id, _path: path, _dir: dir, title = '', description = '', body = undefined}) => {
+
+            return {
+                id,
+                path,
+                dir,
+                title,
+                description,
+                keywords: body?.toc?.links.map(link => link?.text),
+                body: extractTextFromAst(body, bodyLimit) || ''
+            }
+        }
+    )
+
+    // Cache search results across client instances
+    setResponseHeader(event,'cache-control','max-age=300, must-revalidate')
+
+    return data;
 })
 
-function extractTextFromAst(node: any) : string {
+/**
+ * Converts markdown json AST text contents to a string
+ * @param node markdown json AST
+ * @param bodyLimit character limit for the body property
+ * @return text content
+ */
+function extractTextFromAst(node: any, bodyLimit: number) : string {
     let text = ''
     if (node.type === 'text') {
         text += node.value
     }
     if (node.children) {
         for (const child of node.children) {
-            text += ' ' + extractTextFromAst(child)
+
+            // enforce body limit to prevent excessive payloads sizes
+            if (text.length <= bodyLimit) {
+                text += ' ' + extractTextFromAst(child, bodyLimit).trim() // trim whitespace
+            }
         }
     }
     return text
