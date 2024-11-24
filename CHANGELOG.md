@@ -1,6 +1,33 @@
 # Changelog
 
 
+## v1.7.1
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.7.0...v1.7.1)
+
+### 🩹 Fixes
+
+- Fetch error handling ([92a211a](https://github.com/bloggrify/bloggrify/commit/92a211a))
+- Verify twitter links to check if it's a link to a tweet or a page  https://github.com/bloggrify/bloggrify/issues/10 ([5ae352c](https://github.com/bloggrify/bloggrify/commit/5ae352c))
+- Search ([8fba98a](https://github.com/bloggrify/bloggrify/commit/8fba98a))
+- Remove await within async useAsyncData composables ([c09f3c9](https://github.com/bloggrify/bloggrify/commit/c09f3c9))
+
+### 📖 Documentation
+
+- Pnpm support ([072b5e7](https://github.com/bloggrify/bloggrify/commit/072b5e7))
+- Add information about the release process ([482f4c9](https://github.com/bloggrify/bloggrify/commit/482f4c9))
+
+### 🏡 Chore
+
+- Nuxt is not yet ready for the new version of sass ([104da42](https://github.com/bloggrify/bloggrify/commit/104da42))
+- Use last version of eslint.config and configure it accordingly ([51bb927](https://github.com/bloggrify/bloggrify/commit/51bb927))
+- Fix all eslint errors ([698cfda](https://github.com/bloggrify/bloggrify/commit/698cfda))
+
+### ❤️ Contributors
+
+- Hugo Lassiège <hugo@malt.com>
+- IO-Fire ([@IO-Fire](http://github.com/IO-Fire))
+
 ## v1.7.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.4.5...v1.7.0)
