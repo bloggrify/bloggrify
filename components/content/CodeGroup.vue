@@ -34,7 +34,7 @@ function selectTab (index: number) {
     selectedIndex.value = index
 }
 
-function transformSlot (slot: any, index: number) {
+function transformSlot (slot: unknown, index: number) {
     if (typeof slot.type === 'symbol') {
         return slot.children?.map(transformSlot)
     }

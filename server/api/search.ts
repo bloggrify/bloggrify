@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
     return docs
 })
 
-function extractTextFromAst(node: any) : string {
+function extractTextFromAst(node: unknown) : string {
     let text = ''
     if (node.type === 'text') {
         text += node.value

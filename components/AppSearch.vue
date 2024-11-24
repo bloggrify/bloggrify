@@ -10,7 +10,7 @@ type BlogSearchResult = {
     title: string
     description: string
     keywords: string[]
-    body?: any[]
+    body?: unknown[]
 }
 
 const q = ref('')
@@ -32,7 +32,7 @@ const { data: files } = await useLazyAsyncData<BlogSearchResult[]>(
 
 const { results } = useFuse<BlogSearchResult>(
     q,
-    files as any,
+    files as unknown,
     {
         fuseOptions: {
             keys: [
@@ -52,7 +52,7 @@ const { results } = useFuse<BlogSearchResult>(
 
 function highlight(
     text: string,
-    result: any
+    result: unknown
 ): string {
     const { indices, value }: { indices: number[][], value: string } = result || { indices: [], value: '' }
 

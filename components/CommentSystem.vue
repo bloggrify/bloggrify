@@ -5,28 +5,28 @@
         :page-id="id"
         class="dark:text-white"
         :colors="isDark ? 'dark' : 'light'"
-    ></hyvor-talk-comments>
+    />
 </template>
 <script setup lang="ts">
-import { useDark } from "@vueuse/core";
+import { useDark } from '@vueuse/core'
 const props = defineProps<{
     id: string | undefined;
     nocomments: boolean | undefined;
-}>();
+}>()
 
-const config = useAppConfig();
-const isDark = useDark();
-const isCommentsEnabled = config.comments.enabled && !props.nocomments;
+const config = useAppConfig()
+const isDark = useDark()
+const isCommentsEnabled = config.comments.enabled && !props.nocomments
 
 if (isCommentsEnabled) {
     useHead({
         script: [
             {
                 async: true,
-                src: "https://talk.hyvor.com/embed/embed.js",
-                type: "module",
+                src: 'https://talk.hyvor.com/embed/embed.js',
+                type: 'module',
             },
         ],
-    });
+    })
 }
 </script>

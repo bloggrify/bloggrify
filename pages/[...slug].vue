@@ -206,7 +206,7 @@ if (isCategory) {
 
     if (doc.value?.alternates) {
         const alternates =
-            doc.value?.alternates?.map((alternate: any) => {
+            doc.value?.alternates?.map((alternate: unknown) => {
                 const key = Object.keys(alternate)[0]
                 const value = alternate[key]
                 return {
