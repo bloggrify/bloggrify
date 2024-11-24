@@ -66,7 +66,7 @@ const props = defineProps({
     }
 })
 
-const { text, copy, copied, isSupported } = useClipboard({ source : props.code })
+const { copy, copied, isSupported } = useClipboard({ source : props.code })
 
 </script>
 <style>

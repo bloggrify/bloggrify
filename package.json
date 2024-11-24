@@ -52,9 +52,9 @@
     },
     "devDependencies": {
         "@nuxt/eslint-config": "^0.7.1",
-        "autoprefixer": "10.4.20",
         "@playwright/test": "^1.45.1",
-        "eslint": "9.15.0",
+        "autoprefixer": "10.4.20",
+        "eslint": "^9.15.0",
         "sass": "1.70.0"
     }
 }
