@@ -6,7 +6,7 @@
             Sorry, this page is not available
         </h2>
         <span class="mb-8"
-            >Maybe the page you are looking for has been moved.</span
+        >Maybe the page you are looking for has been moved.</span
         >
 
         <div
@@ -21,7 +21,7 @@
             <p class="font-normal text-gray-700 dark:text-gray-400">
                 <strong>{{ error.statusCode }}</strong> - {{ error.message }}
             </p>
-            <div v-if="error.stack" class="mt-4" v-html="error.stack"></div>
+            <div v-if="error.stack" class="mt-4" v-html="error.stack"/>
         </div>
 
         <button
@@ -33,11 +33,11 @@
     </div>
 </template>
 <script setup lang="ts">
-import type { NuxtError } from "#app";
+import type { NuxtError } from '#app'
 
-const isDev = import.meta.env.DEV;
+const isDev = import.meta.env.DEV
 
-defineProps({
-    error: Object as () => NuxtError,
-});
+defineProps<{
+    error: NuxtError
+}>()
 </script>

@@ -51,7 +51,7 @@ if (isCategory) {
     })
     page = Number.parseInt(slug[3]) || 1
     const where = { categories: { $in: category }, hidden: { $ne: true }, listed: { $ne: false } }
-    const {data: result, error} = await useAsyncData(route.path, async () => {
+    const {data: result, error} = await useAsyncData(route.path, () => {
         let queryBuilder = queryContent('')
             .where(where)
             .sort({ date: -1 })
@@ -60,7 +60,7 @@ if (isCategory) {
             queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
         }
 
-        return await queryBuilder.find()
+        return queryBuilder.find()
     })
 
     // Check for fetch error
@@ -84,7 +84,7 @@ if (isCategory) {
     page = Number.parseInt(slug[2]) || 1
     const where = { hidden: { $ne: true }, listed: { $ne: false }}
 
-    const {data: result, error } = await useAsyncData(route.path, async () => {
+    const {data: result, error } = await useAsyncData(route.path, () => {
         let queryBuilder = queryContent('')
             .where(where)
             .sort({ date: -1 })
@@ -93,7 +93,7 @@ if (isCategory) {
             queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
         }
 
-        return await queryBuilder.find()
+        return queryBuilder.find()
     })
 
     // Check for fetch error
@@ -119,7 +119,7 @@ if (isCategory) {
     })
     page = Number.parseInt(slug[2]) || 1
     const where = { tags: { $in: tag }, hidden: { $ne: true }, listed: { $ne: false } }
-    const {data: result, error} = await useAsyncData(route.path, async () => {
+    const {data: result, error} = await useAsyncData(route.path, () => {
         let queryBuilder = queryContent('')
             .where(where)
             .sort({ date: -1 })
@@ -128,7 +128,7 @@ if (isCategory) {
             queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
         }
 
-        return await queryBuilder.find()
+        return queryBuilder.find()
     })
 
     // Check for fetch error
@@ -140,8 +140,8 @@ if (isCategory) {
     docs = result
     theme = `themes-${config.theme}-tag`
 } else {
-    const {data: result, error} = await useAsyncData(route.path, async () => {
-        return await queryContent('').where({ _path: route.path }).findOne()
+    const {data: result, error} = await useAsyncData(route.path, () => {
+        return queryContent('').where({ _path: route.path }).findOne()
     })
 
     // Check for fetch error
@@ -206,7 +206,7 @@ if (isCategory) {
 
     if (doc.value?.alternates) {
         const alternates =
-            doc.value?.alternates?.map((alternate: any) => {
+            doc.value?.alternates?.map((alternate: unknown) => {
                 const key = Object.keys(alternate)[0]
                 const value = alternate[key]
                 return {

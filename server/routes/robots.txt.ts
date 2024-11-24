@@ -5,38 +5,38 @@ interface RobotRule {
 }
 
 export default defineEventHandler(async (event) => {
-    const config = useAppConfig();
-    const url = config.url?.replace(/\/$/, "");
+    const config = useAppConfig()
+    const url = config.url?.replace(/\/$/, '')
 
     const robotsConfig = config.robots || [
         {
-            UserAgent: "*",
-            Allow: ["/"],
+            UserAgent: '*',
+            Allow: ['/'],
             Disallow: [],
         },
-    ];
+    ]
 
-    let robotsContent = "";
+    let robotsContent = ''
     robotsConfig.forEach((rule: RobotRule) => {
         if (rule.UserAgent) {
-            robotsContent += `User-agent: ${rule.UserAgent}\n`;
+            robotsContent += `User-agent: ${rule.UserAgent}\n`
         }
         if (rule.Disallow && rule.Disallow.length) {
             rule.Disallow.forEach((path) => {
-                robotsContent += `Disallow: ${path}\n`;
-            });
+                robotsContent += `Disallow: ${path}\n`
+            })
         }
         if (rule.Allow && rule.Allow.length) {
             rule.Allow.forEach((path) => {
-                robotsContent += `Allow: ${path}\n`;
-            });
+                robotsContent += `Allow: ${path}\n`
+            })
         }
-        robotsContent += `\n`;
-    });
+        robotsContent += '\n'
+    })
 
-    robotsContent += `Sitemap: ${url}/sitemap.xml\n`;
+    robotsContent += `Sitemap: ${url}/sitemap.xml\n`
 
-    setHeader(event, "Content-Type", "text/plain");
+    setHeader(event, 'Content-Type', 'text/plain')
 
-    return robotsContent;
-});
+    return robotsContent
+})

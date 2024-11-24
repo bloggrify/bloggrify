@@ -46,7 +46,7 @@ type AlertClasses = {
     component: string;
     tip?: { component: string };
     warning?: { component: string };
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 const config = useAppConfig()

@@ -31,8 +31,8 @@ import MinimalistMenu from '~/components/MinimalistMenu.vue'
 import MinimalistFooter from '~/components/MinimalistFooter.vue'
 
 defineProps<{
-    doc: any;
-    docs: any;
+    doc: unknown;
+    docs: unknown;
     currentPage: number;
     total: number;
     category: string;

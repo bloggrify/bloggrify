@@ -53,7 +53,7 @@ export default defineEventHandler(async (event) => {
  * @param bodyLimit character limit for the body property
  * @return text content
  */
-function extractTextFromAst(node: any, bodyLimit: number) : string {
+function extractTextFromAst(node: unknown, bodyLimit: number) : string {
     let text = ''
     if (node.type === 'text') {
         text += node.value

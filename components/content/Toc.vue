@@ -50,8 +50,8 @@ const config = useAppConfig()
 const showTocChildren = props.showChildren || (config.toc?.showChildren ?? false)
 
 const route = useRoute()
-const { data: doc } = await useAsyncData(route.path, async () => {
-    return await queryContent('').where({ _path: route.path }).findOne()
+const { data: doc } = await useAsyncData(route.path, () => {
+    return queryContent('').where({ _path: route.path }).findOne()
 })
 
 const isTocEnabled = doc.value?.body?.toc?.links.length && doc.value?.body.toc?.links.length > 0

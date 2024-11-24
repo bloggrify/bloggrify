@@ -37,10 +37,10 @@
     </nav>
 </template>
 <script setup lang="ts">
+import { useDark, useToggle } from '@vueuse/core'
+
 const config = useAppConfig()
 const menu = config.menu
-
-import { useDark, useToggle } from '@vueuse/core'
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
