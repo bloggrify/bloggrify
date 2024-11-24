@@ -25,9 +25,30 @@ const { activate, deactivate } = useFocusTrap(searchContentRef)
 
 const { meta_K, Escape } = useMagicKeys()
 
-const { data: files } = await useLazyAsyncData<BlogSearchResult[]>(
-    'search-api',
-    () => $fetch('/api/search', { parseResponse: JSON.parse })
+const SEARCH_DATA_KEY = 'search-api';
+
+// Cache results across pages
+// Note: does not cache across client instances, use Cache-Control headers or local storage instead
+const cachedResults = useNuxtData<BlogSearchResult[]>(SEARCH_DATA_KEY)
+
+function showSearch() {
+    show.value = true;
+    if(!!!cachedResults.data.value || (cachedResults.data.value.length === 0)){
+        execute();
+    }
+}
+
+const { data: files, execute, status, error} = await useLazyAsyncData<BlogSearchResult[]>(
+    SEARCH_DATA_KEY,
+    () => $fetch('/api/search', { parseResponse: JSON.parse }),
+    {
+        default: () => {
+            return cachedResults.data.value || [] as BlogSearchResult[]
+        },
+        // avoid being result being included in bundle
+        immediate: false,
+        // loading data
+    }
 )
 
 const { results } = useFuse<BlogSearchResult>(
@@ -169,7 +190,7 @@ watch(Escape, () => {
         class="border-gray-200 border p-1 px-2 rounded-lg text-sm hover:border-gray-400 flex items-center justify-center gap-1 dark:text-slate-100 hover:dark:text-slate-400"
         type="button"
         aria-label="Search"
-        @click="show = true"
+        @click="showSearch"
     >
         <svg class="w-3 h-3 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
@@ -211,14 +232,28 @@ watch(Escape, () => {
                         <button
                             @click="closeButtonHandler"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-6 w-6 text-slate-600 hover:text-slate-800" viewBox="0 0 512 512">
-                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="h-6 w-6 text-slate-600 hover:text-slate-800 dark:text-slate-100" viewBox="0 0 512 512">
+                                <!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc. --><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z" />
                             </svg>
                         </button>
                     </div>
 
                     <div
-                        v-if="results.length > 0"
+                        v-if="error"
+                        class="search-results empty dark:text-red-500"
+                    >
+                        An error occurred.
+                    </div>
+
+                    <div
+                        v-if="status === 'pending'"
+                        class="search-results empty dark:text-slate-100"
+                    >
+                        Loading...
+                    </div>
+
+                    <div
+                        v-else-if="results.length > 0"
                         ref="resultsAreaRef"
                         class="overflow-auto h-96 flex flex-col"
                     >
@@ -251,14 +286,14 @@ watch(Escape, () => {
 
                     <div
                         v-else-if="!q"
-                        class="search-results empty"
+                        class="search-results empty dark:text-slate-100"
                     >
                         Type your query to search docs
                     </div>
 
                     <div
                         v-else
-                        class="overflow-auto flex flex-col h-32 items-center justify-center"
+                        class="overflow-auto flex flex-col h-32 items-center justify-center dark:text-slate-100"
                     >
                         No results found. Try another query
                     </div>
