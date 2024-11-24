@@ -117,12 +117,9 @@ In order to automate this process, you can use the following command:
 # First, you need to install the changelogen package
 npm install -g changelogen
 
-# Then, you can run the following command to bump the version
-# This command will update the version in package.json and create a new entry in the CHANGELOG.md
-npx changelogen --bump
+# Then, you can run the following command to automate all the previous steps
+npx changelogen --release --push && npm publish
 
-# If everything is fine, you can run the following command to release
-npx changelogen --bump --publish
 
 ```
 

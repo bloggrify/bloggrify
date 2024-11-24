@@ -25,7 +25,7 @@
 
 ### ❤️ Contributors
 
-- Hugo Lassiège <hugo@malt.com>
+- Hugo Lassiège <hlassiege@gmail.com>
 - IO-Fire ([@IO-Fire](http://github.com/IO-Fire))
 
 ## v1.7.0
@@ -50,7 +50,7 @@
 
 ### ❤️ Contributors
 
-- Hugo Lassiège <hugo@malt.com>
+- Hugo Lassiège <hlassiege@gmail.com>
 - IO-Fire ([@IO-Fire](http://github.com/IO-Fire))
 
 ## v1.6.0
@@ -73,7 +73,7 @@
 
 ### ❤️ Contributors
 
-- Hugo Lassiège <hugo@malt.com>
+- Hugo Lassiège <hlassiege@gmail.com>
 - IO-Fire ([@IO-Fire](http://github.com/IO-Fire))
 
 ## v1.5.0
