@@ -1,5 +1,6 @@
 import { serverQueryContent } from '#content/server'
 import { Feed } from 'feed'
+import { withLeadingSlash } from 'ufo'
 
 export default defineEventHandler(async (event) => {
     const config = useAppConfig()
@@ -31,7 +32,7 @@ export default defineEventHandler(async (event) => {
                 link: url + path,
                 description: post.description,
                 date: new Date(post.date),
-                image: post.cover ? url + post.cover : undefined,
+                image: post.cover ? url + withLeadingSlash(post.cover) : undefined,
             })
         }
     })
