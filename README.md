@@ -65,7 +65,7 @@ pnpm install
 
 ### Development Server
 
-Start the development server on http://localhost:3000
+Start the development server on [http://localhost:3000](http://localhost:3000)
 
 Running bloggrify alone without templates won't be really useful.   
 
