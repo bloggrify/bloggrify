@@ -67,12 +67,11 @@ export async function subscribe(email: string, subscribeForm: HTMLFormElement | 
                     }
                 }
             }
-
         } catch (e) {
             return {
                 success: false,
                 reason: {
-                    message: 'API error',
+                    message: 'API error (catch)' + e,
                     emailValid: true,
                     apiError: true
                 }

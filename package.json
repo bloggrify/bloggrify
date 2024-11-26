@@ -2,7 +2,7 @@
     "name": "@bloggrify/core",
     "description": "A Nuxt.js app to create a blog with Nuxt Content and Tailwind CSS",
     "license": "MIT",
-    "version": "1.7.0",
+    "version": "1.7.1",
     "author": "Eventually Coding <contact@eventuallycoding.com>",
     "main": "./nuxt.config.ts",
     "repository": {
@@ -52,9 +52,9 @@
     },
     "devDependencies": {
         "@nuxt/eslint-config": "^0.7.1",
-        "autoprefixer": "10.4.20",
         "@playwright/test": "^1.45.1",
-        "eslint": "9.15.0",
+        "autoprefixer": "10.4.20",
+        "eslint": "^9.15.0",
         "sass": "1.70.0"
     }
 }

@@ -1,8 +1,11 @@
-module.exports = {
-    root: true,
-    extends: [
-        '@nuxt/eslint-config'
-    ],
+// @ts-check
+import { createConfigForNuxt } from '@nuxt/eslint-config/flat'
+
+export default createConfigForNuxt({
+    features: {
+        tooling: true
+    }
+}).append({
     rules: {
         // Global
         semi: ['error', 'never'],
@@ -14,7 +17,5 @@ module.exports = {
         'vue/no-v-html': 0,
         'vue/html-indent': ['error', 4],
         'vue/script-indent': ['error', 4, { baseIndent: 0 }],
-        // Typescript
-        '@typescript-eslint/indent': ['error', 4],
     }
-}
+})

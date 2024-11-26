@@ -100,4 +100,29 @@ npm run preview
 pnpm run preview
 ```
 
+### Release
+
+Each commit should respect the [conventional commit](https://www.conventionalcommits.org/en/v1.0.0/) format.
+
+The basic release process is as follows:
+- Update the version in `package.json`
+- create a tag with the version number
+- push the tag to the repository
+- publish the release on github
+- publish the release on npm
+
+In order to automate this process, you can use the following command:
+
+```bash
+# First, you need to install the changelogen package
+npm install -g changelogen
+
+# Then, you can run the following command to automate all the previous steps
+npx changelogen --release --push && npm publish
+
+
+```
+
+In order to publish the release on npm, you need to be authenticated with the npm registry. You can do this by running `npm login`.  
+In order to publish the release on github, you need to be authenticated with the github registry. You can do this by creating a personal access token and setting it in your environment variables (GITHUB_TOKEN).
 
