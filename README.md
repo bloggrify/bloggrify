@@ -65,7 +65,7 @@ pnpm install
 
 ### Development Server
 
-Start the development server on http://localhost:3000
+Start the development server on [http://localhost:3000](http://localhost:3000)
 
 Running bloggrify alone without templates won't be really useful.   
 
@@ -77,6 +77,23 @@ npm run dev
 # pnpm
 pnpm run dev
 ```
+
+#### Editor Support
+
+##### Visual Studio Code (VS Code)
+This project includes VS Code configuration files to enhance the development experience:
+- **Recommended extensions** for Nuxt, TailwindCSS, and TypeScript development.
+- **Debug and launch configurations** for client and server to improve the debugging experience.
+
+For more information on debugging in VS Code, visit the [VS Code debugging documentation](https://code.visualstudio.com/docs/editor/debugging).
+
+The launch configuration is based on the example provided in the [Nuxt debugging guide](https://nuxt.com/docs/guide/going-further/debugging).
+
+These extensions are optional and maintained by their respective developers or the VSCode users community. **Contributions to the selection and recommendation of these extensions are welcome!**
+
+##### JetBrains IDEs
+
+You can also debug the project in JetBrains IDEs using the Nuxt provided example [JetBrains IDEs debug configuration](https://nuxt.com/docs/guide/going-further/debugging#example-jetbrains-ides-debug-configuration).
 
 ### Production
 

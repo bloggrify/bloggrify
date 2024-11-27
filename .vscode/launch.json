@@ -1,0 +1,38 @@
+{
+    // Based on https://nuxt.com/docs/guide/going-further/debugging#example-vs-code-debug-configuration
+
+    // See https://code.visualstudio.com/docs/editor/debugging for usage
+    // Nuxt Debugging:  https://nuxt.com/docs/guide/going-further/debugging
+
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "client: chrome",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceFolder}"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "server: nuxt",
+        "outputCapture": "std",
+        "program": "${workspaceFolder}/node_modules/nuxi/bin/nuxi.mjs",
+        "args": [
+          "dev"
+        ],
+      }
+    ],
+    "compounds": [
+      {
+        "name": "fullstack: nuxt",
+        "configurations": [
+          "server: nuxt",
+          "client: chrome"
+        ]
+      }
+    ]
+  }
