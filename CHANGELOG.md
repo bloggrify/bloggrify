@@ -34,7 +34,7 @@
 ### ❤️ Contributors
 
 - IO-Fire ([@IO-Fire](http://github.com/IO-Fire))
-- Hugo Lassiège <hugo@malt.com>
+- Hugo Lassiège <hlassiege@gmail.com>
 
 ## v1.7.1
 
