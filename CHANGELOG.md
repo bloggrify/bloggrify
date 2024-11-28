@@ -1,6 +1,41 @@
 # Changelog
 
 
+## v1.8.0
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.7.1...v1.8.0)
+
+### 🚀 Enhancements
+
+- Add vscode debug launch config ([b774663](https://github.com/bloggrify/bloggrify/commit/b774663))
+- Add config easy access to sourcemaps ([e660299](https://github.com/bloggrify/bloggrify/commit/e660299))
+- Add Nuxt MDC extension ([bbf9c9d](https://github.com/bloggrify/bloggrify/commit/bbf9c9d))
+- Add Nuxtr extension ([a94f34d](https://github.com/bloggrify/bloggrify/commit/a94f34d))
+- Add Nuxtr Extension pack ([bf917dd](https://github.com/bloggrify/bloggrify/commit/bf917dd))
+- Add tailwindcss extension ([b1dc85f](https://github.com/bloggrify/bloggrify/commit/b1dc85f))
+- Add Pretty TS Errors ([d2a0213](https://github.com/bloggrify/bloggrify/commit/d2a0213))
+- Add Flame Chart Visualiser extension ([98c9ab4](https://github.com/bloggrify/bloggrify/commit/98c9ab4))
+
+### 🩹 Fixes
+
+- Rss image URL missing leading slash ([702d45a](https://github.com/bloggrify/bloggrify/commit/702d45a))
+- Pagination ([949bbeb](https://github.com/bloggrify/bloggrify/commit/949bbeb))
+
+### 📖 Documentation
+
+- Fix release process ([7b29fa3](https://github.com/bloggrify/bloggrify/commit/7b29fa3))
+- Add editor support ([63ea2af](https://github.com/bloggrify/bloggrify/commit/63ea2af))
+- Make dev server url into link ([9a6ac97](https://github.com/bloggrify/bloggrify/commit/9a6ac97))
+
+### 🏡 Chore
+
+- Set file eof ([b34e47d](https://github.com/bloggrify/bloggrify/commit/b34e47d))
+
+### ❤️ Contributors
+
+- IO-Fire ([@IO-Fire](http://github.com/IO-Fire))
+- Hugo Lassiège <hugo@malt.com>
+
 ## v1.7.1
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.7.0...v1.7.1)
