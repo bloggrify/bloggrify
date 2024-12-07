@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout :name="theme" :doc="doc" :docs="docs" :current-page="page" :total="totalNumberOfPages" :category="category" :tag="tag" />
+    <NuxtLayout :name="theme" :doc="doc" :docs="docs" :current-page="page" :total="totalNumberOfPages" :category="category" :tag="tag" fallback='invalid' />
 </template>
 <script setup lang="ts">
 import type { NuxtError } from '#app'
