@@ -8,7 +8,9 @@
             <div class="flex border border-gray-200 rounded-lg dark:border-neutral-700">
                 <!-- Clipboard -->
                 <button
-                    type="button" class="p-1 inline-flex justify-center items-center gap-2 rounded-lg font-medium bg-white text-gray-700
+                    type="button"
+                    aria-label="Copy code"
+                    class="p-1 inline-flex justify-center items-center gap-2 rounded-lg font-medium bg-white text-gray-700
                 hover:bg-gray-100 focus:outline-none focus:bg-gray-50 text-xs
                 dark:bg-neutral-900 dark:hover:bg-neutral-700 dark:focus:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400"
                     @click="copy(code)"

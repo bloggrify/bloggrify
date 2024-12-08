@@ -5,15 +5,15 @@
                 Table of contents
             </h2>
             <div class="mb-3 font-normal ">
-                <ul class="pl-0">
+                <ul class="pl-0 ">
                     <li
                         v-for="subtitle in doc.body.toc.links"
                         :key="subtitle.text"
-                        class="py-1 list-decimal ml-4"
+                        class="py-1 list-decimal ml-4 "
                         :class="{ 'ml-6': subtitle.depth === 3 }"
                     >
                         <NuxtLink
-                            class="hover:text-smalt-blue-700 font-normal"
+                            class="hover:text-smalt-blue-700 font-normal text-slate-800 dark:text-slate-300"
                             :class="{ 'text-shark-400': subtitle.depth === 3 }"
                             :to="'#' + subtitle.id"
                         >

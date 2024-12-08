@@ -7,6 +7,7 @@
                     <button
                         :class="previewActive ? ui.nav_item_active + ui.nav_item : ui.nav_item"
                         type="button"
+                        aria-label="Preview"
                         role="tab" @click="displayPreview"
                     >
                         Preview
@@ -15,6 +16,7 @@
                         :class="htmlActive ? ui.nav_item_active + ui.nav_item : ui.nav_item"
                         type="button"
                         role="tab"
+                        aria-label="Markup"
                         @click="displayHtml"
                     >
                         Markup

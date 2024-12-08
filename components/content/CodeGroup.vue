@@ -8,6 +8,7 @@
                         <button
                             :class="selectedIndex == index ? ui.nav_button_active + ui.nav_button : ui.nav_button"
                             type="button"
+                            :aria-label="tab.label"
                             role="tab" @click="selectTab(index)"
                         >
                             {{ tab.label }}
