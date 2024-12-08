@@ -5,10 +5,15 @@
 </template>
 <script setup lang="ts">
 import {useAnalytics} from '~/composables/useAnalytics'
+import {useColorMode, useDark} from '@vueuse/core'
 
 const config = useAppConfig()
 
 useAnalytics()
+
+
+useColorMode({initialValue: 'light'})
+useDark().value = false
 
 useHead({
     htmlAttrs: {
