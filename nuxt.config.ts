@@ -24,6 +24,22 @@ export default defineNuxtConfig({
         format: ['webp'],
     },
 
+    experimental: {
+        defaults: {
+            nuxtLink: {
+                trailingSlash: 'append'
+            }
+        }
+    },
+
+    hooks: {
+        'pages:extend'(pages) {
+            for (const page of pages) {
+                page.path = page.path.endsWith('/') ? page.path : page.path + '/'
+            }
+        },
+    },
+
     content: {
         markdown: {
             remarkPlugins: ['remark-reading-time', 'remark-math', 'remark-mermaidjs'],

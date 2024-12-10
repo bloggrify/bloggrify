@@ -38,6 +38,8 @@
     </div>
 </template>
 <script setup lang="ts">
+import { withoutTrailingSlash } from 'ufo'
+
 const props = defineProps({
     showChildren: {
         type: Boolean,
@@ -51,7 +53,7 @@ const showTocChildren = props.showChildren || (config.toc?.showChildren ?? false
 
 const route = useRoute()
 const { data: doc } = await useAsyncData(route.path, () => {
-    return queryContent('').where({ _path: route.path }).findOne()
+    return queryContent('').where({ _path: withoutTrailingSlash(route.path) }).findOne()
 })
 
 const isTocEnabled = doc.value?.body?.toc?.links.length && doc.value?.body.toc?.links.length > 0

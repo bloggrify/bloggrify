@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
     })
     for (const doc of docs) {
         sitemap.write({
-            url: cleanDoubleSlashes(url + withoutLeadingSlash(doc._path)),
+            url: withTrailingSlash(cleanDoubleSlashes(url + withoutLeadingSlash(doc._path))),
             lastmod: doc.date ,
             img: doc.cover ? [{
                 url: url + withoutLeadingSlash(doc.cover),

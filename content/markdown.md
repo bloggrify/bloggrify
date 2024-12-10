@@ -233,6 +233,6 @@ https://twitter.com/hugolassiege/status/1750435525071159309
 
 ::alert{type="tip"}
 On top of the standard markdown features, you can also use custom components with Vue.js to extend markdown features.  
-Read the [custom components documentation](/custom-components) to learn more.
+Read the [custom components documentation](/custom-components/) to learn more.
 
 ::

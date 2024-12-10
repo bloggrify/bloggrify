@@ -3,6 +3,7 @@
 </template>
 <script setup lang="ts">
 import type { NuxtError } from '#app'
+import { withTrailingSlash, withoutTrailingSlash } from 'ufo'
 
 const route = useRoute()
 const config = useAppConfig()
@@ -141,7 +142,7 @@ if (isCategory) {
     theme = `themes-${config.theme}-tag`
 } else {
     const {data: result, error} = await useAsyncData(route.path, () => {
-        return queryContent('').where({ _path: route.path }).findOne()
+        return queryContent('').where({ _path: withoutTrailingSlash(route.path) }).findOne()
     })
 
     // Check for fetch error
@@ -186,7 +187,7 @@ if (isCategory) {
     }
 
     const url = useAppConfig().url.replace(/\/$/, '')
-    const postLink = url + doc.value?._path
+    const postLink = withTrailingSlash(url + doc.value?._path)
 
     useSeoMeta({
         ogType: 'article',

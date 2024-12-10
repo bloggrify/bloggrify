@@ -1,6 +1,6 @@
 import { serverQueryContent } from '#content/server'
 import { Feed } from 'feed'
-import { withLeadingSlash } from 'ufo'
+import { withLeadingSlash, withTrailingSlash } from 'ufo'
 
 export default defineEventHandler(async (event) => {
     const config = useAppConfig()
@@ -25,11 +25,12 @@ export default defineEventHandler(async (event) => {
     })
     docs.forEach((post) => {
         const path = post._path
+        const postURL = withTrailingSlash(url + path)
         if (post.date) {
             feed.addItem({
                 title: post.title ?? '-',
-                id: url + path,
-                link: url + path,
+                id: postURL,
+                link: postURL,
                 description: post.description,
                 date: new Date(post.date),
                 image: post.cover ? url + withLeadingSlash(post.cover) : undefined,
