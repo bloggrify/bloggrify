@@ -1,5 +1,6 @@
 ---
 id: "3"
+author: "hlassiege"
 title: "New custom component: listing page"
 description: "This is a new custom component for listing pages."
 date: "2025-01-21"

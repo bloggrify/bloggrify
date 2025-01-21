@@ -4,6 +4,7 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
 import {withoutTrailingSlash} from 'ufo'
+import {findAuthor} from '~/composables/useAuthor'
 
 const route = useRoute()
 const config = useAppConfig()
@@ -87,6 +88,7 @@ const postLink = url + doc.value?._path
 
 useSeoMeta({
     canonical: withoutTrailingSlash(postLink),
+    author: findAuthor(doc.value?.author),
     ogType: 'article',
     ogUrl: withoutTrailingSlash(postLink),
     twitterTitle: doc.value?.title,
