@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     // Fetch all documents
     const docs = (await serverQueryContent(event).where({$and: [
         {
-            _extension: { $eq: "md" },
+            _extension: { $eq: 'md' },
         },
         {
             _partial: { $eq: false },
@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     ]}).find()).filter(
         (doc) => {
             // Remove empty docs
-            return doc.body?.children.length !== 0;
+            return doc.body?.children.length !== 0
         }
     )
 
@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
     // Cache search results across client instances
     setResponseHeader(event,'cache-control','max-age=300, must-revalidate')
 
-    return data;
+    return data
 })
 
 /**
