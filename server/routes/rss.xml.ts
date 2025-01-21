@@ -4,7 +4,8 @@ import { withLeadingSlash } from 'ufo'
 
 export default defineEventHandler(async (event) => {
     const config = useAppConfig()
-    const url = config.url?.replace(/\/$/, '')
+    const configUrl = config.url || 'https://www.example.com'
+    const url = configUrl.replace(/\/$/, '')
 
     const docs = await serverQueryContent(event)
         .where({ hidden: { $ne: true } })

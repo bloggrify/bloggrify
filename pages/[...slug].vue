@@ -185,8 +185,9 @@ if (isCategory) {
     if (doc.value) {
         useContentHead(doc.value)
     }
+    const configUrl = config.url || 'https://www.example.com'
+    const url = configUrl.replace(/\/$/, '')
 
-    const url = config.url?.replace(/\/$/, '')
     const postLink = url + doc.value?._path
 
     useSeoMeta({

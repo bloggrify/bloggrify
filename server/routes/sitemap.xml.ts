@@ -4,7 +4,8 @@ import {cleanDoubleSlashes, withoutLeadingSlash, withTrailingSlash} from 'ufo'
 
 export default defineEventHandler(async (event) => {
     const config = useAppConfig()
-    const url = withTrailingSlash(config.url)
+    const configUrl = config.url || 'https://www.example.com'
+    const url = withTrailingSlash(configUrl)
 
     const docs = await serverQueryContent(event)
         .where({ hidden: { $ne: true }, draft: { $ne: true } })

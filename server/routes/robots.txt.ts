@@ -6,7 +6,8 @@ interface RobotRule {
 
 export default defineEventHandler(async (event) => {
     const config = useAppConfig()
-    const url = config.url?.replace(/\/$/, '')
+    const configUrl = config.url || 'https://www.example.com'
+    const url = configUrl.replace(/\/$/, '')
 
     const robotsConfig = config.robots || [
         {
