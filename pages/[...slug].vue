@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout :name="theme" :doc="doc" :docs="docs" :current-page="page" :total="totalNumberOfPages" :category="category" :tag="tag" fallback='invalid' />
+    <NuxtLayout :name="theme" :doc="doc" :current-page="page" :total="totalNumberOfPages" fallback='invalid' />
 </template>
 <script setup lang="ts">
 import type { NuxtError } from '#app'
@@ -23,13 +23,6 @@ function checkFetchError(error: Ref<NuxtError<unknown> | null>){
 
 const isPaginated = slug[slug.length - 2] === 'page' && !Number.isNaN(Number(slug[slug.length - 1]))
 
-
-// detect if we are on a special page like :
-// /categories/something/page/2
-// /tags/something/page/2
-const isCategory = slug[0] === 'categories'
-const isTag = slug[0] === 'tags'
-
 const getDocumentPath = () => {
     if (!isPaginated) return route.path
 
@@ -42,155 +35,79 @@ const getDocumentPath = () => {
     return withoutTrailingSlash(path)
 }
 
-let doc = null
-let docs = null
-let page = 1
-let totalNumberOfPages = 1
+const page = 1
+const totalNumberOfPages = 1
 const configTheme = config.theme || 'minimalist'
 let theme = `themes-${configTheme}-default`
-let category = ''
-let tag = ''
-const {itemsPerPage} = usePagination()
-const numberOfPostsPerPage = itemsPerPage
 
-if (isCategory) {
-    category = slug[1]
-    const title = 'Category: ' + category
-    const description = title
+const {data: doc, error} = await useAsyncData(getDocumentPath(), () => {
+    return queryContent('').where({ _path: getDocumentPath() }).findOne()
+})
+
+// Check for fetch error
+checkFetchError(error)
+
+if (doc.value?.layout) {
+    const documentLayout = doc.value.layout
+    // a document Layout can be either : themes-something-${configTheme} or layout
+    // if it's a layout, we need to prefix it with themes-${configTheme}-
+    if (!documentLayout.startsWith('themes')) {
+        theme = `themes-${configTheme}-${documentLayout}`
+    } else {
+        theme = documentLayout
+    }
+}
+
+if (doc.value?.redirect_to_domain) {
+    const redirect = doc.value?.redirect_to_domain + doc.value?._path
+    useHead({
+        script: [
+            {
+                innerHTML: `window.location = "${redirect || '/'}"`,
+            },
+        ],
+    })
+}
+if (doc.value?.redirect_to_full_url) {
+    const redirect = doc.value?.redirect_to_full_url
+    useHead({
+        script: [
+            {
+                innerHTML: `window.location = "${redirect || '/'}"`,
+            },
+        ],
+    })
+}
+
+if (doc.value) {
+    useContentHead(doc.value)
+}
+const runtimeConfig = useRuntimeConfig()
+const url = withoutTrailingSlash(runtimeConfig.public.url)
+
+const postLink = url + doc.value?._path
+
+useSeoMeta({
+    canonical: withoutTrailingSlash(postLink),
+    ogType: 'article',
+    ogUrl: withoutTrailingSlash(postLink),
+    twitterTitle: doc.value?.title,
+    twitterCard: 'summary',
+    articleTag: doc.value?.tags ? doc.value.tags?.toString() : ''
+})
+
+if (doc.value?.cover) {
     useSeoMeta({
-        title: title,
-        description: description,
-        ogTitle: title,
-        ogDescription: description,
-        twitterTitle: title,
-        twitterDescription: description
+        ogImage: url + '/images/' + doc.value?.cover,
+        ogImageAlt: doc.value?.title,
+        twitterImage: url + '/images/' + doc.value?.cover
     })
-    page = Number.parseInt(slug[3]) || 1
-    const where = { categories: { $in: category }, hidden: { $ne: true }, listed: { $ne: false } }
-    const {data: result, error} = await useAsyncData(route.path, () => {
-        let queryBuilder = queryContent('')
-            .where(where)
-            .sort({ date: -1 })
+}
 
-        if (numberOfPostsPerPage != -1) {
-            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
-        }
-
-        return queryBuilder.find()
-    })
-
-    // Check for fetch error
-    checkFetchError(error)
-
-    totalNumberOfPages = await queryContent('').where(where).count()
-    docs = result
-    theme = `themes-${configTheme}-category`
-} else if (isTag) {
-    tag = slug[1]
-    const title = 'Tag: ' + tag
-    const description = title
+if (doc.value?.date) {
     useSeoMeta({
-        title: title,
-        description: description,
-        ogTitle: title,
-        ogDescription: description,
-        twitterTitle: title,
-        twitterDescription: description
+        articlePublishedTime: new Date(doc.value?.date).toISOString(),
+        articleModifiedTime: new Date(doc.value?.date).toISOString()
     })
-    page = Number.parseInt(slug[2]) || 1
-    const where = { tags: { $in: tag }, hidden: { $ne: true }, listed: { $ne: false } }
-    const {data: result, error} = await useAsyncData(route.path, () => {
-        let queryBuilder = queryContent('')
-            .where(where)
-            .sort({ date: -1 })
-
-        if (numberOfPostsPerPage != -1) {
-            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
-        }
-
-        return queryBuilder.find()
-    })
-
-    // Check for fetch error
-    checkFetchError(error)
-
-    // TODO: handle fetch error
-    totalNumberOfPages = await queryContent('').where(where).count()
-
-    docs = result
-    theme = `themes-${configTheme}-tag`
-} else {
-    const {data: result, error} = await useAsyncData(getDocumentPath(), () => {
-        return queryContent('').where({ _path: getDocumentPath() }).findOne()
-    })
-
-    // Check for fetch error
-    checkFetchError(error)
-
-    doc = result
-
-    if (doc.value?.layout) {
-        const documentLayout = doc.value.layout
-        // a document Layout can be either : themes-something-${configTheme} or layout
-        // if it's a layout, we need to prefix it with themes-${configTheme}-
-        if (!documentLayout.startsWith('themes')) {
-            theme = `themes-${configTheme}-${documentLayout}`
-        } else {
-            theme = documentLayout
-        }
-    }
-
-    if (doc.value?.redirect_to_domain) {
-        const redirect = doc.value?.redirect_to_domain + doc.value?._path
-        useHead({
-            script: [
-                {
-                    innerHTML: `window.location = "${redirect || '/'}"`,
-                },
-            ],
-        })
-    }
-    if (doc.value?.redirect_to_full_url) {
-        const redirect = doc.value?.redirect_to_full_url
-        useHead({
-            script: [
-                {
-                    innerHTML: `window.location = "${redirect || '/'}"`,
-                },
-            ],
-        })
-    }
-
-    if (doc.value) {
-        useContentHead(doc.value)
-    }
-    const runtimeConfig = useRuntimeConfig()
-    const url = withoutTrailingSlash(runtimeConfig.public.url)
-
-    const postLink = url + doc.value?._path
-
-    useSeoMeta({
-        canonical: withoutTrailingSlash(postLink),
-        ogType: 'article',
-        ogUrl: withoutTrailingSlash(postLink),
-        twitterTitle: doc.value?.title,
-        twitterCard: 'summary',
-        articleTag: doc.value?.tags ? doc.value.tags?.toString() : ''
-    })
-
-    if (doc.value?.cover) {
-        useSeoMeta({
-            ogImage: url + '/images/' + doc.value?.cover,
-            ogImageAlt: doc.value?.title,
-            twitterImage: url + '/images/' + doc.value?.cover
-        })
-    }
-
-    if (doc.value?.date) {
-        useSeoMeta({
-            articlePublishedTime: new Date(doc.value?.date).toISOString(),
-            articleModifiedTime: new Date(doc.value?.date).toISOString()
-        })
-    }
 }
 </script>

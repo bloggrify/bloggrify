@@ -9,6 +9,7 @@ categories:
 tags:
   - markdown
   - sample
+  - documentation
 ---
 
 
@@ -209,6 +210,7 @@ description: "Use markdown at its full potential."
 date: "2024-02-09"
 tags:
   - markdown
+  - documentation
 cover: "doc/markdown.png"
 ---
 ```

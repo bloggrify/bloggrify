@@ -9,7 +9,7 @@ categories:
 tags:
   - markdown
   - sample
-
+  - documentation
 alternates:
    - hreflang: en
      href: https://mistral.bloggrify.com/custom-components

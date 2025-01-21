@@ -9,6 +9,7 @@ categories:
 tags:
     - markdown
     - mermaid
+    - documentation
 cover: "covers/santorin.jpg"
 ---
 

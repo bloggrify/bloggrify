@@ -29,14 +29,7 @@ import MinimalistHeader from '~/components/MinimalistHeader.vue'
 
 defineProps<{
     doc: unknown;
-    docs: unknown;
-    currentPage: number;
-    total: number;
-    category: string;
-    tag: string;
 }>()
-const config = useAppConfig()
-const title = config.name
 </script>
 <style lang="scss">
 .prose {

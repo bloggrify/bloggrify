@@ -4,8 +4,10 @@ title: "First official blog of Bloggrify "
 description: "Launching the first official blog of Bloggrify"
 tags:
     - release
+    - documentation
 date: "2024-01-18"
 cover: "covers/andalousia.jpg"
+
 ---
 
 Welcome to Mistral: The Power of Static Blog Generation with Bloggrify

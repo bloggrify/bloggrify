@@ -4,6 +4,9 @@ title: "Mathematics with KaTeX"
 description: "Announcing KaTeX Support: Easily Embed Mathematical Formulas in Bloggrify"
 date: "2024-06-08"
 cover: "covers/lyon.jpg"
+tags:
+    - markdown
+    - documentation
 ---
 
 ## Announcing KaTeX Support: Easily Embed Mathematical Formulas in Bloggrify

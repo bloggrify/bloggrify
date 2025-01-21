@@ -9,6 +9,7 @@ categories:
 tags:
   - markdown
   - sample
+  - documentation
 
 ---
 

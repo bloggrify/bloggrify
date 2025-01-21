@@ -30,11 +30,6 @@ import MinimalistListing from '~/components/content/MinimalistListing.vue'
 
 defineProps<{
     doc: unknown;
-    docs: unknown;
-    currentPage: number;
-    total: number;
-    category: string;
-    tag: string;
 }>()
 
 const config = useAppConfig()
