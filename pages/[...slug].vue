@@ -27,10 +27,8 @@ const isPaginated = slug[slug.length - 2] === 'page' && !Number.isNaN(Number(slu
 // detect if we are on a special page like :
 // /categories/something/page/2
 // /tags/something/page/2
-// /archives/page/1
 const isCategory = slug[0] === 'categories'
 const isTag = slug[0] === 'tags'
-const isArchives = slug[0] === 'archives'
 
 const getDocumentPath = () => {
     if (!isPaginated) return route.path
@@ -60,7 +58,7 @@ if (isCategory) {
     const title = 'Category: ' + category
     const description = title
     useSeoMeta({
-        title: 'Archives',
+        title: title,
         description: description,
         ogTitle: title,
         ogDescription: description,
@@ -87,48 +85,12 @@ if (isCategory) {
     totalNumberOfPages = await queryContent('').where(where).count()
     docs = result
     theme = `themes-${configTheme}-category`
-} else if (isArchives) {
-    const title = 'Archives'
-    const description = 'Archives'
-    useSeoMeta({
-        title: title,
-        description: description,
-        ogTitle: title,
-        ogDescription: description,
-        twitterTitle: title,
-        twitterDescription: description
-    })
-
-    page = Number.parseInt(slug[2]) || 1
-    const where = { hidden: { $ne: true }, listed: { $ne: false }}
-
-    const {data: result, error } = await useAsyncData(route.path, () => {
-        let queryBuilder = queryContent('')
-            .where(where)
-            .sort({ date: -1 })
-
-        if (numberOfPostsPerPage != -1) {
-            queryBuilder = queryBuilder.limit(numberOfPostsPerPage).skip((page - 1) * numberOfPostsPerPage)
-        }
-
-        return queryBuilder.find()
-    })
-
-    // Check for fetch error
-    checkFetchError(error)
-
-    // TODO: handle fetch error
-    totalNumberOfPages = await queryContent('').where(where).count()
-
-    docs = result
-    theme = `themes-${configTheme}-archive`
-
 } else if (isTag) {
     tag = slug[1]
     const title = 'Tag: ' + tag
     const description = title
     useSeoMeta({
-        title: 'Archives',
+        title: title,
         description: description,
         ogTitle: title,
         ogDescription: description,
