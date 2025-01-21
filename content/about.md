@@ -30,13 +30,30 @@ Minimalist is a theme for the blogging platform [Bloggrify](https://bloggrify.co
 
 ## Installation
 
-To install this theme, you should clone this repository and install the dependencies.
+First, you need to create a new Nuxt application. You can do this by running the following command:
 
 ```bash
-git clone git@github.com:bloggrify/demo-minimalist.git
-cd demo-minimalist
-npm install
+npx nuxi@latest init myblog
 ```
+
+Then, you need to install the dependencies:
+
+```bash
+npm install @bloggrify/core
+npm install -D sass-embedded
+```
+
+Then you have to explicitly say to Nuxt that you are using Bloggrify as an extended module. You can do this by adding the following line in your `nuxt.config.js` file:
+
+```json
+    extends: [
+        '@bloggrify/core',
+    ],
+```
+
+## Create a basic configuration file
+
+You should have a default configuration file in the root of your project: `app.config.ts`. The file is however empty. You can read more about the configuration options [here](https://bloggrify.com/introduction/configuration).
 
 Then you can run the development server on http://localhost:3000
 
@@ -44,4 +61,4 @@ Then you can run the development server on http://localhost:3000
 npm run dev
 ```
 
-Then, you can remove all contents from the `content` folder and start from scratch and create your own [content](https://bloggrify.com/introduction/writing-pages).
+Next, you can remove all contents from the `content` folder and start from scratch and create your own [content](https://bloggrify.com/introduction/writing-pages).
