@@ -10,9 +10,13 @@
             </div>
 
             <div class="mt-10">
-                <NuxtLink class="underline " to="/archives">
-                    Read all posts
-                </NuxtLink>
+                <MinimalistListing title="Last Posts" />
+
+                <div class="mt-4">
+                    <NuxtLink class="underline " to="/archives">
+                        Read all posts
+                    </NuxtLink>
+                </div>
             </div>
         </main>
         <MinimalistFooter />
@@ -22,6 +26,7 @@
 import MinimalistMenu from '~/components/MinimalistMenu.vue'
 import MinimalistFooter from '~/components/MinimalistFooter.vue'
 import MinimalistHeader from '~/components/MinimalistHeader.vue'
+import MinimalistListing from '~/components/content/MinimalistListing.vue'
 
 defineProps<{
     doc: unknown;
@@ -33,7 +38,6 @@ defineProps<{
 }>()
 
 const config = useAppConfig()
-const title = config.name || 'Minimalist'
 const description = config.description || 'A minimalist theme for Bloggrify'
 </script>
 <style>

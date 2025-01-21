@@ -17,7 +17,7 @@
             </button>
         </NuxtLink>
         <div class="flex items-center gap-x-1">
-            <span class="min-h-[12px] min-w-[12px] flex justify-center items-center text-black py-2 px-3 rounded-lg focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-white dark:focus:bg-white/10" aria-current="page">{{ currentPage }}</span>
+            <span class="min-h-[12px] min-w-[12px] flex justify-center items-center text-black py-2 px-3 rounded-lg focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-white dark:focus:bg-white/10" aria-current="page">{{ pageNumber }}</span>
             <span class="min-h-[12px] flex justify-center items-center text-gray-400 py-2 px-1.5 dark:text-neutral-500">of</span>
             <span class="min-h-[12px] flex justify-center items-center text-gray-400 py-2 px-1.5 dark:text-neutral-500">{{ Math.ceil(total/itemsPerPage) }}</span>
         </div>
@@ -38,57 +38,41 @@
     </nav>
 </template>
 <script setup lang="ts">
-const config = useAppConfig()
-const itemsPerPage = config.pagination?.per_page || 5
+const { itemsPerPage, currentPage, createPath } = usePagination()
 
-type arrowLink =  {
+type arrowLink = {
     to: string;
     disabled: boolean;
 }
 
 const props = defineProps<{
-    category?: string;
-    tag?: string;
-    currentPage: number;
-    total: number;
+    total?: number;
 }>()
 
-/**
- * Generate a URL path based on the current page and available properties.
- *
- * @param page - The page number to include in the path.
- * @returns The generated URL path as a string.
- */
-function createPath(page: number): string {
-    return props.category
-        ? `/categories/${props.category}/page/${page}`
-        : props.tag
-            ? `/tags/${props.tag}/page/${page}`
-            : `/archives/page/${page}`
-}
+const pageNumber = computed(() => {
+    if (props.currentPage) return props.currentPage
+    return currentPage.value
+})
 
 // Determine if the current page is the first page
-// Check if the previous page number (currentPage - 1) is equal to 0
-const isFirstPage = props.currentPage - 1 === 0
+const isFirstPage = pageNumber.value - 1 === 0
 
 // Left Arrow Link
 const left: arrowLink = {
     to: isFirstPage
-        ? createPath(props.currentPage)
-        : createPath(props.currentPage - 1),
+        ? createPath(pageNumber.value)
+        : createPath(pageNumber.value - 1),
     disabled: isFirstPage
 }
 
 // Determine if the current page is the last page
-// Check if the next page number (currentPage + 1) exceeds the total number of pages
-// Total number of pages is calculated by dividing the total number of items by items per page and rounding up
-const isEndOfPages = props.currentPage + 1 > Math.ceil(props.total / itemsPerPage)
+const isEndOfPages = pageNumber.value + 1 > Math.ceil(props.total / itemsPerPage.value)
 
 // Right Arrow Link
 const right: arrowLink = {
     to: isEndOfPages
-        ? createPath(props.currentPage)
-        : createPath(props.currentPage + 1),
+        ? createPath(pageNumber.value)
+        : createPath(pageNumber.value + 1),
     disabled: isEndOfPages
 }
 </script>

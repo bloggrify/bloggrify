@@ -1,5 +1,5 @@
 ---
-id: "1"
+id: "2"
 title: "Use markdown power"
 description: "Use markdown at its full potential."
 date: "2024-02-10"
@@ -9,7 +9,6 @@ categories:
 tags:
   - markdown
   - sample
-  - thailand
 ---
 
 

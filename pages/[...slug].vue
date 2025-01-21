@@ -21,6 +21,9 @@ function checkFetchError(error: Ref<NuxtError<unknown> | null>){
     }
 }
 
+const isPaginated = slug[slug.length - 2] === 'page' && !Number.isNaN(Number(slug[slug.length - 1]))
+
+
 // detect if we are on a special page like :
 // /categories/something/page/2
 // /tags/something/page/2
@@ -28,6 +31,18 @@ function checkFetchError(error: Ref<NuxtError<unknown> | null>){
 const isCategory = slug[0] === 'categories'
 const isTag = slug[0] === 'tags'
 const isArchives = slug[0] === 'archives'
+
+const getDocumentPath = () => {
+    if (!isPaginated) return route.path
+
+    // Retirer '/page/X' de l'URL
+    const path = route.path.replace(/\/page\/\d+$/, '')
+
+    // Gérer les cas spéciaux
+    if (path === '/' || path === '') return '/'
+
+    return withoutTrailingSlash(path)
+}
 
 let doc = null
 let docs = null
@@ -37,7 +52,8 @@ const configTheme = config.theme || 'minimalist'
 let theme = `themes-${configTheme}-default`
 let category = ''
 let tag = ''
-const numberOfPostsPerPage = config.pagination?.per_page || 10
+const {itemsPerPage} = usePagination()
+const numberOfPostsPerPage = itemsPerPage
 
 if (isCategory) {
     category = slug[1]
@@ -142,8 +158,8 @@ if (isCategory) {
     docs = result
     theme = `themes-${configTheme}-tag`
 } else {
-    const {data: result, error} = await useAsyncData(route.path, () => {
-        return queryContent('').where({ _path: route.path }).findOne()
+    const {data: result, error} = await useAsyncData(getDocumentPath(), () => {
+        return queryContent('').where({ _path: getDocumentPath() }).findOne()
     })
 
     // Check for fetch error

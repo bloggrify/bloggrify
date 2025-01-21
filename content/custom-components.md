@@ -1,5 +1,5 @@
 ---
-id: "3"
+id: "8"
 title: "Custom components"
 description: "Enhance your markdown files with custom components."
 date: "2024-02-11"
@@ -9,7 +9,6 @@ categories:
 tags:
   - markdown
   - sample
-  - thailand
 
 alternates:
    - hreflang: en
