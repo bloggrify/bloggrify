@@ -1,11 +1,12 @@
 import { serverQueryContent } from '#content/server'
 import { Feed } from 'feed'
-import { withLeadingSlash } from 'ufo'
+import {withLeadingSlash, withoutTrailingSlash} from 'ufo'
 
 export default defineEventHandler(async (event) => {
     const config = useAppConfig()
-    const configUrl = config.url || 'https://www.example.com'
-    const url = configUrl.replace(/\/$/, '')
+    const runtimeConfig = useRuntimeConfig()
+    const configUrl = runtimeConfig.public.url
+    const url = withoutTrailingSlash(configUrl)
 
     const docs = await serverQueryContent(event)
         .where({ hidden: { $ne: true } })
@@ -29,8 +30,8 @@ export default defineEventHandler(async (event) => {
         if (post.date) {
             feed.addItem({
                 title: post.title ?? '-',
-                id: url + path,
-                link: url + path,
+                id: withoutTrailingSlash(url + path),
+                link: withoutTrailingSlash(url + path),
                 description: post.description,
                 date: new Date(post.date),
                 image: post.cover ? url + withLeadingSlash(post.cover) : undefined,

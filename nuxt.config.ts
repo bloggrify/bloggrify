@@ -1,15 +1,22 @@
+const url = process.env.BASE_URL || 'http://localhost:3000'
+
 export default defineNuxtConfig({
 
     site: {
         indexable: true,
-        url: 'https://minimalist.bloggrify.com/',
-        name: 'John Doe',
+        url
     },
 
     routeRules: {
         '/api/search': {
             prerender: true
         }
+    },
+
+    runtimeConfig: {
+      public: {
+          url: url,
+      }
     },
 
     devtools: { enabled: true },

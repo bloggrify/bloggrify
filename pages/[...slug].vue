@@ -3,6 +3,7 @@
 </template>
 <script setup lang="ts">
 import type { NuxtError } from '#app'
+import {withoutTrailingSlash} from 'ufo'
 
 const route = useRoute()
 const config = useAppConfig()
@@ -185,25 +186,18 @@ if (isCategory) {
     if (doc.value) {
         useContentHead(doc.value)
     }
-    const configUrl = config.url || 'https://www.example.com'
-    const url = configUrl.replace(/\/$/, '')
+    const runtimeConfig = useRuntimeConfig()
+    const url = withoutTrailingSlash(runtimeConfig.public.url)
 
     const postLink = url + doc.value?._path
 
     useSeoMeta({
+        canonical: withoutTrailingSlash(postLink),
         ogType: 'article',
-        ogUrl: postLink,
+        ogUrl: withoutTrailingSlash(postLink),
         twitterTitle: doc.value?.title,
         twitterCard: 'summary',
         articleTag: doc.value?.tags ? doc.value.tags?.toString() : ''
-    })
-    useHead({
-        link: [
-            {
-                rel: 'canonical',
-                href: postLink,
-            },
-        ],
     })
 
     if (doc.value?.cover) {

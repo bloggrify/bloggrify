@@ -11,6 +11,15 @@ export default defineNuxtModule({
     setup (options, nuxt) {
 
         nuxt.hook('build:before', async () => {
+
+            if(!process.env.BASE_URL) {
+                console.box(
+                    colors.greenBright('Bloggrify') + '\n\n' +
+                    'BASE_URL is not set. This is not a problem if you are running Bloggrify in development mode. \n\n' +
+                    'However, it is recommended to set BASE_URL in production.')
+            }
+
+
             if (!fs.existsSync(nuxt.options.rootDir + '/content')) {
                 consola.box(
                     colors.greenBright('Bloggrify') + '\n\n' +
