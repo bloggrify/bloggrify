@@ -24,5 +24,8 @@ jobs:
             - name: Install dependencies
               run: npm install
 
+            - name: Copy configuration file
+              run: cp SAMPLE.app.config.ts app.config.ts
+
             - name: Generate static site
               run: npm run generate
