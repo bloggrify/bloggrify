@@ -10,6 +10,10 @@ tags:
   - markdown
   - sample
   - thailand
+
+alternates:
+   - hreflang: en
+     href: /custom-components
 ---
 
 You can use [custom components](https://content.nuxt.com/usage/markdown#vue-components) within vue.js to extend markdown features. Some components are already available within Bloggrify such as:

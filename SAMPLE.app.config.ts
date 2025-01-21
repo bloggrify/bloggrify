@@ -75,12 +75,4 @@ export default defineAppConfig({
         { name: 'Archives', path: '/archives' },
     ],
 
-    robots: [
-        {
-            UserAgent: '*',
-            Disallow: ['/'],
-        },
-    ],
-
-
 })

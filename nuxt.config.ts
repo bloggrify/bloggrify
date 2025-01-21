@@ -1,4 +1,11 @@
 export default defineNuxtConfig({
+
+    site: {
+        indexable: true,
+        url: 'https://minimalist.bloggrify.com/',
+        name: 'John Doe',
+    },
+
     routeRules: {
         '/api/search': {
             prerender: true
@@ -14,15 +21,25 @@ export default defineNuxtConfig({
     },
 
     modules: [
-        '@nuxtjs/tailwindcss',
-        '@nuxt/content',
-        '@nuxt/image',
-        '@stefanobartoletti/nuxt-social-share'
+      '@nuxtjs/tailwindcss',
+      '@nuxt/content',
+      '@nuxt/image',
+      '@stefanobartoletti/nuxt-social-share',
+      '@nuxtjs/robots',
+      '@nuxtjs/sitemap'
     ],
 
     image: {
         format: ['webp'],
     },
+
+    sitemap: {
+        includeAppSources: true,
+        sources: [
+            '/api/__sitemap__/urls'
+        ]
+    },
+
 
     content: {
         markdown: {
@@ -65,7 +82,7 @@ export default defineNuxtConfig({
 
     nitro: {
         prerender: {
-            routes: ['/sitemap.xml', '/rss.xml', '/robots.txt'],
+            routes: ['/rss.xml', '/api/__sitemap__/urls'],
         },
     },
 

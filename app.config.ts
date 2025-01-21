@@ -86,14 +86,6 @@ export default defineAppConfig({
     //     { name: "Archives", path: "/archives" },
     // ],
     //
-    // robots.txt
-    // robots: [
-    //     {
-    //         UserAgent: "*",
-    //         Allow: ["/"],
-    //         Disallow: [],
-    //     },
-    // ],
     //
     // ui: {
     //     components: {
