@@ -16,6 +16,9 @@ A new custom component has been added to Bloggrify. This component is used to cr
 It's more a proof of concept than a real component because the design is very basic.
 It's a way to show how you can create custom components in Bloggrify.
 
+::alert{type="warning"}
+It's not possible to use several listing components on the same page. Otherwise, there is a conflict with the pagination.
+::
 
 ## Listing
 
