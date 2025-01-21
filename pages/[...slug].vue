@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout :name="theme" :doc="doc" :current-page="page" :total="totalNumberOfPages" fallback='invalid' />
+    <NuxtLayout :name="theme" :doc="doc"  fallback='invalid' />
 </template>
 <script setup lang="ts">
 import type { NuxtError } from '#app'
@@ -35,8 +35,6 @@ const getDocumentPath = () => {
     return withoutTrailingSlash(path)
 }
 
-const page = 1
-const totalNumberOfPages = 1
 const configTheme = config.theme || 'minimalist'
 let theme = `themes-${configTheme}-default`
 
