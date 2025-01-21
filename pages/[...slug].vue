@@ -32,7 +32,8 @@ let doc = null
 let docs = null
 let page = 1
 let totalNumberOfPages = 1
-let theme = `themes-${config.theme}-default`
+const configTheme = config.theme || 'minimalist'
+let theme = `themes-${configTheme}-default`
 let category = ''
 let tag = ''
 const numberOfPostsPerPage = config.pagination?.per_page || 10
@@ -68,7 +69,7 @@ if (isCategory) {
 
     totalNumberOfPages = await queryContent('').where(where).count()
     docs = result
-    theme = `themes-${config.theme}-category`
+    theme = `themes-${configTheme}-category`
 } else if (isArchives) {
     const title = 'Archives'
     const description = 'Archives'
@@ -103,7 +104,7 @@ if (isCategory) {
     totalNumberOfPages = await queryContent('').where(where).count()
 
     docs = result
-    theme = `themes-${config.theme}-archive`
+    theme = `themes-${configTheme}-archive`
 
 } else if (isTag) {
     tag = slug[1]
@@ -138,7 +139,7 @@ if (isCategory) {
     totalNumberOfPages = await queryContent('').where(where).count()
 
     docs = result
-    theme = `themes-${config.theme}-tag`
+    theme = `themes-${configTheme}-tag`
 } else {
     const {data: result, error} = await useAsyncData(route.path, () => {
         return queryContent('').where({ _path: route.path }).findOne()
@@ -151,10 +152,10 @@ if (isCategory) {
 
     if (doc.value?.layout) {
         const documentLayout = doc.value.layout
-        // a document Layout can be either : themes-something-${config.theme} or layout
-        // if it's a layout, we need to prefix it with themes-${config.theme}-
+        // a document Layout can be either : themes-something-${configTheme} or layout
+        // if it's a layout, we need to prefix it with themes-${configTheme}-
         if (!documentLayout.startsWith('themes')) {
-            theme = `themes-${config.theme}-${documentLayout}`
+            theme = `themes-${configTheme}-${documentLayout}`
         } else {
             theme = documentLayout
         }
@@ -185,7 +186,7 @@ if (isCategory) {
         useContentHead(doc.value)
     }
 
-    const url = useAppConfig().url.replace(/\/$/, '')
+    const url = config.url?.replace(/\/$/, '')
     const postLink = url + doc.value?._path
 
     useSeoMeta({

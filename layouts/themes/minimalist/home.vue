@@ -36,8 +36,8 @@ defineProps<{
 }>()
 
 const config = useAppConfig()
-const title = config.name
-const description = config.description
+const title = config.name || 'Minimalist'
+const description = config.description || 'A minimalist theme for Bloggrify'
 </script>
 <style>
 body {

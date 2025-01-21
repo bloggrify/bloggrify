@@ -17,7 +17,7 @@ useDark().value = false
 
 useHead({
     htmlAttrs: {
-        lang: config.language,
+        lang: config.language || 'en',
     },
     link: [
         {
@@ -48,7 +48,7 @@ useHead({
         {
             key: 'bloggrify-theme',
             name: 'bloggrify-theme',
-            content: config.theme,
+            content: config.theme || 'minimalist',
         },
     ],
 })

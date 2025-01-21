@@ -39,7 +39,7 @@
 </template>
 <script setup lang="ts">
 const config = useAppConfig()
-const itemsPerPage = config.pagination.per_page
+const itemsPerPage = config.pagination?.per_page || 5
 
 type arrowLink =  {
     to: string;
@@ -64,7 +64,7 @@ function createPath(page: number): string {
         ? `/categories/${props.category}/page/${page}`
         : props.tag
             ? `/tags/${props.tag}/page/${page}`
-            : `/archives/page/${page}`;
+            : `/archives/page/${page}`
 }
 
 // Determine if the current page is the first page

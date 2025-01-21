@@ -40,7 +40,7 @@
 import { useDark, useToggle } from '@vueuse/core'
 
 const config = useAppConfig()
-const menu = config.menu
+const menu = config.menu || []
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
