@@ -26,6 +26,7 @@
     ],
     "type": "module",
     "scripts": {
+        "preinstall": "npx playwright install",
         "build": "nuxt build",
         "dev": "nuxt dev",
         "generate": "nuxt generate",
