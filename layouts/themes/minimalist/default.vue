@@ -1,10 +1,6 @@
 <template>
     <div>
-        <nav class="mt-10 w-3/4 mx-auto">
-            <h1 class="text-4xl font-bold">
-                {{ title }}
-            </h1>
-        </nav>
+        <MinimalistHeader/>
 
         <MinimalistMenu />
 
@@ -29,6 +25,7 @@
 <script setup lang="ts">
 import MinimalistMenu from '~/components/MinimalistMenu.vue'
 import MinimalistFooter from '~/components/MinimalistFooter.vue'
+import MinimalistHeader from '~/components/MinimalistHeader.vue'
 
 defineProps<{
     doc: unknown;

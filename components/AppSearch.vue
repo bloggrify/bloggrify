@@ -25,16 +25,16 @@ const { activate, deactivate } = useFocusTrap(searchContentRef)
 
 const { meta_K, Escape } = useMagicKeys()
 
-const SEARCH_DATA_KEY = 'search-api';
+const SEARCH_DATA_KEY = 'search-api'
 
 // Cache results across pages
 // Note: does not cache across client instances, use Cache-Control headers or local storage instead
 const cachedResults = useNuxtData<BlogSearchResult[]>(SEARCH_DATA_KEY)
 
 function showSearch() {
-    show.value = true;
-    if(!!!cachedResults.data.value || (cachedResults.data.value.length === 0)){
-        execute();
+    show.value = true
+    if(!cachedResults.data.value || (cachedResults.data.value.length === 0)){
+        execute()
     }
 }
 
