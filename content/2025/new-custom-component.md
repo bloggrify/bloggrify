@@ -52,3 +52,18 @@ This component accepts several parameters:
 
 ```
 ::
+
+**Example**: how to list all articles by prefix, for example, all articles starting with "2024":
+
+::mdd
+
+#preview    
+:minimalist-listing{title="My listing" prefix="2024"}
+
+
+#markup
+```markdown
+:minimalist-listing{title="My listing" prefix="2024"}
+
+```
+::

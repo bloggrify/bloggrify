@@ -51,7 +51,7 @@ Read the actual nuxt.config.ts file to see the configuration of the blog.
 ## Markdown
 
 You can use all standard markdown features plus some extra features such as frontmatter to add metadata to your markdown files.  
-You can read more about it [here](/markdown).
+You can read more about it [here](/content/2024/markdown.md).
 
 ## SEO friendly
 
