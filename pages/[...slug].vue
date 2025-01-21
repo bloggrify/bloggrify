@@ -206,29 +206,6 @@ if (isCategory) {
         ],
     })
 
-    if (doc.value?.alternates) {
-        const alternates =
-            doc.value?.alternates?.map((alternate: unknown) => {
-                const key = Object.keys(alternate)[0]
-                const value = alternate[key]
-                return {
-                    rel: 'alternate',
-                    href: value,
-                    hreflang: key,
-                }
-            }) || []
-
-        alternates.push({
-            rel: 'alternate',
-            href: postLink,
-            hreflang: doc.value?.language || 'en',
-        })
-
-        useHead({
-            link: alternates,
-        })
-    }
-
     if (doc.value?.cover) {
         useSeoMeta({
             ogImage: url + '/images/' + doc.value?.cover,
