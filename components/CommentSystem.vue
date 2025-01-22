@@ -1,7 +1,7 @@
 <template>
     <hyvor-talk-comments
         v-if="isCommentsEnabled"
-        :website-id="config.comments.hyvor_talk.website_id"
+        :website-id="config.comments?.hyvor_talk.website_id"
         :page-id="id"
         class="dark:text-white"
         :colors="isDark ? 'dark' : 'light'"
@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const config = useAppConfig()
 const isDark = useDark()
-const isCommentsEnabled = config.comments.enabled && !props.nocomments
+const isCommentsEnabled = config.comments?.enabled && !props.nocomments
 
 if (isCommentsEnabled) {
     useHead({
