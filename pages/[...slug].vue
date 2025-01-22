@@ -5,6 +5,7 @@
 import type { NuxtError } from '#app'
 import {withoutTrailingSlash} from 'ufo'
 import {findAuthor} from '~/composables/useAuthor'
+import {msToISO8601Duration} from '~/composables/useDateFormat'
 
 const route = useRoute()
 const config = useAppConfig()
@@ -95,13 +96,18 @@ if (author) {
         name: author,
     }
 }
+let timeRequired
+if (doc.value.readingTime?.time && doc.value.readingTime?.time > 0) {
+    timeRequired = msToISO8601Duration(doc.value.readingTime.time)
+}
 
 useSchemaOrg([
     defineWebPage({
         '@type': '@BlogPosting',
         datePublished: doc.value?.date,
         headline: doc.value?.title,
-        author: schemaAuthor
+        author: schemaAuthor,
+        timeRequired: timeRequired,
     }),
 ])
 
@@ -116,7 +122,7 @@ useSeoMeta({
     articleTag: doc.value?.tags ? doc.value.tags?.toString() : '',
 })
 
-if (doc.value.readingTime && doc.value.readingTime.text && doc.value.readingTime.text !== '0 min read') {
+if (doc.value.readingTime?.time && doc.value.readingTime?.time > 0) {
     useSeoMeta({
         twitterLabel1: 'Est. reading time',
         twitterData1: doc.value?.readingTime?.text,
