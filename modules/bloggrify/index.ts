@@ -12,11 +12,20 @@ export default defineNuxtModule({
 
         nuxt.hook('build:before', async () => {
 
-            if(!process.env.BASE_URL) {
-                console.box(
-                    colors.greenBright('Bloggrify') + '\n\n' +
-                    'BASE_URL is not set. This is not a problem if you are running Bloggrify in development mode. \n\n' +
-                    'However, it is recommended to set BASE_URL in production.')
+            if(!process.env.BASE_URL || !process.env.INDEXABLE) {
+                let message = colors.greenBright('Bloggrify') + '\n\n'
+
+                if(!process.env.BASE_URL) {
+                    message += 'BASE_URL is not set. This is not a problem if you are running Bloggrify in development mode.\n' +
+                        'However, it is recommended to set BASE_URL in production.\n\n'
+                }
+
+                if(!process.env.SITE_INDEXABLE) {
+                    message += 'SITE_INDEXABLE is not set. It means your site will not be indexed by search engines..\n' +
+                        'Set the environment variable SITE_INDEXABLE to true to enable indexing.'
+                }
+
+                console.box(message)
             }
 
 

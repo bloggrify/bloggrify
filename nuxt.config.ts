@@ -1,9 +1,10 @@
 const url = process.env.BASE_URL || 'http://localhost:3000'
+const indexable = process.env.SITE_INDEXABLE || false
 
 export default defineNuxtConfig({
 
     site: {
-        indexable: true,
+        indexable,
         url
     },
 
