@@ -81,11 +81,11 @@
 
                                     {{ formatDate(article.date) }}
                                 </span>
-                                <span v-if="article.categories && article.categories.length > 0" class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
+                                <span v-if="article.tags && article.tags.length > 0" class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
                                     &nbsp; -  &nbsp;
                                 </span>
-                                <span v-for="category in article.categories" :key="category" class=" text-xs font-normal text-gray-500 dark:text-gray-400">
-                                    <NuxtLink class="underline" :to="`/categories/${category}`">{{ category }}</NuxtLink>
+                                <span v-for="tagArticle in article.tags" :key="tagArticle" class=" text-xs font-normal text-gray-500 dark:text-gray-400">
+                                    <NuxtLink class="underline" :to="`/tags/${tagArticle}`">{{ tagArticle }}</NuxtLink>
                                                &nbsp;
 
                                 </span>
