@@ -33,8 +33,13 @@ export default defineNuxtConfig({
       '@nuxt/image',
       '@stefanobartoletti/nuxt-social-share',
       '@nuxtjs/robots',
-      '@nuxtjs/sitemap'
+      '@nuxtjs/sitemap',
+      'nuxt-schema-org'
     ],
+
+    siteConfig: {
+      url: url,
+    },
 
     image: {
         format: ['webp'],

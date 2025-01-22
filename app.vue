@@ -15,6 +15,15 @@ useAnalytics()
 useColorMode({initialValue: 'light'})
 useDark().value = false
 
+useSchemaOrg([
+    defineWebSite({
+        name: config.name,
+        url: config.url,
+        description: config.description,
+        inLanguage: config.language || 'en',
+    })
+])
+
 useHead({
     htmlAttrs: {
         lang: config.language || 'en',

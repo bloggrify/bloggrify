@@ -47,6 +47,7 @@
         "focus-trap": "^7.5.4",
         "fuse.js": "^6.6.2",
         "nuxt": "3.14.1592",
+        "nuxt-schema-org": "^4.1.1",
         "rehype-katex": "^7.0.0",
         "remark-math": "^6.0.0",
         "remark-mermaidjs": "^6.0.0",
