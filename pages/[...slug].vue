@@ -95,11 +95,16 @@ useSeoMeta({
     twitterTitle: doc.value?.title,
     twitterCard: 'summary',
     articleTag: doc.value?.tags ? doc.value.tags?.toString() : '',
-    twitterLabel1: 'Est. reading time',
-    twitterData1: doc.value?.readingTime?.text,
-    twitterLabel2: 'Est. reading time',
-    twitterData2: doc.value?.readingTime?.text,
 })
+
+if (doc.value.readingTime && doc.value.readingTime.text && doc.value.readingTime.text !== '0 min read') {
+    useSeoMeta({
+        twitterLabel1: 'Est. reading time',
+        twitterData1: doc.value?.readingTime?.text,
+        twitterLabel2: 'Est. reading time',
+        twitterData2: doc.value?.readingTime?.text,
+    })
+}
 
 if (doc.value?.cover) {
     useSeoMeta({
