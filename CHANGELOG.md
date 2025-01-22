@@ -1,6 +1,65 @@
 # Changelog
 
 
+## v2.0.0-beta.1
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v1.8.0...v2.0.0-beta-1)
+
+### 🚀 Enhancements
+
+- Invalid layout ([caa956d](https://github.com/bloggrify/bloggrify/commit/caa956d))
+- Add xsl to the sitemap and include cover if they exist ([bad8e9f](https://github.com/bloggrify/bloggrify/commit/bad8e9f))
+- Use nuxtjs/robots and nuxtjs/sitemap module instead of custom code ([c08a6cc](https://github.com/bloggrify/bloggrify/commit/c08a6cc))
+- Add support for blogtally, googleGA and fathom (for web analytics) ([03510f9](https://github.com/bloggrify/bloggrify/commit/03510f9))
+- Add support for search feature into the minimalist template ([2b0adf9](https://github.com/bloggrify/bloggrify/commit/2b0adf9))
+- #issue13 add a component to demonstrate how to list pages (and manage pagination) ([df5d784](https://github.com/bloggrify/bloggrify/commit/df5d784))
+- #13 show listing by prefix ([#13](https://github.com/bloggrify/bloggrify/issues/13))
+- Add author to the meta tags ([b07d90c](https://github.com/bloggrify/bloggrify/commit/b07d90c))
+- Add author to the meta tags (bis) + add reading time. ([e47f9ca](https://github.com/bloggrify/bloggrify/commit/e47f9ca))
+- Add schema.org capabilities ([f3506e0](https://github.com/bloggrify/bloggrify/commit/f3506e0))
+- Add blogPosting annotation for blog posts ([45a064d](https://github.com/bloggrify/bloggrify/commit/45a064d))
+- Add timeRequired to the schema.org ([a882753](https://github.com/bloggrify/bloggrify/commit/a882753))
+
+### 🩹 Fixes
+
+- Fix problem of contrast ration globally by forcing the light mode by default https://github.com/bloggrify/bloggrify-mistral/issues/3 ([680139f](https://github.com/bloggrify/bloggrify/commit/680139f))
+- Improve accessibility by using aria-label ([d9ecb5b](https://github.com/bloggrify/bloggrify/commit/d9ecb5b))
+- A table of content is semantically a nav element ([0b81984](https://github.com/bloggrify/bloggrify/commit/0b81984))
+- Fix missing page for the demo site ([4361a57](https://github.com/bloggrify/bloggrify/commit/4361a57))
+- Don't crash the build if the url is not provided ([42f38c4](https://github.com/bloggrify/bloggrify/commit/42f38c4))
+- Fix the configuration file for github workflows (only usefull as a backup) ([e007762](https://github.com/bloggrify/bloggrify/commit/e007762))
+- Internal url on the demo content ([111e69e](https://github.com/bloggrify/bloggrify/commit/111e69e))
+- Minimalist template was referring to category pages, not implemented on this theme ([23fbec7](https://github.com/bloggrify/bloggrify/commit/23fbec7))
+- Don't display reading time if it's equal to 0 ([a42f7b7](https://github.com/bloggrify/bloggrify/commit/a42f7b7))
+- FindAuthor returns an author object and not a string ([6078556](https://github.com/bloggrify/bloggrify/commit/6078556))
+
+### 💅 Refactors
+
+- Config file should be empty by default. All components using it should handle empty configuration ([3f7c17d](https://github.com/bloggrify/bloggrify/commit/3f7c17d))
+- Huge simplification to avoid mixing tag, category and standard pages ([670376e](https://github.com/bloggrify/bloggrify/commit/670376e))
+- Remove useless variable ([065d9cf](https://github.com/bloggrify/bloggrify/commit/065d9cf))
+
+### 📖 Documentation
+
+- Modify documentation. The demo app is now deployed on each commit ([84403b8](https://github.com/bloggrify/bloggrify/commit/84403b8))
+- Add a warning about the listing component ([8948bc4](https://github.com/bloggrify/bloggrify/commit/8948bc4))
+- Show schema.org frontmatter on the about page ([9a3256f](https://github.com/bloggrify/bloggrify/commit/9a3256f))
+
+### 📦 Build
+
+- Default config file for minimalist theme, using by CI ([7925d22](https://github.com/bloggrify/bloggrify/commit/7925d22))
+- Install playwright before the build ([a7397f3](https://github.com/bloggrify/bloggrify/commit/a7397f3))
+
+### 🏡 Chore
+
+- Fix email in changelog ([0bc0d70](https://github.com/bloggrify/bloggrify/commit/0bc0d70))
+- Prepare next major version ([080f0ee](https://github.com/bloggrify/bloggrify/commit/080f0ee))
+
+### ❤️ Contributors
+
+- Hugo Lassiège <hlassiege@gmail.com>
+- IO-Fire ([@IO-Fire](http://github.com/IO-Fire))
+
 ## v1.8.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.7.1...v1.8.0)
