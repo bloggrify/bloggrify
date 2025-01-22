@@ -13,7 +13,7 @@
                 <MinimalistListing title="Last Posts" />
 
                 <div class="mt-4">
-                    <NuxtLink class="underline " to="/pages/archives/archives">
+                    <NuxtLink class="underline " to="/archives">
                         Read all posts
                     </NuxtLink>
                 </div>
