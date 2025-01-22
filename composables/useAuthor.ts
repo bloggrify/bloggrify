@@ -9,8 +9,11 @@ export type Author = {
 export const findAuthor = (authorId?: string): Author => {
     const config = useAppConfig()
 
+    const defaultAuthor = { username: authorId, name: authorId, avatar: '', description: '', default: false }
+
+
     if (authorId === undefined) {
-        return config.authors?.find((author: Author) => author.default)
+        return config.authors?.find((author: Author) => author.default) || defaultAuthor
     }
-    return config.authors?.find((author: Author) => author.username === authorId) || { username: authorId, name: authorId, avatar: '', description: '', default: false }
+    return config.authors?.find((author: Author) => author.username === authorId) || defaultAuthor
 }
