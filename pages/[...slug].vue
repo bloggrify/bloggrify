@@ -89,11 +89,16 @@ const postLink = url + doc.value?._path
 useSeoMeta({
     canonical: withoutTrailingSlash(postLink),
     author: findAuthor(doc.value?.author),
+    articleAuthor: findAuthor(doc.value?.author),
     ogType: 'article',
     ogUrl: withoutTrailingSlash(postLink),
     twitterTitle: doc.value?.title,
     twitterCard: 'summary',
-    articleTag: doc.value?.tags ? doc.value.tags?.toString() : ''
+    articleTag: doc.value?.tags ? doc.value.tags?.toString() : '',
+    twitterLabel1: 'Est. reading time',
+    twitterData1: doc.value?.readingTime?.text,
+    twitterLabel2: 'Est. reading time',
+    twitterData2: doc.value?.readingTime?.text,
 })
 
 if (doc.value?.cover) {
