@@ -93,7 +93,7 @@ let schemaAuthor
 if (author) {
     schemaAuthor = {
         '@type': 'Person',
-        name: author,
+        name: author.name,
     }
 }
 let timeRequired
@@ -113,8 +113,8 @@ useSchemaOrg([
 
 useSeoMeta({
     canonical: withoutTrailingSlash(postLink),
-    author: findAuthor(doc.value?.author),
-    articleAuthor: findAuthor(doc.value?.author),
+    author: findAuthor(doc.value?.author).name,
+    articleAuthor: findAuthor(doc.value?.author).name,
     ogType: 'article',
     ogUrl: withoutTrailingSlash(postLink),
     twitterTitle: doc.value?.title,
