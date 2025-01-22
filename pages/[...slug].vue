@@ -86,6 +86,25 @@ const url = withoutTrailingSlash(runtimeConfig.public.url)
 
 const postLink = url + doc.value?._path
 
+const author = findAuthor(doc.value?.author)
+let schemaAuthor
+
+if (author) {
+    schemaAuthor = {
+        '@type': 'Person',
+        name: author,
+    }
+}
+
+useSchemaOrg([
+    defineWebPage({
+        '@type': '@BlogPosting',
+        datePublished: doc.value?.date,
+        headline: doc.value?.title,
+        author: schemaAuthor
+    }),
+])
+
 useSeoMeta({
     canonical: withoutTrailingSlash(postLink),
     author: findAuthor(doc.value?.author),
