@@ -12,6 +12,8 @@ tags:
     - "minimalist"
     - "documentation"
 
+schemaOrg:
+    "@type": "AboutPage"
 ---
 
 # About this theme
