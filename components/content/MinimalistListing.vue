@@ -112,7 +112,15 @@ const props = defineProps<{
 
 const format = props.format || 'card'
 const {itemsPerPage, currentPage} = usePagination()
-const id = 'listing-' + props.category + '-' + props.tag + '-' + props.prefix
+
+const id = [
+    'listing',
+    props.category && `cat-${props.category}`,
+    props.tag && `tag-${props.tag}`,
+    props.prefix && `prefix-${props.prefix}`,
+    `page-${currentPage.value}`
+].filter(Boolean).join('-')
+
 let where = {}
 if (props.category) {
     where['categories'] = { $in: [props.category] }
@@ -123,6 +131,8 @@ if (props.tag) {
 where = { ...where, ...{ draft: { $ne: true }, listed: { $ne: false } } }
 
 const numberOfPostsPerPage = itemsPerPage.value
+
+console.log('id', id)
 
 const { data: docs } = useAsyncData(id, () => {
     return queryContent(props.prefix || '')

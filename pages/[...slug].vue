@@ -40,7 +40,7 @@ const getDocumentPath = () => {
 const configTheme = config.theme || 'minimalist'
 let theme = `themes-${configTheme}-default`
 
-const {data: doc, error} = await useAsyncData(getDocumentPath(), () => {
+const {data: doc, error} = await useAsyncData(route.path, () => {
     return queryContent('').where({ _path: getDocumentPath() }).findOne()
 })
 
