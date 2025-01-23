@@ -9,14 +9,14 @@ export default defineEventHandler(async (e) => {
     const hasAlgoliaCredentials = process.env.ALGOLIA_API_KEY && process.env.ALGOLIA_APPLICATION_ID
 
     if (!isAlgoliaEnabled || !hasAlgoliaCredentials) {
-        return
+        return 'Algolia is not enabled or no credentials are provided.'
     }
 
     if (isAlgoliaEnabled && !hasAlgoliaCredentials) {
         consola.warn(
             'Algolia is enabled but no credentials are provided. Please provide Algolia API Key and Application ID.'
         )
-        return
+        return 'Algolia is enabled but no credentials are provided.'
     }
 
     const client = algoliasearch(process.env.ALGOLIA_APPLICATION_ID, process.env.ALGOLIA_API_KEY)
@@ -41,6 +41,7 @@ export default defineEventHandler(async (e) => {
     consola.success(
         `Indexed ${objectIDs.length} records in Algolia for: ${indexName}`
     )
+    return `Indexed ${objectIDs.length} records in Algolia for: ${indexName}`
 
 
 })
