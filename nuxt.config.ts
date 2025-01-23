@@ -20,16 +20,16 @@ export default defineNuxtConfig({
       }
     },
 
-    algolia: {
-        apiKey: process.env.ALGOLIA_API_KEY,
-        applicationId: process.env.ALGOLIA_APPLICATION_ID,
-        instantSearch: {
-            theme: 'algolia'
-        },
-        docSearch: {
-            indexName: 'bloggrify',
-        }
-    },
+    // algolia: {
+    //     apiKey: process.env.ALGOLIA_API_KEY || '',
+    //     applicationId: process.env.ALGOLIA_APPLICATION_ID || '',
+    //     instantSearch: {
+    //         theme: 'algolia'
+    //     },
+    //     docSearch: {
+    //         indexName: 'bloggrify',
+    //     }
+    // },
 
     devtools: { enabled: true },
 
@@ -46,8 +46,8 @@ export default defineNuxtConfig({
       '@stefanobartoletti/nuxt-social-share',
       '@nuxtjs/robots',
       '@nuxtjs/sitemap',
-      'nuxt-schema-org',
-      '@nuxtjs/algolia'
+       // '@nuxtjs/algolia',
+       'nuxt-schema-org'
     ],
 
     siteConfig: {
