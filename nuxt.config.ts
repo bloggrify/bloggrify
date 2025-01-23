@@ -20,6 +20,17 @@ export default defineNuxtConfig({
       }
     },
 
+    algolia: {
+        apiKey: process.env.ALGOLIA_API_KEY,
+        applicationId: process.env.ALGOLIA_APPLICATION_ID,
+        instantSearch: {
+            theme: 'algolia'
+        },
+        docSearch: {
+            indexName: 'bloggrify',
+        }
+    },
+
     devtools: { enabled: true },
 
     // Easy access to enabling sourcemaps for debugging
@@ -35,7 +46,8 @@ export default defineNuxtConfig({
       '@stefanobartoletti/nuxt-social-share',
       '@nuxtjs/robots',
       '@nuxtjs/sitemap',
-      'nuxt-schema-org'
+      'nuxt-schema-org',
+      '@nuxtjs/algolia'
     ],
 
     siteConfig: {
@@ -95,7 +107,7 @@ export default defineNuxtConfig({
 
     nitro: {
         prerender: {
-            routes: ['/rss.xml', '/api/__sitemap__/urls'],
+            routes: ['/rss.xml', '/api/__sitemap__/urls', '/api/__algolia__/indexer'],
         },
     },
 

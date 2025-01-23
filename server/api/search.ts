@@ -55,15 +55,19 @@ export default defineEventHandler(async (event) => {
  */
 function extractTextFromAst(node: unknown, bodyLimit: number) : string {
     let text = ''
-    if (node.type === 'text') {
+
+    if (text.length >= bodyLimit) {
+        return text
+    }
+
+    if (node.type === 'text' && node.value) {
         text += node.value
     }
     if (node.children) {
         for (const child of node.children) {
-
-            // enforce body limit to prevent excessive payloads sizes
-            if (text.length <= bodyLimit) {
-                text += ' ' + extractTextFromAst(child, bodyLimit).trim() // trim whitespace
+            text += ' ' + extractTextFromAst(child, bodyLimit).trim()
+            if (text.length >= bodyLimit) {
+                return text.slice(0, bodyLimit)
             }
         }
     }

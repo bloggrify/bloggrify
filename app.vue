@@ -4,14 +4,12 @@
     </div>
 </template>
 <script setup lang="ts">
-import {useAnalytics} from '~/composables/useAnalytics'
+import {useAnalytics} from '#imports'
 import {useColorMode, useDark} from '@vueuse/core'
 
 const config = useAppConfig()
 
 useAnalytics()
-
-
 useColorMode({initialValue: 'light'})
 useDark().value = false
 

@@ -46,6 +46,10 @@ export default defineAppConfig({
     //     provider: 'demo',
     // },
     //
+    //     search: {
+    //         algolia: true,
+    //     }
+
     // comments: {
     //     enabled: false,
     //     hyvor_talk: {
