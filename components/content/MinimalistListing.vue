@@ -132,8 +132,6 @@ where = { ...where, ...{ draft: { $ne: true }, listed: { $ne: false } } }
 
 const numberOfPostsPerPage = itemsPerPage.value
 
-console.log('id', id)
-
 const { data: docs } = useAsyncData(id, () => {
     return queryContent(props.prefix || '')
         .where(where)

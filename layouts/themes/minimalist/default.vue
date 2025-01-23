@@ -17,6 +17,8 @@
                     :value="doc"
                     class="prose pt-6 text-sm md:text-xl dark:prose-invert"
                 />
+
+                <CommentSystem :id="doc.id" :nocomments="doc.nocomments" />
             </div>
         </main>
         <MinimalistFooter />
