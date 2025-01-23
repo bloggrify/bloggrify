@@ -8,8 +8,8 @@ const isAlgoliaEnabled = config.search?.algolia
 </script>
 
 <template>
-    <AlgoliaDocSearch v-if="isAlgoliaEnabled" :disable-user-personalization="true"/>
-    <BuiltinSearch v-else/>
+    <BuiltinSearch v-if="!isAlgoliaEnabled" />
+<!--    <AlgoliaDocSearch v-else :disable-user-personalization="true"/>-->
 
 </template>
 
