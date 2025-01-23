@@ -33,10 +33,11 @@ export default defineAppConfig({
     },
 
     analytics: {
-        provider: 'pirsch',
-        pirsch: {
-            code: 'UMgcWhIpdgfYXWLqLmCesiKf6vpSZBfv'
-        }
+        providers: [{
+                provider: 'pirsch',
+                code: 'UMgcWhIpdgfYXWLqLmCesiKf6vpSZBfv'
+            }
+        ]
     },
 
     comments: {
