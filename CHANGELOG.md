@@ -1,6 +1,44 @@
 # Changelog
 
 
+## v2.0.0-beta2
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v2.0.0-beta1...v2.0.0-beta2)
+
+### 🚀 Enhancements
+
+- Allow multiple providers for analytics ([2903e3c](https://github.com/bloggrify/bloggrify/commit/2903e3c))
+- Add comment system to the minimalist template ([8b670ef](https://github.com/bloggrify/bloggrify/commit/8b670ef))
+
+### 🩹 Fixes
+- FindAuthor should not return "undefined" or null ([bd1eab2](https://github.com/bloggrify/bloggrify/commit/bd1eab2))
+- CommentSystem should manage when configuration is empty ([70cd503](https://github.com/bloggrify/bloggrify/commit/70cd503))
+- Images were missing on this blog post. Rewrite the content to send readers to the official documentation instead of having outdated documentation here ([22c8f3c](https://github.com/bloggrify/bloggrify/commit/22c8f3c))
+- Bad link in the home template ([aaf90d0](https://github.com/bloggrify/bloggrify/commit/aaf90d0))
+- Id was not unique, preventing pagination ([98010c5](https://github.com/bloggrify/bloggrify/commit/98010c5))
+- Temporarily disable algolia module ([95dfe35](https://github.com/bloggrify/bloggrify/commit/95dfe35))
+- Prerendering don't expect 204 http code ([9a95ff9](https://github.com/bloggrify/bloggrify/commit/9a95ff9))
+- Disable the algolia component for the moment ([0ecb204](https://github.com/bloggrify/bloggrify/commit/0ecb204))
+- #30 The default version don't use trailing slash. If user try to get the version with trailing slash, he is redirected to the version without trailing slash ([#30](https://github.com/bloggrify/bloggrify/issues/30))
+
+### 💅 Refactors
+
+- It's not user friendly to ask them to create the archives.md file. It should be a logic managed by the framework ([698d0a9](https://github.com/bloggrify/bloggrify/commit/698d0a9))
+- For user experience, it's better to propose the indexable setting from within env variables ([44448ef](https://github.com/bloggrify/bloggrify/commit/44448ef))
+
+### 📖 Documentation
+
+- Remove current content of the blog (to replace by git a git submodule) ([d0571a9](https://github.com/bloggrify/bloggrify/commit/d0571a9))
+- Add submodule (that way, the content of the blog will be shared by all demo blog) ([66983cc](https://github.com/bloggrify/bloggrify/commit/66983cc))
+- Add content for the future blog ([df84056](https://github.com/bloggrify/bloggrify/commit/df84056))
+- Update git folder ([27ac545](https://github.com/bloggrify/bloggrify/commit/27ac545))
+- Update github actions to manage submodule ([0fec655](https://github.com/bloggrify/bloggrify/commit/0fec655))
+
+### ❤️ Contributors
+
+- Hugo Lassiège <hlassiege@gmail.com>
+- IO-Fire ([@IO-Fire](http://github.com/IO-Fire))
+
 ## v2.0.0-beta.1
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.8.0...v2.0.0-beta-1)
