@@ -23,7 +23,7 @@ defineProps<{
 }>()
 
 const url = function () {
-    let baseUrl = useAppConfig().url
+    let baseUrl = useRuntimeConfig().public.url
     // remove trailing slash if exists
     if (baseUrl.endsWith('/')) {
         baseUrl = baseUrl.slice(0, -1)
