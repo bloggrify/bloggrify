@@ -105,6 +105,14 @@ export default defineNuxtConfig({
         },
     },
 
+    experimental: {
+        defaults: {
+            nuxtLink: {
+                trailingSlash: 'remove',
+            }
+        }
+    },
+
     nitro: {
         prerender: {
             routes: ['/rss.xml', '/api/__sitemap__/urls', '/api/__algolia__/indexer'],
