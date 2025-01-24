@@ -9,8 +9,8 @@ export type SubscribeResponse = {
 }
 export async function subscribe(email: string, subscribeForm: HTMLFormElement | null): Promise<SubscribeResponse> {
     const config = useAppConfig()
-    const formAction = config.newsletter.form_action
-    const provider = config.newsletter.provider
+    const formAction = config.newsletter?.form_action
+    const provider = config.newsletter?.provider
 
     if (!subscribeForm) {
         return {
