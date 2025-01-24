@@ -12,6 +12,7 @@
     "files": [
         "components",
         "composables",
+        "middleware",
         "modules",
         "layouts",
         "pages",
