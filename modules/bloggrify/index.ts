@@ -12,7 +12,7 @@ export default defineNuxtModule({
 
         nuxt.hook('build:before', async () => {
 
-            if(!process.env.BASE_URL || !process.env.INDEXABLE) {
+            if(!process.env.BASE_URL || !process.env.SITE_INDEXABLE) {
                 let message = colors.greenBright('Bloggrify') + '\n\n'
 
                 if(!process.env.BASE_URL) {
