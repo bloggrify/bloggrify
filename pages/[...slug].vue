@@ -3,9 +3,8 @@
 </template>
 <script setup lang="ts">
 import type { NuxtError } from '#app'
-import {withoutTrailingSlash} from 'ufo'
-import {findAuthor} from '~/composables/useAuthor'
-import {msToISO8601Duration} from '~/composables/useDateFormat'
+import {joinURL, withoutTrailingSlash} from 'ufo'
+import {findAuthor, msToISO8601Duration} from '#imports'
 
 const route = useRoute()
 const config = useAppConfig()
@@ -85,7 +84,7 @@ if (doc.value) {
 const runtimeConfig = useRuntimeConfig()
 const url = withoutTrailingSlash(runtimeConfig.public.url)
 
-const postLink = url + doc.value?._path
+const postLink = withoutTrailingSlash(joinURL(url, doc.value?._path))
 
 const author = findAuthor(doc.value?.author)
 let schemaAuthor
@@ -112,7 +111,7 @@ useSchemaOrg([
 ])
 
 useSeoMeta({
-    canonical: withoutTrailingSlash(postLink),
+    canonical: postLink,
     author: findAuthor(doc.value?.author).name,
     articleAuthor: findAuthor(doc.value?.author).name,
     ogType: 'article',
@@ -133,9 +132,9 @@ if (doc.value.readingTime?.time && doc.value.readingTime?.time > 0) {
 
 if (doc.value?.cover) {
     useSeoMeta({
-        ogImage: url + '/images/' + doc.value?.cover,
+        ogImage: joinURL(url, 'images', doc.value?.cover),
         ogImageAlt: doc.value?.title,
-        twitterImage: url + '/images/' + doc.value?.cover
+        twitterImage: joinURL(url ,'images/', doc.value?.cover)
     })
 }
 
