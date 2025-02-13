@@ -1,6 +1,29 @@
 # Changelog
 
 
+## v2.0.1
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v2.0.0...v2.0.1)
+
+### 🚀 Enhancements
+
+- Allows custom properties on analytic providers ([fb7d4e5](https://github.com/bloggrify/bloggrify/commit/fb7d4e5))
+
+### 🩹 Fixes
+
+- Social sharing should use the new url variable ([16eb2f5](https://github.com/bloggrify/bloggrify/commit/16eb2f5))
+- Manage absent variables ([170ed9c](https://github.com/bloggrify/bloggrify/commit/170ed9c))
+- The warning message on startup was not appearing correctly ([4d02b2e](https://github.com/bloggrify/bloggrify/commit/4d02b2e))
+
+### 📖 Documentation
+
+- Add article about the new version ([922a1a8](https://github.com/bloggrify/bloggrify/commit/922a1a8))
+- Fix article name. Don't use dots in file name ([5284bb1](https://github.com/bloggrify/bloggrify/commit/5284bb1))
+
+### ❤️ Contributors
+
+- Hugo Lassiège <hlassiege@gmail.com>
+
 ## v2.0.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v1.8.0...v2.0.0)
