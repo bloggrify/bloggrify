@@ -39,6 +39,11 @@ export const useAnalytics = () => {
                 defer: true,
                 'data-domain': provider.code,
             }],
+            umami: [{
+                src: 'https://cloud.umami.is/script.js',
+                'data-website-id': provider.code,
+                defer: true,
+            }],
             fathom: [{
                 src: 'https://cdn.usefathom.com/script.js',
                 'data-site': provider.code,
