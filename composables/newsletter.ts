@@ -43,7 +43,7 @@ export async function subscribe(email: string, subscribeForm: HTMLFormElement | 
             }
         }
     }
-    else if (provider === 'rssfeedpulse') {
+    else if (provider === 'blogtally' || provider === 'rssfeedpulse') {
         try {
             const response = await fetch(`${formAction}?email=${email}`, {
                 method: 'POST',

@@ -455,7 +455,7 @@ Never released (skipped)
 ### 📖 Documentation
 
 - Add a big warning on startup when someone try to use bloggrify without any content ([be86263](https://github.com/bloggrify/bloggrify/commit/be86263))
-- Small shoutout to RssFeedPulse ([0437712](https://github.com/bloggrify/bloggrify/commit/0437712))
+- Small shoutout to Blogtally ([0437712](https://github.com/bloggrify/bloggrify/commit/0437712))
 
 ### 📦 Build
 
