@@ -100,7 +100,6 @@ export default defineNuxtConfig({
             }
         }
     },
-
     nitro: {
         prerender: {
             routes: ['/rss.xml', '/api/__sitemap__/urls'],
