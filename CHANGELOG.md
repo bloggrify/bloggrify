@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v2.1.0
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v2.0.2...v2.1.0)
+
+### 🚀 Enhancements
+
+- Add umami to the list of analytics provider ([befd81d](https://github.com/bloggrify/bloggrify/commit/befd81d))
+- Add shortcode for X, Youtube, Instagram and Vimeo ([ae23eab](https://github.com/bloggrify/bloggrify/commit/ae23eab))
+
+### 🩹 Fixes
+
+- Rssfeedpulse became blogtally ([b784d1d](https://github.com/bloggrify/bloggrify/commit/b784d1d))
+
+### 📖 Documentation
+
+- Add blog article for new version ([485223d](https://github.com/bloggrify/bloggrify/commit/485223d))
+
+### 🏡 Chore
+
+- Upgrade some dependencies ([c3581e5](https://github.com/bloggrify/bloggrify/commit/c3581e5))
+
+### ❤️ Contributors
+
+- Hugo Lassiège <hlassiege@gmail.com>
+
 ## v2.0.2
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v2.0.1...v2.0.2)
