@@ -1,4 +1,4 @@
-type AnalyticsProvider = 'blogtally' | 'pirsch' | 'plausible' | 'fathom' | 'google'
+type AnalyticsProvider = 'hakanai' | 'blogtally' | 'pirsch' | 'plausible' | 'fathom' | 'google'
 
 // Modification du type pour accepter des propriétés supplémentaires
 type AnalyticsProviderConfig = {
@@ -23,8 +23,13 @@ export const useAnalytics = () => {
     const getProviderScript = (provider: AnalyticsProviderConfig): ScriptAttributes[] => {
         // Configuration de base pour chaque fournisseur
         const baseScripts: Record<AnalyticsProvider, ScriptAttributes[]> = {
+            hakanai: [{
+                src: 'https://tracker.hakanai.io/hakanai.min.js',
+                defer: true,
+                'data-site': provider.code,
+            }],
             blogtally: [{
-                src: 'https://tracker.blogtally.com/blogtally.min.js',
+                src: 'https://tracker.hakanai.io/hakanai.min.js',
                 defer: true,
                 'data-site': provider.code,
             }],
