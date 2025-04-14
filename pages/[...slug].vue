@@ -110,6 +110,15 @@ useSchemaOrg([
     }),
 ])
 
+useHead({
+    link: [
+        {
+            rel: 'canonical',
+            href: postLink
+        }
+    ]
+})
+
 useSeoMeta({
     canonical: postLink,
     author: findAuthor(doc.value?.author).name,
