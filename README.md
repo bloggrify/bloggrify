@@ -22,6 +22,7 @@ Bloggrify is built on top of
 * Nuxt.js 
 * Tailwind CSS
 * Nuxt-Content 
+* Nuxt-UI
 * and other cool stuff (Hyvor Talk, Hakanai, etc...)
 
 It is a **static** blog generator that uses markdown files to generate blog posts.

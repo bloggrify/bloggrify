@@ -25,11 +25,11 @@ export default defineNuxtModule({
                         'Set the environment variable SITE_INDEXABLE to true to enable indexing.'
                 }
 
-                console.box(message)
+                consola.box(message)
             }
 
 
-            if (!fs.existsSync(nuxt.options.rootDir + '/content')) {
+            if (!fs.existsSync(nuxt.options.rootDir + '/app/content')) {
                 consola.box(
                     colors.greenBright('Bloggrify') + '\n\n' +
                     'Missing `content` folder, please add it to your project. Most of the time, this error occurs when you try to start Bloggrify without using an existing theme.  \n\n' +

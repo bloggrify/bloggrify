@@ -1,21 +1,10 @@
 // @ts-check
-import { createConfigForNuxt } from '@nuxt/eslint-config/flat'
+import withNuxt from './.nuxt/eslint.config.mjs'
 
-export default createConfigForNuxt({
-    features: {
-        tooling: true
-    }
-}).append({
+export default withNuxt({
     rules: {
-        // Global
-        semi: ['error', 'never'],
-        quotes: ['error', 'single'],
-        'quote-props': ['error', 'as-needed'],
-        // Vue
-        'vue/multi-word-component-names': 0,
-        'vue/max-attributes-per-line': 'off',
-        'vue/no-v-html': 0,
-        'vue/html-indent': ['error', 4],
-        'vue/script-indent': ['error', 4, { baseIndent: 0 }],
+        'vue/no-multiple-template-root': 'off',
+        'vue/no-v-html': 'off',
+        'vue/max-attributes-per-line': ['error', { singleline: 3 }]
     }
 })

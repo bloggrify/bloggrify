@@ -1,0 +1,5 @@
+@import "tailwindcss" theme(static);
+@import "@nuxt/ui";
+@import 'katex/dist/katex.min.css';
+
+@plugin "@tailwindcss/typography";

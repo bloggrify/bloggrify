@@ -1,3 +1,6 @@
 [submodule "content"]
 	path = content
 	url = https://github.com/bloggrify/blog-content.git
+[submodule "app/content"]
+	path = app/content
+	url = https://github.com/bloggrify/blog-content.git

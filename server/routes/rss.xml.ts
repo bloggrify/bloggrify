@@ -1,5 +1,5 @@
-import { serverQueryContent } from '#content/server'
 import { Feed } from 'feed'
+import type { PageCollectionItem } from '@nuxt/content'
 import {withLeadingSlash, withoutTrailingSlash} from 'ufo'
 
 export default defineEventHandler(async (event) => {
@@ -8,10 +8,11 @@ export default defineEventHandler(async (event) => {
     const configUrl = runtimeConfig.public.url
     const url = withoutTrailingSlash(configUrl)
 
-    const docs = await serverQueryContent(event)
-        .where({ hidden: { $ne: true } })
-        .sort({ date: -1 })
-        .find()
+    const docs = await queryCollection(event, 'page')
+      .orWhere(query => query.where('hidden', '=', true).where('hidden', 'IS NULL'))
+      .orWhere(query => query.where('draft', '=', true).where('draft', 'IS NULL'))
+      .order('date', 'DESC')
+        .all()
 
     const now = new Date()
 
@@ -25,8 +26,8 @@ export default defineEventHandler(async (event) => {
         copyright: `All rights reserved ${now.getFullYear()}, ${config.name}`,
         generator: 'bloggrify',
     })
-    docs.forEach((post) => {
-        const path = post._path
+    docs.forEach((post: PageCollectionItem) => {
+        const path = post.path
         if (post.date) {
             feed.addItem({
                 title: post.title ?? '-',
