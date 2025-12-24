@@ -1,7 +1,12 @@
 <template>
+  <UApp>
+    <NuxtLoadingIndicator />
     <div class="flex flex-col min-h-screen">
+      <NuxtLayout>
         <NuxtPage />
+      </NuxtLayout>
     </div>
+  </UApp>
 </template>
 <script setup lang="ts">
 import {useAnalytics} from '#imports'
@@ -67,8 +72,6 @@ useHead({
 })
 </script>
 <style lang="scss">
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
 
 .prose {
