@@ -27,7 +27,7 @@ jobs:
               run: npm install
 
             - name: Copy configuration file
-              run: cp SAMPLE.app.config.ts app.config.ts
+              run: cp app/SAMPLE.app.config.ts app/app.config.ts
 
             - name: Generate static site
               run: npm run generate
