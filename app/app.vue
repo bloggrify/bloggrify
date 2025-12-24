@@ -23,13 +23,13 @@ useSchemaOrg([
         name: config.name,
         url: config.url,
         description: config.description,
-        inLanguage: config.language || 'en',
+        inLanguage: (config.language || 'en') as string,
     })
 ])
 
 useHead({
     htmlAttrs: {
-        lang: config.language || 'en',
+        lang: (config.language || 'en') as string,
     },
     link: [
         {

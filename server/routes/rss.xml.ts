@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
         description: config.description,
         id: url,
         link: url,
-        language: config.language,
+        language: (config.language || 'en') as string,
         favicon: url + '/favicon.ico',
         copyright: `All rights reserved ${now.getFullYear()}, ${config.name}`,
         generator: 'bloggrify',

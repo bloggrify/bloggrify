@@ -24,9 +24,9 @@
 </template>
 <script setup lang="ts">
 import type { PageCollectionItem } from '@nuxt/content'
-import MinimalistMenu from '~/components/MinimalistMenu.vue'
-import MinimalistFooter from '~/components/MinimalistFooter.vue'
-import MinimalistHeader from '~/components/MinimalistHeader.vue'
+import MinimalistMenu from '~/components/minimalist/MinimalistMenu.vue'
+import MinimalistFooter from '~/components/minimalist/MinimalistFooter.vue'
+import MinimalistHeader from '~/components/minimalist/MinimalistHeader.vue'
 import MinimalistListing from '~/components/content/MinimalistListing.vue'
 
 defineProps<{

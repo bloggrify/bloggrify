@@ -1,4 +1,5 @@
-function formatDate(date: string | number): string {
+function formatDate(date: string | number | undefined): string {
+    if (!date) return ''
     const options: Intl.DateTimeFormatOptions = {
         year: 'numeric',
         month: 'short',

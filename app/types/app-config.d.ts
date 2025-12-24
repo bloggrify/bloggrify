@@ -1,4 +1,31 @@
+
 declare module '@nuxt/schema' {
+
+  type Author = {
+    default?: boolean
+    username?: string
+    name?: string
+    description?: string
+    avatar?: string
+    socials?: {
+      twitter?: string
+      twitter_username?: string
+      mastodon?: string
+      youtube?: string
+      linkedin?: string
+      facebook?: string
+      instagram?: string
+      github?: string
+    }
+  }
+
+  type AnalyticsProvider = 'hakanai' | 'blogtally' | 'pirsch' | 'plausible' | 'umami' | 'fathom' | 'google'
+
+  type AnalyticsProviderConfig = {
+    provider: AnalyticsProvider
+    code: string
+  } & Record<string, string | boolean | number>
+
   interface AppConfig {
     url: string
     logo: string
@@ -31,10 +58,7 @@ declare module '@nuxt/schema' {
     }
 
     analytics: {
-      providers: Array<{
-        provider: string
-        code: string
-      }>
+      providers: Array<AnalyticsProviderConfig>
     }
 
     comments: {
@@ -46,23 +70,7 @@ declare module '@nuxt/schema' {
 
     table_of_contents: boolean
 
-    authors: Array<{
-      default?: boolean
-      username: string
-      name: string
-      description: string
-      avatar: string
-      socials: {
-        twitter?: string
-        twitter_username?: string
-        mastodon?: string
-        youtube?: string
-        linkedin?: string
-        facebook?: string
-        instagram?: string
-        github?: string
-      }
-    }>
+    authors: Array<Author>
 
     menu: Array<{
       name: string

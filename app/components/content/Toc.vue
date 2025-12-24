@@ -7,7 +7,7 @@
             <div class="mb-3 font-normal ">
                 <ul class="pl-0 ">
                     <li
-                        v-for="subtitle in doc.body.toc.links"
+                        v-for="subtitle in doc?.body.toc?.links"
                         :key="subtitle.text"
                         class="py-1 list-decimal ml-4 "
                         :class="{ 'ml-6': subtitle.depth === 3 }"

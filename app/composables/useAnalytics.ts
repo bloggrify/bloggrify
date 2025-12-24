@@ -1,11 +1,6 @@
-type AnalyticsProvider = 'hakanai' | 'blogtally' | 'pirsch' | 'plausible' | 'fathom' | 'google'
 
-// Modification du type pour accepter des propriétés supplémentaires
-type AnalyticsProviderConfig = {
-    provider: AnalyticsProvider
-    code: string
-    [key: string]: string | boolean | number
-}
+import type { AnalyticsProviderConfig, AnalyticsProvider } from '@nuxt/schema'
+
 
 type ScriptAttributes = {
     src?: string
@@ -13,15 +8,14 @@ type ScriptAttributes = {
     async?: boolean
     id?: string
     innerHTML?: string
-    [key: string]: string | boolean | number
+    [key: string]: string | boolean | number | undefined
 }
 
 export const useAnalytics = () => {
     const config = useAppConfig()
-    const providers = config.analytics?.providers || []
+    const providers = (config.analytics?.providers || []) as AnalyticsProviderConfig[]
 
     const getProviderScript = (provider: AnalyticsProviderConfig): ScriptAttributes[] => {
-        // Configuration de base pour chaque fournisseur
         const baseScripts: Record<AnalyticsProvider, ScriptAttributes[]> = {
             hakanai: [{
                 src: 'https://tracker.hakanai.io/hakanai.min.js',
@@ -71,29 +65,23 @@ export const useAnalytics = () => {
             ],
         }
 
-        // Récupérer les scripts de base pour le provider
         const scripts = baseScripts[provider.provider] || []
 
-        // Ajouter les propriétés supplémentaires au premier script
         if (scripts.length > 0) {
             const extraParams = Object.entries(provider).reduce((acc, [key, value]) => {
-                // Ignorer les propriétés de base
                 if (key !== 'provider' && key !== 'code') {
-                    // Convertir les propriétés camelCase en data-attribute si nécessaire
                     const attributeKey = key.startsWith('data-') ? key : `data-${key.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`)}`
                     acc[attributeKey] = value
                 }
                 return acc
             }, {} as Record<string, string | boolean | number>)
 
-            // Fusionner les propriétés supplémentaires avec le premier script
             scripts[0] = { ...scripts[0], ...extraParams }
         }
 
         return scripts
     }
 
-    // Ajouter tous les scripts pour chaque provider
     providers.forEach(provider => {
         const scripts = getProviderScript(provider)
         if (scripts.length > 0) {

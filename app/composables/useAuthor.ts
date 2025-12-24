@@ -1,16 +1,9 @@
-export type Author = {
-    username: string
-    name: string
-    avatar: string
-    description: string
-    default: boolean
-}
+import type { Author } from "@nuxt/schema";
 
 export const findAuthor = (authorId?: string): Author => {
     const config = useAppConfig()
 
-    const defaultAuthor = { username: authorId, name: authorId, avatar: '', description: '', default: false }
-
+    const defaultAuthor = { username: authorId, name: authorId, avatar: '', description: '', default: false, socials: {} }
 
     if (authorId === undefined) {
         return config.authors?.find((author: Author) => author.default) || defaultAuthor

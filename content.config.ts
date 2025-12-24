@@ -22,7 +22,7 @@ export default defineContentConfig({
         // Métadonnées de base
         title: z.string().optional(),
         description: z.string().optional(),
-        date: z.string().or(z.date()).optional(),
+        date: z.coerce.date().optional(),
         cover: z.string().optional(),
 
         // Contrôle de visibilité

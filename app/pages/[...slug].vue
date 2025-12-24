@@ -15,7 +15,7 @@ const slug = route.params.slug as string[]
  * Checks and throws errors from Nuxt data fetching composables
  * @param error Error property from useAsyncData()
  */
-function checkFetchError(error: Ref<NuxtError<unknown> | null>){
+function checkFetchError(error: Ref<NuxtError<unknown> | undefined>){
     // Check for error after fetching result
     if (error.value) {
         // Error must be declared as fatal or it will be ignored in production CSR mode
@@ -82,7 +82,7 @@ if (doc.value?.redirect_to_full_url) {
 const runtimeConfig = useRuntimeConfig()
 const url = withoutTrailingSlash(runtimeConfig.public.url)
 
-const postLink = withoutTrailingSlash(joinURL(url, doc.value?.path))
+const postLink = withoutTrailingSlash(joinURL(url, doc.value?.path || '/'))
 
 const author = findAuthor(doc.value?.author)
 let schemaAuthor
@@ -99,8 +99,8 @@ if (doc.value?.readingTime?.time && doc.value?.readingTime?.time > 0) {
 }
 
 useSchemaOrg([
-    defineWebPage({
-        '@type': '@BlogPosting',
+    defineArticle({
+        '@type': 'BlogPosting',
         datePublished: doc.value?.date,
         headline: doc.value?.title,
         author: schemaAuthor,
@@ -118,14 +118,13 @@ useHead({
 })
 
 useSeoMeta({
-    canonical: postLink,
     author: findAuthor(doc.value?.author).name,
-    articleAuthor: findAuthor(doc.value?.author).name,
+    articleAuthor: findAuthor(doc.value?.author).name ? [findAuthor(doc.value?.author).name as string] : undefined,
     ogType: 'article',
     ogUrl: withoutTrailingSlash(postLink),
     twitterTitle: doc.value?.title,
     twitterCard: 'summary',
-    articleTag: doc.value?.tags ? doc.value.tags?.toString() : '',
+    articleTag: doc.value?.tags ? doc.value.tags : [],
 })
 
 if (doc.value?.readingTime?.time && doc.value?.readingTime?.time > 0) {
