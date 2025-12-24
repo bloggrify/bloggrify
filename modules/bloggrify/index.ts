@@ -29,7 +29,7 @@ export default defineNuxtModule({
             }
 
 
-            if (!fs.existsSync(nuxt.options.rootDir + '/app/content')) {
+            if (!fs.existsSync(nuxt.options.rootDir + '/content')) {
                 consola.box(
                     colors.greenBright('Bloggrify') + '\n\n' +
                     'Missing `content` folder, please add it to your project. Most of the time, this error occurs when you try to start Bloggrify without using an existing theme.  \n\n' +

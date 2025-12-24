@@ -81,8 +81,6 @@ export default defineNuxtConfig({
       },
 
     },
-
-
   },
 
   experimental: {
