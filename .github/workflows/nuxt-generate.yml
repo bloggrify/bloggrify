@@ -24,7 +24,10 @@ jobs:
                   node-version: '22'
 
             - name: Install dependencies
-              run: npm install
+              run: npm ci
+
+            - name: Lint
+              run: npm run lint
 
             - name: Copy configuration file
               run: cp app/SAMPLE.app.config.ts app/app.config.ts
