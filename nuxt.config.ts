@@ -8,12 +8,6 @@ export default defineNuxtConfig({
     url
   },
 
-  routeRules: {
-    '/api/search': {
-      prerender: true
-    }
-  },
-
   runtimeConfig: {
     public: {
       url: url,
@@ -31,25 +25,18 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
     '@nuxt/ui',
-    '@nuxt/content',
     '@nuxt/image',
     '@vueuse/nuxt',
     '@stefanobartoletti/nuxt-social-share',
     '@nuxtjs/robots',
     '@nuxtjs/sitemap',
-    'nuxt-schema-org'
-  ],
+    'nuxt-schema-org',
+    '@nuxt/content',
 
-  siteConfig: {
-    url: url,
-  },
+  ],
 
   image: {
     format: ['webp'],
-  },
-
-  sitemap: {
-    includeAppSources: true,
   },
 
   css: ['~/assets/css/core.css'],

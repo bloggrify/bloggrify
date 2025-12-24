@@ -1,5 +1,5 @@
 import { Feed } from 'feed'
-import type { PageCollectionItem } from '@nuxt/content'
+import type {CollectionQueryGroup, PageCollectionItem} from '@nuxt/content'
 import {withLeadingSlash, withoutTrailingSlash} from 'ufo'
 
 export default defineEventHandler(async (event) => {
@@ -9,8 +9,8 @@ export default defineEventHandler(async (event) => {
     const url = withoutTrailingSlash(configUrl)
 
     const docs = await queryCollection(event, 'page')
-      .orWhere(query => query.where('hidden', '=', true).where('hidden', 'IS NULL'))
-      .orWhere(query => query.where('draft', '=', true).where('draft', 'IS NULL'))
+      .orWhere((query : CollectionQueryGroup<PageCollectionItem>) => query.where('hidden', '=', true).where('hidden', 'IS NULL'))
+      .orWhere((query : CollectionQueryGroup<PageCollectionItem>) => query.where('draft', '=', true).where('draft', 'IS NULL'))
       .order('date', 'DESC')
         .all()
 
