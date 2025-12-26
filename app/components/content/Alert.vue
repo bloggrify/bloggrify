@@ -24,6 +24,7 @@ const props = defineProps({
     title: {
         type: String,
         required: false,
+        default: '',
     },
     variant: {
         type: String as () => 'solid' | 'outline' | 'soft' | 'subtle',

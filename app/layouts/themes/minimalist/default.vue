@@ -18,6 +18,8 @@
                     class="prose pt-6 text-sm md:text-xl dark:prose-invert max-w-none"
                 />
 
+                <MinimalistAuthorBio v-if="author" :author="author" />
+
                 <CommentSystem :id="doc.id" :nocomments="doc.nocomments" />
             </div>
         </main>
@@ -29,10 +31,13 @@ import type { PageCollectionItem } from '@nuxt/content'
 import MinimalistMenu from '~/components/minimalist/MinimalistMenu.vue'
 import MinimalistFooter from '~/components/minimalist/MinimalistFooter.vue'
 import MinimalistHeader from '~/components/minimalist/MinimalistHeader.vue'
+import MinimalistAuthorBio from '~/components/minimalist/MinimalistAuthorBio.vue'
 
-defineProps<{
+const props = defineProps<{
     doc: PageCollectionItem;
 }>()
+
+const author = computed(() => findAuthor(props.doc?.author))
 </script>
 <style lang="scss">
 @reference "~/assets/css/core.css";

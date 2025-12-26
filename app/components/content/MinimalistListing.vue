@@ -1,6 +1,6 @@
 <template>
     <section class="mt-4">
-        <div class="text-xl font-semibold ">
+        <div class="text-xl font-semibold mb-4">
             {{title}}
         </div>
 
@@ -103,6 +103,7 @@
 const props = defineProps<{
     category?: string;
     tag?: string;
+    author?: string;
     title?: string;
     prefix?: string;
     format?: string;
@@ -117,6 +118,7 @@ const id = [
     'listing',
     props.category && `cat-${props.category}`,
     props.tag && `tag-${props.tag}`,
+    props.author && `author-${props.author}`,
     props.prefix && `prefix-${props.prefix}`,
     `page-${currentPage.value}`
 ].filter(Boolean).join('-')
@@ -137,6 +139,10 @@ const buildQuery = () => {
         query = query.where('tags', 'IN', [props.tag])
     }
 
+    if (props.author) {
+        query = query.where('author', '=', props.author)
+    }
+
     // Filtres de visibilité
     query = query
         .orWhere(query => query.where('listed', '=', true).where('listed', 'IS NULL'))
@@ -148,7 +154,6 @@ const buildQuery = () => {
 
 const numberOfPostsPerPage = itemsPerPage.value
 
-// Pagination côté serveur pour SSG
 const { data: docs } = useAsyncData(id, () => {
     return buildQuery()
         .order('date', 'DESC')
@@ -157,7 +162,8 @@ const { data: docs } = useAsyncData(id, () => {
         .all()
 })
 
-// Le count utilise les mêmes filtres maintenant
-const totalNumberOfPages = await buildQuery().count()
+// Count total items and calculate number of pages
+const totalItems = await buildQuery().count()
+const totalNumberOfPages = Math.ceil(totalItems / numberOfPostsPerPage)
 
 </script>

@@ -87,7 +87,7 @@ const postLink = withoutTrailingSlash(joinURL(url, doc.value?.path || '/'))
 const author = findAuthor(doc.value?.author)
 let schemaAuthor
 
-if (author) {
+if (author?.name) {
     schemaAuthor = {
         '@type': 'Person',
         name: author.name,
@@ -122,8 +122,8 @@ useSeoMeta({
     description: doc.value?.description,
     ogTitle: doc.value?.title,
     ogDescription: doc.value?.description,
-    author: findAuthor(doc.value?.author).name,
-    articleAuthor: findAuthor(doc.value?.author).name ? [findAuthor(doc.value?.author).name as string] : undefined,
+    author: author?.name,
+    articleAuthor: author?.name ? [author.name] : undefined,
     ogType: 'article',
     ogUrl: withoutTrailingSlash(postLink),
     twitterTitle: doc.value?.title,

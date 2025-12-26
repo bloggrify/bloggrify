@@ -14,26 +14,14 @@
                     disabled:opacity-50 disabled:pointer-events-none
                     dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
             >
-                <svg
-                  class="flex-shrink-0 size-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round">
-                    <path d="m15 18-6-6 6-6" />
-                </svg>
+                <UIcon name="heroicons-solid:chevron-left" />
                 <span aria-hidden="true" class="sr-only">Previous</span>
             </button>
         </NuxtLink>
         <div class="flex items-center gap-x-1">
             <span class="min-h-[12px] min-w-[12px] flex justify-center items-center text-black py-2 px-3 rounded-lg focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:border-neutral-700 dark:text-white dark:focus:bg-white/10" aria-current="page">{{ pageNumber }}</span>
             <span class="min-h-[12px] flex justify-center items-center text-gray-400 py-2 px-1.5 dark:text-neutral-500">of</span>
-            <span class="min-h-[12px] flex justify-center items-center text-gray-400 py-2 px-1.5 dark:text-neutral-500">{{ Math.ceil((total ?? 0) /itemsPerPage) }}</span>
+            <span class="min-h-[12px] flex justify-center items-center text-gray-400 py-2 px-1.5 dark:text-neutral-500">{{ total ?? 0 }}</span>
         </div>
         <NuxtLink
           :to="right.to"
@@ -48,25 +36,13 @@
                     dark:text-white dark:hover:bg-white/10 dark:focus:bg-white/10"
             >
                 <span aria-hidden="true" class="sr-only">Next</span>
-                <svg
-                  class="flex-shrink-0 size-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round">
-                    <path d="m9 18 6-6-6-6" />
-                </svg>
+                <UIcon name="heroicons-solid:chevron-right" />
             </button>
         </NuxtLink>
     </nav>
 </template>
 <script setup lang="ts">
-const { itemsPerPage, currentPage, createPath } = usePagination()
+const { currentPage, createPath } = usePagination()
 
 type arrowLink = {
     to: string;
@@ -93,7 +69,7 @@ const left: arrowLink = {
 }
 
 // Determine if the current page is the last page
-const isEndOfPages = pageNumber.value + 1 > Math.ceil(props.total ?? 0 / itemsPerPage.value)
+const isEndOfPages = pageNumber.value >= (props.total ?? 0)
 
 // Right Arrow Link
 const right: arrowLink = {
