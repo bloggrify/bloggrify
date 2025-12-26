@@ -1,11 +1,17 @@
 const url = process.env.BASE_URL || 'http://localhost:3000'
+const name = process.env.SITE_NAME || 'Bloggrify'
 const indexable = process.env.SITE_INDEXABLE || false
 
 export default defineNuxtConfig({
 
   site: {
     indexable,
-    url
+    url,
+    name
+  },
+
+  ogImage: {
+    zeroRuntime: true
   },
 
   runtimeConfig: {
@@ -32,7 +38,7 @@ export default defineNuxtConfig({
     '@nuxtjs/sitemap',
     'nuxt-schema-org',
     '@nuxt/content',
-
+    'nuxt-og-image',
   ],
 
   image: {

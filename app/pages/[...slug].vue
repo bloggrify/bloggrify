@@ -118,11 +118,16 @@ useHead({
 })
 
 useSeoMeta({
+    title: doc.value?.title,
+    description: doc.value?.description,
+    ogTitle: doc.value?.title,
+    ogDescription: doc.value?.description,
     author: findAuthor(doc.value?.author).name,
     articleAuthor: findAuthor(doc.value?.author).name ? [findAuthor(doc.value?.author).name as string] : undefined,
     ogType: 'article',
     ogUrl: withoutTrailingSlash(postLink),
     twitterTitle: doc.value?.title,
+    twitterDescription: doc.value?.description,
     twitterCard: 'summary',
     articleTag: doc.value?.tags ? doc.value.tags : [],
 })
@@ -142,6 +147,11 @@ if (doc.value?.cover) {
         ogImageAlt: doc.value?.title,
         twitterImage: joinURL(url ,'images/', doc.value?.cover)
     })
+} else {
+  defineOgImageComponent('BlogPost', {
+    title: doc.value?.title,
+    description: doc.value?.description,
+  })
 }
 
 if (doc.value?.date) {

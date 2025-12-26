@@ -35,16 +35,19 @@
         "@nuxtjs/sitemap": "^7.5.0",
         "@stefanobartoletti/nuxt-social-share": "^2.3.0",
         "@tailwindcss/typography": "^0.5.19",
+        "@unhead/vue": "^2.1.1",
         "@vueuse/integrations": "^14.1.0",
         "@vueuse/nuxt": "^14.1.0",
         "better-sqlite3": "^12.5.0",
         "feed": "5.1.0",
         "nuxt": "4.2.2",
+        "nuxt-og-image": "^5.1.13",
         "nuxt-schema-org": "^5.0.10",
         "rehype-katex": "^7.0.1",
         "remark-math": "^6.0.0",
         "remark-mermaidjs": "^7.0.0",
-        "remark-reading-time": "2.0.2"
+        "remark-reading-time": "2.0.2",
+        "unstorage": "^1.17.3"
     },
     "devDependencies": {
         "@nuxt/eslint": "^1.12.1",
