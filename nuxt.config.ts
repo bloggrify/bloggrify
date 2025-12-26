@@ -39,6 +39,10 @@ export default defineNuxtConfig({
     format: ['webp'],
   },
 
+  sitemap: {
+    zeroRuntime: true
+  },
+
   css: ['~/assets/css/core.css'],
 
   content: {
