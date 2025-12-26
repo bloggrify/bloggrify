@@ -18,14 +18,41 @@
 
 </div>
 
-Bloggrify is built on top of 
-* Nuxt.js 
-* Tailwind CSS
-* Nuxt-Content 
-* Nuxt-UI
-* and other cool stuff (Hyvor Talk, Hakanai, etc...)
+**Bloggrify is a Nuxt Content starter specialized for blogging.**
 
-It is a **static** blog generator that uses markdown files to generate blog posts.
+Built on the excellent [Nuxt Content](https://content.nuxt.com/) framework, Bloggrify provides:
+
+✅ **Pre-configured integrations** (not just dependencies)
+- 6 analytics providers (Google Analytics, Plausible, Pirsch, Umami, Fathom, Hakanai)
+- 2 newsletter services (MailerLite, Hakanai)
+- Comment systems (Hyvor Talk)
+- Social sharing 
+
+✅ **SEO & Performance out-of-the-box**
+- Nuxt SEO modules pre-configured (sitemap, robots, schema.org)
+- Auto-generated RSS feed
+- Optimized for 90+ Lighthouse scores
+
+✅ **Content components ready to use**
+- YouTube/Instagram/Vimeo embeds
+- Mermaid diagrams, KaTeX math
+- Multi-author support
+- Tag & category filtering
+
+✅ **Professional themes** (not blank pages)
+- Responsive, accessible designs
+- Dark mode support
+- Customizable via single config file
+
+## Why not just use Nuxt Content directly?
+
+You absolutely can! Bloggrify is for developers who:
+- Want a **blog specifically** (Nuxt Content does blogs, docs, changelogs, etc.)
+- Don't want to spend 1-2 days selecting modules and integrating analytics, comments, newsletters
+- Prefer a professional theme out-of-the-box
+- Want a single config file vs scattered configuration
+
+**If you enjoy configuring everything yourself, vanilla Nuxt Content might be better for you.**
 
 Discover all features on the [official website](https://bloggrify.com)
 
@@ -35,11 +62,9 @@ If you use this project and it saves you time. [How about supporting it?](https:
 
 ## Contributing
 
-I created this blog application because I know how **tedious** it is to assemble all the bricks needed to have an SEO-efficient blog, with a clean, accessible design, responsive, with features already integrated (comment system, rss feed, newsletter, sitemap etc...).
+I created this blog starters because I know how **tedious** it is to assemble all the bricks needed to have an SEO-efficient blog, with a clean, accessible design, responsive, with features already integrated (comment system, rss feed, newsletter, sitemap etc...).
 
-All this work, which can take days to do, I'll spare you - **and it's free**.
-
-However, **if you consider that you've really saved time**, **you might consider supporting this work**.
+**If you consider that you've really saved time**, **you might consider supporting this work**.
 It's optional, but it will be much appreciated.
 
 The first option is to offer me a [virtual coffee](https://www.buymeacoffee.com/hlassiege) representing the value of the time you've saved.
