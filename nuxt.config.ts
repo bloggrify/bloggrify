@@ -42,7 +42,7 @@ export default defineNuxtConfig({
   ],
 
   image: {
-    format: ['webp'],
+    format: ['avif', 'webp'],
   },
 
   sitemap: {
