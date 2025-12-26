@@ -39,7 +39,6 @@
         "@vueuse/nuxt": "^14.1.0",
         "better-sqlite3": "^12.5.0",
         "feed": "5.1.0",
-        "focus-trap": "^7.7.0",
         "nuxt": "4.2.2",
         "nuxt-schema-org": "^5.0.10",
         "rehype-katex": "^7.0.1",
