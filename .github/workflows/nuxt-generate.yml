@@ -37,3 +37,15 @@ jobs:
 
             - name: Generate static site
               run: npm run generate
+
+            - name: Deploy to Bunny
+              uses: R-J-dev/bunny-deploy@v2.1.1
+              with:
+                access-key: ${{ secrets.BUNNY_ACCESS_KEY }}
+                directory-to-upload: ".output/public"  # Nuxt 3
+                storage-endpoint: "https://storage.bunnycdn.com"
+                storage-zone-name: "bloggrify"
+                storage-zone-password: ${{ secrets.BUNNY_STORAGE_ZONE_PASSWORD }}
+                enable-delete-action: true
+                enable-purge-pull-zone: true
+                pull-zone-id: "5063091"
