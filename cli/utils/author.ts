@@ -101,7 +101,7 @@ export async function getAllAuthors(): Promise<Author[]> {
     }
 
     return authors
-  } catch (error) {
+  } catch {
     return []
   }
 }

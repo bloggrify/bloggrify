@@ -19,7 +19,7 @@ export interface PostMetadata {
 /**
  * Parse frontmatter from markdown content
  */
-export function parseFrontmatter(content: string): Record<string, any> {
+export function parseFrontmatter(content: string): Record<string, unknown> {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---/
   const match = content.match(frontmatterRegex)
 
@@ -27,7 +27,7 @@ export function parseFrontmatter(content: string): Record<string, any> {
     return {}
   }
 
-  const frontmatter: Record<string, any> = {}
+  const frontmatter: Record<string, unknown> = {}
   const lines = match[1].split('\n')
 
   for (const line of lines) {

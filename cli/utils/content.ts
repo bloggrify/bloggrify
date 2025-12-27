@@ -1,4 +1,4 @@
-import { readFile, access } from 'fs/promises'
+import { access } from 'fs/promises'
 import { join } from 'path'
 import process from 'process'
 
@@ -99,7 +99,7 @@ export async function checkUrl(url: string): Promise<{ ok: boolean; status?: num
       ok: response.ok,
       status: response.status
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     return {
       ok: false,
       error: error.message || 'Unknown error'

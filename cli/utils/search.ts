@@ -17,7 +17,7 @@ export async function findPosts(slugOrPath: string): Promise<PostMetadata[]> {
   const hasMdExtension = normalizedInput.endsWith('.md')
 
   // Create normalized search term (without content/ and .md)
-  let searchTerm = normalizedInput
+  const searchTerm = normalizedInput
     .replace(/^content\//, '')
     .replace(/\.md$/, '')
 
