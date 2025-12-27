@@ -13,11 +13,16 @@
         "app",
         "modules",
         "server",
+        "cli",
+        "bin",
         "README.md",
         "CHANGELOG.md",
         "nuxt.config.ts"
     ],
     "type": "module",
+    "bin": {
+        "bloggrify": "./bin/bloggrify.js"
+    },
     "scripts": {
         "prepare": "nuxt prepare",
         "build": "nuxt build",
@@ -39,6 +44,7 @@
         "@vueuse/integrations": "^14.1.0",
         "@vueuse/nuxt": "^14.1.0",
         "better-sqlite3": "^12.5.0",
+        "commander": "^14.0.2",
         "feed": "5.1.0",
         "nuxt": "4.2.2",
         "nuxt-og-image": "^5.1.13",
