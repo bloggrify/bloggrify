@@ -1,6 +1,7 @@
 import { getAllPosts } from '../utils/markdown'
 import { getAllAuthors } from '../utils/author'
-import { access } from 'fs/promises'
+import { extractImages, imageExists } from '../utils/content'
+import { readFile, access } from 'fs/promises'
 import { join } from 'path'
 import process from 'process'
 
@@ -106,6 +107,33 @@ export async function validate() {
         }
       } else {
         warnings.push({ file, message: 'Missing cover image (recommended)', type: 'warning' })
+      }
+
+      // ============================================
+      // Markdown content validation (images)
+      // ============================================
+
+      try {
+        const fullPath = join(process.cwd(), post.filePath)
+        const content = await readFile(fullPath, 'utf-8')
+        const images = extractImages(content)
+
+        for (const image of images) {
+          // Check for missing alt text
+          if (!image.alt || image.alt.trim() === '') {
+            warnings.push({ file, message: `Image missing alt text: ${image.src}`, type: 'warning' })
+          }
+
+          // Check if image file exists (skip external URLs)
+          if (!image.src.startsWith('http://') && !image.src.startsWith('https://')) {
+            const exists = await imageExists(image.src)
+            if (!exists) {
+              errors.push({ file, message: `Image not found: ${image.src}`, type: 'error' })
+            }
+          }
+        }
+      } catch {
+        // Could not read file content, skip markdown validation
       }
     }
 

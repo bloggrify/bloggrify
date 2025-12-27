@@ -5,6 +5,7 @@ import { publish } from './commands/publish'
 import { stats } from './commands/stats'
 import { authorList, authorAdd } from './commands/author'
 import { validate } from './commands/validate'
+import { validateLinks } from './commands/validate-links'
 import process from 'process'
 
 export async function run() {
@@ -90,11 +91,22 @@ export async function run() {
     })
 
   // Command: bloggrify validate
-  program
+  const validateCmd = program
     .command('validate')
+    .description('Validate blog content')
+
+  validateCmd
+    .command('content', { isDefault: true })
     .description('Validate all posts for errors and warnings')
     .action(async () => {
       await validate()
+    })
+
+  validateCmd
+    .command('links')
+    .description('Check external links for broken URLs')
+    .action(async () => {
+      await validateLinks()
     })
 
   program.parse()

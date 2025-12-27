@@ -8,6 +8,7 @@ export interface PostMetadata {
   date?: string
   author?: string
   draft?: boolean
+  cover?: string
   listed?: boolean
   hidden?: boolean
   tags?: string[]
