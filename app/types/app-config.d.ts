@@ -29,7 +29,7 @@ declare module '@nuxt/schema' {
   interface AppConfig {
     url: string
     logo: string
-    language: string
+    language?: string
     theme: string
     name: string
     avatar: string
@@ -68,7 +68,27 @@ declare module '@nuxt/schema' {
       }
     }
 
+    toc?: {
+      showChildren?: boolean
+    }
+
     table_of_contents: boolean
+
+    components?: {
+      mdd?: {
+        classes?: {
+          component?: string
+          nav_bar?: string
+          nav_container?: string
+          nav?: string
+          nav_item?: string
+          nav_item_active?: string
+          preview?: string
+          markup?: string
+          content?: string
+        }
+      }
+    }
 
     authors: Array<Author>
 

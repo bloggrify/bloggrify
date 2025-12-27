@@ -1,4 +1,5 @@
 import { Feed } from 'feed'
+import { queryCollection } from '@nuxt/content/server'
 import type {CollectionQueryGroup, PageCollectionItem} from '@nuxt/content'
 import {withLeadingSlash, withoutTrailingSlash} from 'ufo'
 

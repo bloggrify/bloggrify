@@ -68,7 +68,7 @@ const defaultConfig = {
 
 // Utilise soit la config utilisateur si elle existe, soit la config par défaut
 const config = computed(() =>
-    appConfig.ui?.components?.mdd?.classes || defaultConfig
+    appConfig.components?.mdd?.classes || defaultConfig
 )
 
 const previewActive = ref(true)

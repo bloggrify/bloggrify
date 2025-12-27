@@ -49,6 +49,7 @@ export default defineAppConfig({
 
   table_of_contents: true,
 
+
   // if you have multiple authors, you can set them here
   authors: [{
       default: true,
