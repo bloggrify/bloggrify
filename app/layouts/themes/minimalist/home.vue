@@ -10,9 +10,14 @@
             </div>
 
             <div class="mt-10">
-                <MinimalistListing title="Last Posts" />
+              <MinimalistListing
+                title="Last Posts"
+                :paginated="false"
+                :limit="6"
+              />
 
-                <div class="mt-4">
+
+              <div class="mt-4">
                     <NuxtLink class="underline " to="/archives">
                         Read all posts
                     </NuxtLink>

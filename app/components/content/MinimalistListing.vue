@@ -95,75 +95,43 @@
                 </li>
             </ol>
         </div>
-        <MinimalistPaginationBar :total="totalNumberOfPages"  />
+        <MinimalistPaginationBar v-if="paginated" :total="totalNumberOfPages"  />
     </section>
 </template>
 <script setup lang="ts">
 
-const props = defineProps<{
-    category?: string;
-    tag?: string;
-    author?: string;
-    title?: string;
-    prefix?: string;
-    format?: string;
-}>()
-
-
-
-const format = props.format || 'card'
-const {itemsPerPage, currentPage} = usePagination()
-
-const id = [
-    'listing',
-    props.category && `cat-${props.category}`,
-    props.tag && `tag-${props.tag}`,
-    props.author && `author-${props.author}`,
-    props.prefix && `prefix-${props.prefix}`,
-    `page-${currentPage.value}`
-].filter(Boolean).join('-')
-
-// Helper function to build the base query with all filters
-const buildQuery = () => {
-    let query = queryCollection('page')
-
-    if (props.prefix) {
-        query = query.where('path', 'LIKE', `${props.prefix}/%`)
-    }
-
-    if (props.category) {
-        query = query.where('categories', 'IN', [props.category])
-    }
-
-    if (props.tag) {
-        query = query.where('tags', 'IN', [props.tag])
-    }
-
-    if (props.author) {
-        query = query.where('author', '=', props.author)
-    }
-
-    // Filtres de visibilité
-    query = query
-        .orWhere(query => query.where('listed', '=', true).where('listed', 'IS NULL'))
-        .orWhere(query => query.where('hidden', '=', false).where('hidden', 'IS NULL'))
-        .orWhere(query => query.where('draft', '=', false).where('draft', 'IS NULL'))
-
-    return query
-}
-
-const numberOfPostsPerPage = itemsPerPage.value
-
-const { data: docs } = useAsyncData(id, () => {
-    return buildQuery()
-        .order('date', 'DESC')
-        .skip((currentPage.value - 1) * numberOfPostsPerPage)
-        .limit(numberOfPostsPerPage)
-        .all()
+const props = withDefaults(defineProps<{
+    category?: string
+    tag?: string
+    author?: string
+    title?: string
+    prefix?: string
+    format?: string
+    paginated?: boolean
+    limit?: number
+}>(), {
+    format: 'card',
+    paginated: true,
+    limit: 6,
+    category: undefined,
+    title: undefined,
+    tag: undefined,
+    author: undefined,
+    prefix: undefined
 })
 
-// Count total items and calculate number of pages
-const totalItems = await buildQuery().count()
-const totalNumberOfPages = Math.ceil(totalItems / numberOfPostsPerPage)
+const format = props.format
+
+// Use the composable to fetch content
+const { docs, totalPages } = await useContentListing({
+    category: props.category,
+    tag: props.tag,
+    author: props.author,
+    prefix: props.prefix,
+    paginated: props.paginated,
+    itemsPerPage: props.limit
+})
+
+const totalNumberOfPages = totalPages || 0
 
 </script>
