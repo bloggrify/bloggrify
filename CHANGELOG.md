@@ -1,6 +1,21 @@
 # Changelog
 
 
+## v3.0.1
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v3.0.0...v3.0.1)
+
+### 🩹 Fixes
+
+- Theme components should not use direct call to the nuxt content api ([d9ef9a0](https://github.com/bloggrify/bloggrify/commit/d9ef9a0))
+- Add content.config.ts to the deployed npm package but comment the sitemap until issue https://github.com/harlan-zw/nuxt-seo/issues/498 is fixed ([f3db61d](https://github.com/bloggrify/bloggrify/commit/f3db61d))
+- Missing file from the last commit ([2814bd3](https://github.com/bloggrify/bloggrify/commit/2814bd3))
+- Try to find a way to embed an asset in the final package ([0f89825](https://github.com/bloggrify/bloggrify/commit/0f89825))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v3.0.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v2.1.1...v3.0.0)
