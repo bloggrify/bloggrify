@@ -8,6 +8,10 @@ const currentDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
 
+  alias: {
+    '#core': currentDir + '/app'
+  },
+
   site: {
     indexable,
     url,

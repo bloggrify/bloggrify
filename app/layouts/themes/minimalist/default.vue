@@ -40,7 +40,7 @@ const props = defineProps<{
 const author = computed(() => findAuthor(props.doc?.author))
 </script>
 <style lang="scss">
-@reference "~/assets/css/core.css";
+@reference "#core/assets/css/core.css";
 .prose {
     a {
         @apply underline underline-offset-2 decoration-dotted;

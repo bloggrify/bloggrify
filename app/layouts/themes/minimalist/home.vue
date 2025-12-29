@@ -42,7 +42,7 @@ const config = useAppConfig()
 const description = config.description || 'A minimalist theme for Bloggrify'
 </script>
 <style>
-@reference "~/assets/css/core.css";
+@reference "#core/assets/css/core.css";
 body {
     @apply bg-white dark:bg-slate-900 dark:text-white;
 }
