@@ -1,5 +1,11 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
+import { useNuxt } from '@nuxt/kit'
+import { joinURL } from 'ufo'
 // import { asSitemapCollection } from '@nuxtjs/sitemap/content'
+const { options } = useNuxt()
+const cwd = joinURL(options.rootDir, 'content')
+
+
 export default defineContentConfig({
   collections: {
     // content: defineCollection(
@@ -11,6 +17,7 @@ export default defineContentConfig({
     page: defineCollection({
       type: 'page',
       source: {
+        cwd,
         include: '**/*.md',
         prefix: '',
       },
