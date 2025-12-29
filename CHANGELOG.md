@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v3.0.3
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v3.0.2...v3.0.3)
+
+### 🩹 Fixes
+
+- No reference to css file without an alias defined in nuxt-config.ts ([e472bf5](https://github.com/bloggrify/bloggrify/commit/e472bf5))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v3.0.2
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v3.0.1...v3.0.2)
