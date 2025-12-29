@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v3.0.2
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v3.0.1...v3.0.2)
+
+### 🩹 Fixes
+
+- App.config.ts should be empty ([cacaa8e](https://github.com/bloggrify/bloggrify/commit/cacaa8e))
+- Fix the content.config.ts file in order to be usable ([19bf843](https://github.com/bloggrify/bloggrify/commit/19bf843))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v3.0.1
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v3.0.0...v3.0.1)
