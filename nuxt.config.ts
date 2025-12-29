@@ -1,6 +1,10 @@
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+
 const url = process.env.BASE_URL || 'http://localhost:3000'
 const name = process.env.SITE_NAME || 'Bloggrify'
 const indexable = process.env.SITE_INDEXABLE || false
+const currentDir = dirname(fileURLToPath(import.meta.url))
 
 export default defineNuxtConfig({
 
@@ -19,6 +23,8 @@ export default defineNuxtConfig({
       url: url,
     }
   },
+
+  css: [join(currentDir, './app/assets/css/core.css')],
 
   devtools: {enabled: true},
 
@@ -48,8 +54,6 @@ export default defineNuxtConfig({
   sitemap: {
     zeroRuntime: true
   },
-
-  css: ['~/assets/css/core.css'],
 
   content: {
     build: {
