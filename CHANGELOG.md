@@ -1,6 +1,53 @@
 # Changelog
 
 
+## v3.0.0
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v2.1.1...v3.0.0)
+
+### 🚀 Enhancements
+
+- Improve RSS discoverability ([150703b](https://github.com/bloggrify/bloggrify/commit/150703b))
+- Add search button from nuxt ui (better integration with nuxt content) ([5cffb4c](https://github.com/bloggrify/bloggrify/commit/5cffb4c))
+- Add automatic generation of og:image when cover is missing + add missing og tags ([0e7a798](https://github.com/bloggrify/bloggrify/commit/0e7a798))
+- Avif format is added to the default format nuxt image should manage ([b59494b](https://github.com/bloggrify/bloggrify/commit/b59494b))
+- Author pages ([0fe1463](https://github.com/bloggrify/bloggrify/commit/0fe1463))
+- Add bloggrify cli with several features (add post, validate, stats, add author etc...) ([4eb2574](https://github.com/bloggrify/bloggrify/commit/4eb2574))
+- Link checker ([5d19816](https://github.com/bloggrify/bloggrify/commit/5d19816))
+
+### 🔥 Performance
+
+- Use zero runtime on the nuxt sitemap module ([8d55f75](https://github.com/bloggrify/bloggrify/commit/8d55f75))
+
+### 🩹 Fixes
+
+- Folder structure is different with nuxt 4, fix file path ([a59b60c](https://github.com/bloggrify/bloggrify/commit/a59b60c))
+- Fix partially the reload problem with nuxt content. But there is still a problem due to https://github.com/harlan-zw/nuxt-seo/issues/498 ([3620038](https://github.com/bloggrify/bloggrify/commit/3620038))
+- Setup the code to highlight the incompability problem with nuxt seo and nuxt content ([82ad0f2](https://github.com/bloggrify/bloggrify/commit/82ad0f2))
+- Eslint and typecheck errors ([dd75ac9](https://github.com/bloggrify/bloggrify/commit/dd75ac9))
+- Fix github action build ([3a30b86](https://github.com/bloggrify/bloggrify/commit/3a30b86))
+- Fix build, prepare step was missing ([1d92063](https://github.com/bloggrify/bloggrify/commit/1d92063))
+- I think the readme was not honest enough regarding what this projects bring to the final user. ([be8aacf](https://github.com/bloggrify/bloggrify/commit/be8aacf))
+- Fix eslint ([32ce480](https://github.com/bloggrify/bloggrify/commit/32ce480))
+- Fix eslint and typecheck ([d8ef33c](https://github.com/bloggrify/bloggrify/commit/d8ef33c))
+- DateFormat is an util and not a composable ([a4f3e67](https://github.com/bloggrify/bloggrify/commit/a4f3e67))
+
+### 🏡 Chore
+
+- Upgrade to nuxt 4, nuxt content 3 ([8211a3b](https://github.com/bloggrify/bloggrify/commit/8211a3b))
+- Improve typing, remove useless stuff ([b7c73fc](https://github.com/bloggrify/bloggrify/commit/b7c73fc))
+- Update git submodule ([f9b6b36](https://github.com/bloggrify/bloggrify/commit/f9b6b36))
+- Update github action file descriptor ([f4a87f9](https://github.com/bloggrify/bloggrify/commit/f4a87f9))
+- Improve build to insert a quality gate ([b75ace7](https://github.com/bloggrify/bloggrify/commit/b75ace7))
+- Fix the license (copy pasted from another project) ([e573fd5](https://github.com/bloggrify/bloggrify/commit/e573fd5))
+- Try to deploy on bunny ([e1e6a9c](https://github.com/bloggrify/bloggrify/commit/e1e6a9c))
+- Try to deploy on bunny (again) ([c8fe045](https://github.com/bloggrify/bloggrify/commit/c8fe045))
+- Try to deploy on bunny (missing keys) ([057413f](https://github.com/bloggrify/bloggrify/commit/057413f))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v2.1.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v2.0.2...v2.1.0)
