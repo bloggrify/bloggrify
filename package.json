@@ -17,6 +17,7 @@
         "bin",
         "README.md",
         "CHANGELOG.md",
+        "content.config.ts",
         "nuxt.config.ts"
     ],
     "type": "module",
