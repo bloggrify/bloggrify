@@ -103,11 +103,11 @@ export const useContentListing = async <T = PageCollectionItem>(
     }
 
     if (category) {
-      query = query.where('categories', 'IN', [category])
+      query = query.where('categories', 'LIKE', `%"${category}"%`)
     }
 
     if (tag) {
-      query = query.where('tags', 'IN', [tag])
+      query = query.where('tags', 'LIKE', `%"${tag}"%`)
     }
 
     if (author) {
