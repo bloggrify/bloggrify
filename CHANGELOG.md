@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v3.1.0
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v3.0.3...v3.1.0)
+
+### 🚀 Enhancements
+
+- Add composable to find surrounded and related content ([2b49df3](https://github.com/bloggrify/bloggrify/commit/2b49df3))
+
+### 🩹 Fixes
+
+- Tags page were broken ([832d402](https://github.com/bloggrify/bloggrify/commit/832d402))
+
+### 🏡 Chore
+
+- Update content ([df6b06b](https://github.com/bloggrify/bloggrify/commit/df6b06b))
+- App.config.ts is now removed from the package. We can use this one for the demo ([9514b00](https://github.com/bloggrify/bloggrify/commit/9514b00))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v3.0.3
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v3.0.2...v3.0.3)
