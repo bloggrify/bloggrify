@@ -38,6 +38,7 @@ const props = defineProps<{
 }>()
 
 const author = computed(() => findAuthor(props.doc?.author))
+
 </script>
 <style lang="scss">
 @reference "#core/assets/css/core.css";
