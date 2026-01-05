@@ -1,5 +1,5 @@
 <template>
-    <Nav v-if="isTocEnabled" class="w-full lg:w-2/3 mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden dark:bg-gray-800 dark:border-gray-700">
+    <nav v-if="isTocEnabled" class="w-full lg:w-2/3 mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden dark:bg-gray-800 dark:border-gray-700">
         <div class="p-5">
             <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-100">
                 Table of contents
@@ -35,7 +35,7 @@
                 </ul>
             </div>
         </div>
-    </Nav>
+    </nav>
 </template>
 <script setup lang="ts">
 const props = defineProps({
