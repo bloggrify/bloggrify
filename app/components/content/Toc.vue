@@ -40,18 +40,21 @@
 <script setup lang="ts">
 const props = defineProps({
     showChildren: {
-        type: Boolean,
+        type: [Boolean, String],
         default: false
     }
 })
 
 const config = useAppConfig()
 
-const showTocChildren = props.showChildren || (config.toc?.showChildren ?? false)
+const showTocChildren = computed(() => {
+  const propValue = props.showChildren === true || props.showChildren === 'true'
+  return propValue || (config.toc?.showChildren ?? false)
+})
 
 const route = useRoute()
-const { data: doc } = await useAsyncData(route.path, () => {
-    return queryCollection('page').path(route.path).first()
+const { data: doc } = await useAsyncData(`toc-${route.path}`, () => {
+  return queryCollection('page').path(route.path).first()
 })
 
 const isTocEnabled = doc.value?.body?.toc?.links.length && doc.value?.body.toc?.links.length > 0
