@@ -1,13 +1,14 @@
 <!-- components/InstagramPost.vue -->
 <template>
-    <div ref="instagramEmbedRef" class="instagram-embed-container">
-        <div v-if="loading" class="flex justify-center items-center p-8">
-            <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"/>
-        </div>
-        <div v-else-if="error" class="p-4 text-red-500 border border-red-200 rounded-md bg-red-50">
-            {{ error }}
-        </div>
+  <div class="instagram-embed-container">
+    <div v-if="loading" class="flex justify-center items-center p-8">
+      <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"/>
     </div>
+    <div v-else-if="error" class="p-4 text-red-500 border border-red-200 rounded-md bg-red-50">
+      {{ error }}
+    </div>
+    <div v-show="!loading && !error" ref="instagramEmbedRef"/>
+  </div>
 </template>
 
 <script setup>
@@ -75,8 +76,8 @@ const renderEmbed = () => {
         blockquote.setAttribute('data-instgrm-width', props.width.toString())
     }
 
-    if (props.hideCaption) {
-        blockquote.setAttribute('data-instgrm-captioned', '')
+    if (!props.hideCaption) {
+      blockquote.setAttribute('data-instgrm-captioned', '')
     }
 
     instagramEmbedRef.value.appendChild(blockquote)

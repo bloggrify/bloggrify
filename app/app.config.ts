@@ -32,14 +32,6 @@ export default defineAppConfig({
     provider: 'demo'
   },
 
-  analytics: {
-    providers: [{
-      provider: 'pirsch',
-      code: 'UMgcWhIpdgfYXWLqLmCesiKf6vpSZBfv'
-    }
-    ]
-  },
-
   comments: {
     enabled: true,
     hyvor_talk: {
