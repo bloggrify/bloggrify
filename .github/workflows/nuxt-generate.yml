@@ -51,5 +51,5 @@ jobs:
                 pull-zone-id: "5063091"
                 concurrency: 50
                 replication-timeout: "15000"
-                request-timeout: "5000" # optional, defaults to 5000
-                retry-limit: "3" # optional, defaults to 3
+                request-timeout: "10000" # optional, defaults to 5000
+                retry-limit: "5" # optional, defaults to 3
