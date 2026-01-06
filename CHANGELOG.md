@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v3.1.1
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v3.1.0...v3.1.1)
+
+### 🩹 Fixes
+
+- Html tag was incorrect in the toc ([e413213](https://github.com/bloggrify/bloggrify/commit/e413213))
+- Dom manipulation on non existing block ([bd4d2a7](https://github.com/bloggrify/bloggrify/commit/bd4d2a7))
+- Key conflict and type conversion issue ([65d4655](https://github.com/bloggrify/bloggrify/commit/65d4655))
+- Table of content, value should be converted to computed ([1f83ed6](https://github.com/bloggrify/bloggrify/commit/1f83ed6))
+- Try to fix bunny upload deployment issue ([fc7741c](https://github.com/bloggrify/bloggrify/commit/fc7741c))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v3.1.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v3.0.3...v3.1.0)
