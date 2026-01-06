@@ -57,6 +57,8 @@ const { data: doc } = await useAsyncData(`toc-${route.path}`, () => {
   return queryCollection('page').path(route.path).first()
 })
 
-const isTocEnabled = doc.value?.body?.toc?.links.length && doc.value?.body.toc?.links.length > 0
+const isTocEnabled = computed(() =>
+  (doc.value?.body?.toc?.links?.length ?? 0) > 0
+)
 
 </script>
