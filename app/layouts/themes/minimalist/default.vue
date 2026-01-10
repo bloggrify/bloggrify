@@ -20,7 +20,7 @@
 
                 <MinimalistAuthorBio v-if="author" :author="author" />
 
-                <CommentSystem :id="doc.id" :nocomments="doc.nocomments" />
+                <CommentSystem :id="doc.pageid" :nocomments="doc.nocomments" />
             </div>
         </main>
         <MinimalistFooter />

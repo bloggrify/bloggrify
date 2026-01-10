@@ -22,6 +22,7 @@ export default defineContentConfig({
         prefix: '',
       },
       schema: z.object({
+        pageid: z.string().optional(),
         id: z.string().optional(),
 
         title: z.string().optional(),
