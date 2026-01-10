@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v3.1.2
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v3.1.1...v3.1.2)
+
+### 🩹 Fixes
+
+- Breaking change. The id is now deprecated in version 3.x. This is now a reserved item for nuxt content ([7a5d75d](https://github.com/bloggrify/bloggrify/commit/7a5d75d))
+- Breaking change related to nuxt content. id is now a reserved keyword, hence we should use pageid for the comment system ([540064c](https://github.com/bloggrify/bloggrify/commit/540064c))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@gmail.com>
+
 ## v3.1.1
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v3.1.0...v3.1.1)
