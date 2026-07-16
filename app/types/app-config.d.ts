@@ -63,8 +63,12 @@ declare module '@nuxt/schema' {
 
     comments: {
       enabled: boolean
-      hyvor_talk: {
+      provider?: 'hyvor_talk' | 'hakanai'
+      hyvor_talk?: {
         website_id: string
+      }
+      hakanai?: {
+        key: string
       }
     }
 

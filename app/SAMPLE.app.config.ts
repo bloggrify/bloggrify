@@ -34,9 +34,13 @@ export default defineAppConfig({
 
     comments: {
         enabled: true,
+        provider: 'hyvor_talk', // 'hyvor_talk' or 'hakanai'
         hyvor_talk: {
             website_id: '10519', // Replace with your Hyvor Talk website ID (it won't work with this one)
         },
+        // hakanai: {
+        //     key: 'YOUR_HAKANAI_KEY', // your Hakanai Connect key (https://connect.hakanai.io/)
+        // },
     },
 
     table_of_contents: true,
