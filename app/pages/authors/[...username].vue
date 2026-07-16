@@ -2,7 +2,7 @@
     <NuxtLayout :name="theme" :author="author" fallback='invalid' />
 </template>
 <script setup lang="ts">
-import type { LayoutKey } from "#build/types/layouts"
+import type { LayoutKey } from "#app"
 
 const route = useRoute()
 const config = useAppConfig()
