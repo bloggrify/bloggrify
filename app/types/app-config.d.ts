@@ -19,7 +19,7 @@ declare module '@nuxt/schema' {
     }
   }
 
-  type AnalyticsProvider = 'hakanai' | 'blogtally' | 'pirsch' | 'plausible' | 'umami' | 'fathom' | 'google'
+  type AnalyticsProvider = 'hakanai' | 'blogtally' | 'pirsch' | 'plausible' | 'umami' | 'fathom' | 'google' | 'openpanel'
 
   type AnalyticsProviderConfig = {
     provider: AnalyticsProvider

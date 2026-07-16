@@ -63,6 +63,24 @@ export const useAnalytics = () => {
                     `,
                 },
             ],
+            openpanel: [
+                {
+                    src: 'https://openpanel.dev/op1.js',
+                    defer: true,
+                    async: true,
+                },
+                {
+                    innerHTML: `
+                        window.op = window.op || function(...args){(window.op.q = window.op.q || []).push(args);};
+                        window.op('init', {
+                            clientId: '${provider.code}',
+                            trackScreenViews: true,
+                            trackOutgoingLinks: true,
+                            trackAttributes: true,
+                        });
+                    `,
+                },
+            ],
         }
 
         const scripts = baseScripts[provider.provider] || []
