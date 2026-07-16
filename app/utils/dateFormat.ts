@@ -1,11 +1,14 @@
-function formatDate(date: string | number | undefined): string {
+function formatDate(date: string | number | undefined, locale?: string): string {
     if (!date) return ''
     const options: Intl.DateTimeFormatOptions = {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
     }
-    return new Date(date).toLocaleDateString('en', options)
+    // Default to the blog's configured language (app.config.ts `language`),
+    // falling back to 'en'. An explicit `locale` argument always wins.
+    const resolvedLocale = locale || useAppConfig().language || 'en'
+    return new Date(date).toLocaleDateString(resolvedLocale, options)
 }
 
 function msToISO8601Duration(ms: number): string {
