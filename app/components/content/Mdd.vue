@@ -66,10 +66,11 @@ const defaultConfig = {
     content: 'mt-3',
 }
 
-// Utilise soit la config utilisateur si elle existe, soit la config par défaut
-const config = computed(() =>
-    appConfig.components?.mdd?.classes || defaultConfig
-)
+// Fusionne la config par défaut avec les surcharges utilisateur éventuelles
+const config = computed(() => ({
+    ...defaultConfig,
+    ...(appConfig.components?.mdd?.classes ?? {}),
+}))
 
 const previewActive = ref(true)
 const htmlActive = ref(false)
