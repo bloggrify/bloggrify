@@ -1,6 +1,6 @@
 import {consola} from 'consola'
 import {colors} from 'consola/utils'
-import {defineNuxtModule} from '@nuxt/kit'
+import {createResolver, defineNuxtModule} from '@nuxt/kit'
 import fs from 'node:fs'
 
 export default defineNuxtModule({
@@ -9,6 +9,16 @@ export default defineNuxtModule({
         configKey: 'bloggrify',
     },
     setup (options, nuxt) {
+
+        const {resolve} = createResolver(import.meta.url)
+
+        // Propagate core's type augmentations (@nuxt/schema AppConfig, Author, etc.)
+        // to consuming layers/themes. When Bloggrify is used through `extends`, the
+        // core lives in node_modules and its `app/types/*.d.ts` files fall outside the
+        // consumer's tsconfig include glob, so we register them explicitly here.
+        nuxt.hook('prepare:types', ({references}) => {
+            references.push({path: resolve('../../app/types/app-config.d.ts')})
+        })
 
         nuxt.hook('build:before', async () => {
 
