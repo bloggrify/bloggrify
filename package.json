@@ -58,6 +58,7 @@
         "unstorage": "^1.17.5"
     },
     "devDependencies": {
+        "@iconify-json/lucide": "^1.2.117",
         "@nuxt/eslint": "^1.16.0",
         "@playwright/test": "^1.61.1",
         "@types/node": "^25.9.5",
