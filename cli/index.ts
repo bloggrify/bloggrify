@@ -6,7 +6,15 @@ import { stats } from './commands/stats'
 import { authorList, authorAdd } from './commands/author'
 import { validate } from './commands/validate'
 import { validateLinks } from './commands/validate-links'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { dirname, join } from 'node:path'
 import process from 'process'
+
+// Read the version from package.json so it never drifts from the published release.
+const pkg = JSON.parse(
+  readFileSync(join(dirname(fileURLToPath(import.meta.url)), '../package.json'), 'utf-8'),
+) as { version: string }
 
 export async function run() {
   const program = new Command()
@@ -14,7 +22,7 @@ export async function run() {
   program
     .name('bloggrify')
     .description('CLI tool to manage your Bloggrify blog')
-    .version('3.0.0-alpha.1')
+    .version(pkg.version)
 
   // Command: bloggrify new post <title>
   program
