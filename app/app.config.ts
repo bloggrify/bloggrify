@@ -45,15 +45,17 @@ export default defineAppConfig({
 
   table_of_contents: true,
 
-  // if you have multiple authors, you can set them here
+  // The list of authors. The `username` is the key referenced by the `author`
+  // frontmatter field of a post, and it is the slug of the `/authors/{username}` page.
+  // The author flagged `default: true` is used for posts without an explicit author.
+  // See SAMPLE.app.config.ts for the template shipped to new projects.
   authors: [
     {
       default: true,
-      username: 'john-doe',
-      name: 'John Doe',
+      username: 'hlassiege',
+      name: 'Hugo',
       description:
-        'I\'m a professional web developer with a passion for writing about technology and the web.',
-      avatar: '/images/profile-john.jpg',
+        'Author and maintainer of Bloggrify',
       socials: {
         twitter: 'https://twitter.com',
         twitter_username: 'username',
