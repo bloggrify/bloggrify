@@ -14,7 +14,8 @@ export interface ContentListingOptions {
    */
   tag?: string
   /**
-   * Filter by author
+   * Filter by author username. Posts without an `author` field are resolved to the
+   * default author, so filtering on the default author also returns them.
    */
   author?: string
   /**
@@ -79,6 +80,11 @@ export const useContentListing = async <T = PageCollectionItem>(
     ? usePagination()
     : { itemsPerPage: ref(0), currentPage: ref(0) }
 
+  // Calling findAuthor() without an argument resolves the author marked `default: true`,
+  // which keeps a single source of truth for the fallback rule.
+  const { findAuthor } = useAuthor()
+  const defaultAuthorUsername = findAuthor()?.username
+
   const itemsPerPage = customItemsPerPage || (paginated ? defaultItemsPerPage.value : 0)
   const currentPage = customCurrentPage || (paginated ? routeCurrentPage.value : 1)
 
@@ -111,7 +117,16 @@ export const useContentListing = async <T = PageCollectionItem>(
     }
 
     if (author) {
-      query = query.where('author', '=', author)
+      // A post without an `author` field is displayed as written by the default author,
+      // so the default author's listing has to include those posts as well. Comparing a
+      // null column to a username would drop them, and they would name an author whose
+      // page never lists them.
+      if (author === defaultAuthorUsername) {
+        query = query.orWhere(q => q.where('author', '=', author).where('author', 'IS NULL'))
+      }
+      else {
+        query = query.where('author', '=', author)
+      }
     }
 
     // Visibility filters
