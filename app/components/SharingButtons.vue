@@ -15,7 +15,11 @@
 import { withoutTrailingSlash } from 'ufo'
 const config = useAppConfig()
 const route = useRoute()
-const sharingNetworks = config.socials?.sharing_networks || []
+
+// `socials.sharing_networks` is the deprecated spelling of `sharing.networks`.
+// The build warns about it (see modules/bloggrify), reading it here keeps existing
+// blogs working in the meantime.
+const sharingNetworks = config.sharing?.networks ?? config.socials?.sharing_networks ?? []
 defineProps<{
     title: string;
     cover?: string;
