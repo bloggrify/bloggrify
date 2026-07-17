@@ -51,10 +51,6 @@ export default defineNuxtConfig({
     'nuxt-og-image',
   ],
 
-  image: {
-    format: ['avif', 'webp'],
-  },
-
   sitemap: {
     zeroRuntime: true
   },
