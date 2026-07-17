@@ -4,7 +4,7 @@ Audit réalisé le 2026-07-17 sur `bloggrify` (core) et les thèmes `bloggrify-b
 
 Ce document est un plan de travail réutilisable d'une session à l'autre. Les cases à cocher indiquent l'avancement. Les chemins sans préfixe de dépôt sont relatifs à `bloggrify` (le core) ; les autres sont préfixés par le nom du dépôt.
 
-**Dernière mise à jour : 2026-07-17, fin du lot 1 + N2 + P18.**
+**Dernière mise à jour : 2026-07-17, lot 1 + N2 + P18, puis P9/P17/N3 côté core (session N3).**
 
 ---
 
@@ -22,7 +22,7 @@ Ce document est un plan de travail réutilisable d'une session à l'autre. Les c
 | P6 | Le typage ment (3 vérités) | ⬜ À faire | 3 |
 | P7 | Auteur absent du SEO (schema.org, RSS, OG) | ⬜ À faire | 2 |
 | P8 | Un seul auteur par article | ⬜ À faire | 3 |
-| P9 | Rendu des socials dupliqué dans les thèmes | ⬜ À faire | 2 |
+| P9 | Rendu des socials dupliqué dans les thèmes | 🟡 Core fait, thèmes bloqués sur la release | 2 |
 | P10 | Déréférencements non gardés (crash potentiel) | ✅ Fait | 1 |
 | P11 | Contrat incohérent entre pages de listing | ⬜ À faire | 3 |
 | P12 | Page `/authors` manquante | ⬜ À faire | 2 |
@@ -30,10 +30,11 @@ Ce document est un plan de travail réutilisable d'une session à l'autre. Les c
 | P14 | Core publié casse le build de Mistral | 🟡 Déjà fixé dans le git du core, à vérifier après release | 3 |
 | P15 | `BentoListing` / `EpoxiaListing` ignoraient `author` | ✅ Fait | 1 |
 | P16 | Le core référence 2 images inexistantes | ⬜ À faire (inerte) | 3 |
-| P17 | `bluesky` rendu mais absent du type | ⬜ À faire | 3 |
+| P17 | `bluesky` rendu mais absent du type | ✅ Fait | 2 |
 | P18 | Le fallback s'applique à l'affichage mais pas au listing | ✅ Fait | 1 |
+| P19 | `twitter_username` est de la config morte | ⬜ À faire (inerte) | 2 |
 
-P13 à P17 ont été découverts pendant le lot 1, voir la section 2 bis. P18 a été découvert pendant la session N2, voir la section 2 ter.
+P13 à P17 ont été découverts pendant le lot 1, voir la section 2 bis. P18 a été découvert pendant la session N2, voir la section 2 ter. P19 a été découvert pendant la session N3, voir la section 2 quater.
 
 ### Notes annexes, hors périmètre auteurs (détail en section 4)
 
@@ -43,15 +44,19 @@ Aucune n'est corrigée. Collectées pendant la session du lot 1.
 |---|---|---|---|
 | N1 | Le bug de P1 à l'identique pour les **catégories** : pas de `category.vue` sur minimalist (thème par défaut) ni Mistral | 🔴 Feature cassée, masquée par l'absence de `category:` dans le contenu | core, mistral |
 | N2 | `fallback='invalid'` renvoie une erreur développeur au visiteur au lieu d'une 404 | ✅ Fait (404 + warn dev) | core |
-| N3 | `sharing_networks` rangé dans `socials` alors que ce n'en est pas un, casse le typage des thèmes | 🟠 Erreur de typecheck réelle | core (+ tous les thèmes) |
+| N3 | `sharing_networks` rangé dans `socials` alors que ce n'en est pas un, casse le typage des thèmes | ✅ Fait (`sharing.networks` + fallback déprécié) | core (+ tous les thèmes) |
+| N11 | Les thèmes ne peuvent pas charger le core packé : leurs dépendances transitives sont périmées | 🔴 Bloque la release et toute validation locale des thèmes | les 3 thèmes |
+| N10 | `@iconify-json/lucide` est en devDependency du core, donc absent chez les thèmes | 🟠 Icônes résolues via l'API Iconify au runtime, en déploiement statique | core (+ tous les thèmes) |
 | N9 | Le template publié sur npm embarque `url: 'https://minimalist.bloggrify.com/'` | 🟠 Impact SEO sur chaque nouveau blog | core (`SAMPLE.app.config.ts`) |
-| N4 | Dette de typecheck des thèmes : Bento 42, Epoxia 24, Mistral 31, core 0 | 🟡 Aucune CI ne la retient | les 3 thèmes |
+| N4 | Dette de typecheck des thèmes : Bento 42, Epoxia 24, Mistral 31, core 0 | 🟡 Aucune CI ne la retient, et la baseline n'est plus mesurable (voir N11) | les 3 thèmes |
 | N8 | `useAuthor()` est mort, seul le `findAuthor` **déprécié** est utilisé. `hasAuthor` jamais appelé | 🟡 La dépréciation est à l'envers de l'usage | core |
 | N5 | Warnings CSS `Expected ";" but found "}"` à chaque build | 🟡 Bruit permanent | core + thèmes |
 | N6 | Fichiers parasites : `nul` à la racine de la galaxie, `bash.exe.stackdump` ×2 | ⚪ Cosmétique | galaxie, core, bloggrify.com |
 | N7 | `// FIXME : remove when updated to the latest version` sur `url` | ⚪ À trancher à la prochaine montée de version | mistral |
 
 **N1 et N2 relèvent du lot 1 par nature** (feature cassée). N2 est fait. **N1 reste le meilleur candidat à traiter ensuite** si on ne passe pas directement au lot 2, mais il n'est plus urgent : N2 lui a retiré son impact visiteur.
+
+**N11 est le prochain vrai sujet** : il bloque la release du core, donc P13, P14 et la moitié de P9. Voir la section 2 quater.
 
 ---
 
@@ -392,6 +397,88 @@ L'auteur par défaut est dérivé via `useAuthor().findAuthor()` sans argument, 
 - **Le `node_modules` du core n'est pas cassé** (nuxt 4.4.8, binaire présent). Un diagnostic contraire vient d'un usage de chemins git-bash (`/c/Dev/...`) avec le node Windows, qui ne les résout pas. Utiliser PowerShell ou des chemins natifs pour sonder l'install.
 - **Le 500 observé sur `/`** pendant la session venait d'un serveur de dev en train de mourir, pas d'un bug. `/` répond 200.
 
+## 2 quater. Découvertes de la session N3 (2026-07-17, lot 2 / P9)
+
+### P9 est fait côté core, et bloqué côté thèmes
+
+Livré dans le core :
+
+- `app/utils/socials.ts` : `SOCIAL_PLATFORMS` (la map plateforme → icône + label, source de vérité unique) et `resolveSocialLinks(socials)`, qui filtre les clés non-réseau et retourne des liens typés dans un ordre stable. **C'est la brique que P7a doit réutiliser pour `sameAs`**, plutôt que d'écrire un second mapping dans `[...slug].vue`.
+- `app/components/SocialLinks.vue` : rendu via `UIcon` + `@iconify-json/simple-icons` (ajouté en **dependency**, pas devDependency, cf. N10), stylé par les props `linkClass` / `iconClass` et par la classe du conteneur.
+- `minimalist/author.vue` passe de 4 réseaux sur 8 rendus en SVG inline à l'ensemble des réseaux configurés.
+
+**Non livré** : les 4 composants dupliqués des thèmes (`MistralAuthorCardSocialLinks`, `BentoSocialLinks`, `BentoPostAuthorSocialLinks`, `EpoxiaPostAuthorSocialLinks`). Ils sont bloqués par N11, voir ci-dessous. La duplication reste donc entière tant que le core n'est pas releasé.
+
+### Nouveau N11 : les thèmes ne peuvent pas charger le core packé
+
+**Ce blocage n'était pas connu, et il déborde largement de P9.** Il a été trouvé en essayant de valider les thèmes contre le core local.
+
+Les 3 thèmes épinglent `"@bloggrify/core": "3.1.2"` en version **exacte** et n'ont aucune dépendance directe sur `@nuxt/content` ni `nuxt-schema-org` : ils héritent des ranges transitifs de la version publiée. Or le git du core a monté ces ranges sans que les thèmes ne réinstallent :
+
+| Dépôt | `@nuxt/content` déclaré | installé | `nuxt-schema-org` déclaré | installé |
+|---|---|---|---|---|
+| `bloggrify` (core, git) | `^3.15.0` | 3.15.0 | `^6.2.3` | 6.2.3 |
+| les 3 thèmes | — (transitif) | **3.10.0** | — (transitif) | **5.0.10** |
+
+Conséquence immédiate, vérifiée : en installant le tarball `npm pack` du core dans un thème, `nuxt typecheck` **crashe avant de démarrer** avec `(0 , _content4.defineSchemaOrgSchema) is not a function`, sur `content.config.ts:58` du core, parce que `nuxt-schema-org/content` en 5.0.10 n'exporte pas cette fonction.
+
+**Ce n'est pas une incompatibilité de fond, c'est un `node_modules` périmé.** Un `npm install` dans chaque thème après la release re-résoudra les transitives correctement. Mais :
+
+1. **Échanger le tarball ne suffit pas à valider un thème localement** : `tar -xzf` par-dessus `node_modules/@bloggrify/core` ne re-résout pas les dépendances transitives. C'est ce qui a fait échouer la validation locale de cette session. **Ne pas rejouer cette approche telle quelle**, il faut un vrai `npm install` du tarball.
+2. **La baseline de typecheck de N4 (Bento 42, Epoxia 24, Mistral 31) n'est plus mesurable** contre le core packé, et donc plus utilisable comme garde-fou tant que N11 n'est pas réglé.
+3. **La release du core doit être vérifiée sur les 3 thèmes**, sinon elle sort avec le même crash. À traiter avec P13 et P14, qui attendent la même release.
+
+### Nouveau N10 : `@iconify-json/lucide` est en devDependency du core
+
+`@nuxt/ui` ne fournit **aucune** collection d'icônes, seulement `@nuxt/icon` (vérifié dans ses `dependencies`). Une collection non installée localement est résolue par `@nuxt/icon` via **l'API Iconify au runtime**, ce qui en déploiement statique veut dire un appel réseau depuis le navigateur du visiteur.
+
+Or `@iconify-json/lucide` est en `devDependencies` du core, et **aucun des 3 thèmes ne déclare de collection Iconify** (vérifié). Un thème qui rend un `UIcon` lucide dépend donc de l'API Iconify en production.
+
+C'est pour cette raison que `@iconify-json/simple-icons` a été ajouté en **`dependencies`** et non en devDependency. Confirmé au build du core : `Nuxt Icon discovered local-installed 2 collections: lucide, simple-icons`, et le HTML généré ne contient aucun `api.iconify.design`.
+
+`@iconify-json/lucide` devrait passer en `dependencies` pour la même raison.
+
+### Nouveau P19 : `twitter_username` est de la config morte
+
+`twitter_username` est déclaré dans le type (`app/types/app-config.d.ts`), renseigné dans `app.config.ts` et dans `SAMPLE.app.config.ts`, lu et réécrit par le CLI (`cli/utils/author.ts`)... et **lu par aucun composant des 4 dépôts**. Exactement le même motif que `logo` / `avatar` en P16.
+
+Ce n'est pas une URL mais un handle, donc il n'a rien à faire dans un rendu de liens de profils. Sa place naturelle est la meta `twitter:creator`, ce qui en fait un candidat direct pour **P7**. Le type le documente désormais comme tel. En attendant, `resolveSocialLinks` l'ignore explicitement plutôt que de le rendre en lien cassé.
+
+### Correction de P9 : la meilleure base n'était pas Mistral
+
+Le lot 2 recommandait de partir de `MistralAuthorCardSocialLinks`, « déjà data-driven avec une map d'icônes ». Les 4 composants sont en fait **data-driven à l'identique** avec la **même** map. Le seul qui se distingue est `EpoxiaPostAuthorSocialLinks`, correctement typé (`Record<SocialPlatform, ...>` + type guard dans le filtre) : c'est le seul qui **ne produit pas** les erreurs `can't be used to index type` citées en N4.
+
+### N3 avait un symptôme runtime, pas seulement un typecheck
+
+L'audit ne relevait que l'erreur TS2559. En réalité, les 3 composants non typés font `if (!icons[key] && value) console.warn(...)`. Donc :
+
+- `MistralFooter` passe `config.socials` (qui contient `sharing_networks`) → `Social platform "sharing_networks" is not supported` **à chaque rendu**.
+- Tout auteur ayant `twitter_username` déclenche le même warn.
+
+Le correctif de N3 (`sharing.networks`) et `resolveSocialLinks` (qui ne warn que sur une clé réellement inconnue) suppriment les deux.
+
+### Correction de P2 : le hook n'est plus infaisable
+
+La section 2 bis affirme que « `nuxt.options.appConfig` ne contient PAS `app.config.ts` au build » et qu'énumérer `config.authors` demanderait un troisième parser. **C'était vrai au lot 1, ça ne l'est plus** : `modules/bloggrify/index.ts` lit désormais `app.config.ts` au build via jiti (`_readAppConfig`, ex-`_readSeoConfig`), en stubbant `defineAppConfig`, pour la clé `seo`. Cette session l'a étendu à `socials.sharing_networks` pour le warn de dépréciation de N3.
+
+Le mécanisme existe donc déjà, il est générique, et **P12 (`/authors`) peut s'en servir** pour prérendre l'index des auteurs plutôt que de dépendre d'un lien entrant posé par chaque thème. Le point 1 de la correction de P2 est à considérer comme périmé ; le point 2 (le crawl suffit pour les pages auteurs existantes) reste vrai.
+
+### Validation effectuée (ne pas refaire ce travail)
+
+| Vérification | Résultat |
+|---|---|
+| Typecheck core | **0 erreur** |
+| `nuxt generate` du core | OK |
+| `/authors/hlassiege` généré | **7 réseaux rendus** (Facebook, GitHub, Instagram, LinkedIn, Mastodon, X, YouTube), contre 4 avant |
+| SVG des icônes | inline dans le HTML statique, **aucun `api.iconify.design`** |
+| `twitter_username` | non rendu en lien, **plus de warn** |
+| Warn de dépréciation N3 | part bien au build avec l'ancienne clé, et l'ancienne clé **fonctionne toujours** |
+| Thèmes | **non validés**, bloqués par N11. `node_modules` restaurés à l'identique, aucun fichier de thème touché. |
+
+### Piège d'outillage de la session
+
+`rtk npx <cmd>` est traduit en `npm run <cmd>` et échoue avec `Missing script`. Pour `npx nuxt typecheck` (les thèmes n'ont pas de script `typecheck`), utiliser `npx` directement.
+
 ---
 
 ## 3. Plan d'action
@@ -420,17 +507,21 @@ L'auteur par défaut est dérivé via `useAuthor().findAuthor()` sans argument, 
 
 ### Lot 2 : valeur immédiate
 
-- [ ] **P7a** Ajouter `url` (vers `/authors/{username}`) et `sameAs` (les socials) au `Person` schema.org dans `app/pages/[...slug].vue:89-94`. Le gain le plus facile du lot.
+- [x] **P9 (core)** `app/utils/socials.ts` + `app/components/SocialLinks.vue` + minimalist branché dessus. P17 (`bluesky`) et N3 (`sharing_networks`) traités dans la foulée, comme prévu. Voir la section 2 quater.
+- [ ] **P9 (thèmes)** Remplacer les 4 composants dupliqués par de fins wrappers de style autour de `SocialLinks`. **Bloqué par N11**, et à ne faire qu'après la release du core. Garder leurs noms publics : ils sont dans `components/content/`, donc utilisables en MDC dans le markdown des utilisateurs.
+- [ ] **P7a** Ajouter `url` (vers `/authors/{username}`) et `sameAs` (les socials) au `Person` schema.org dans `app/pages/[...slug].vue:89-94`. Le gain le plus facile du lot. **Consommer `resolveSocialLinks` de `app/utils/socials.ts`** plutôt que d'écrire un second mapping.
 - [ ] **P7b** Ajouter l'auteur au flux RSS (`<dc:creator>` ou `<author>`) dans `server/routes/rss.xml.ts`.
-- [ ] **P9** Extraire un composant core de rendu des socials (mapping réseau → icône → URL), couvrant les 8 réseaux du type, et le faire consommer par les thèmes. Supprime la duplication et le fait que minimalist n'en rende que 4 sur 8. Meilleure base de départ : `MistralAuthorCardSocialLinks`, déjà data-driven avec une map d'icônes. Traiter en même temps P17 (`bluesky`), N3 (`sharing_networks` qui pollue `socials`) et les erreurs d'indexation de N4, qui ont tous la même racine.
-- [ ] **P12** Ajouter une page `/authors` listant les auteurs. Attention : sans lien entrant, elle ne sera pas crawlée donc pas générée. Il faut la lier depuis les menus/footers des thèmes (cf. la correction de P2).
-- [ ] **P7c** Passer l'auteur aux OG images (`BlogPost.satori.vue` + l'appel dans `[...slug].vue:150-153`).
+- [ ] **P12** Ajouter une page `/authors` listant les auteurs. Le lien entrant n'est plus le seul recours : `_readAppConfig` du module sait lire `app.config.ts` au build, donc la route peut être prérendue explicitement (cf. la correction de P2 en section 2 quater).
+- [ ] **P7c** Passer l'auteur aux OG images (`BlogPost.satori.vue` + l'appel dans `[...slug].vue:150-153`). Traiter **P19** au passage : `twitter_username` n'existe que pour la meta `twitter:creator`, qui n'est posée nulle part.
 
 ### Lot 3 : dette
 
+- [ ] **N11** **Prérequis à la release**, et donc à P13, P14 et P9 (thèmes). Réinstaller les dépendances des 3 thèmes contre le core à releaser, et vérifier qu'ils chargent. Sans ça la release sort avec un crash au démarrage. Voir la section 2 quater.
+- [ ] **N10** Passer `@iconify-json/lucide` de `devDependencies` à `dependencies` dans le core : les thèmes n'ont aucune collection Iconify, donc leurs `UIcon` lucide sont résolus via l'API Iconify au runtime.
 - [ ] **P13** Après la prochaine release du core, retirer le `type Author = NonNullable<ReturnType<typeof findAuthor>>` des 3 `author.vue` et repasser à `import type { Author } from '@nuxt/schema'`, une fois le hook `prepare:types` publié.
 - [ ] **P14** Après la prochaine release du core, vérifier que `nuxt generate` de Mistral repasse au vert sans désactiver les commentaires (le fix `hyvor_talk?.` est déjà dans le git du core).
-- [ ] **P17** Ajouter `bluesky` à `Author.socials` dans `app/types/app-config.d.ts` : les thèmes le rendent déjà et Mistral le configure.
+- [x] **P17** `bluesky` ajouté au type via `SocialPlatform` (session N3, avec P9).
+- [ ] **P19** Poser la meta `twitter:creator` à partir de `twitter_username`, ou retirer le champ. À traiter avec P7c.
 - [ ] **P16** Nettoyer `logo: '/images/logo.png'` et `avatar: '/images/profile-john.jpg'` du core (fichiers inexistants), ou ajouter les images. Décider aussi du sort de ces champs dans `SAMPLE.app.config.ts`, qui est publié : un utilisateur qui copie le template hérite de chemins morts.
 - [ ] **P6a** Rendre `Author.username` requis dans `app/types/app-config.d.ts`.
 - [ ] **P6b** Faire importer le type `Author` du core par le CLI au lieu de la duplication de `cli/utils/author.ts:5-21`.
@@ -476,7 +567,13 @@ Les 5 pages du core concernées (`[...slug]`, `tags/`, `categories/`, `authors/`
 
 **Conséquence pour N1** : le trou des catégories sur minimalist et mistral est désormais inoffensif pour le visiteur. Livrer `category.vue` sur ces thèmes redevient une décision produit et non une correction de bug.
 
+### N10 et N11
+
+Découvertes pendant la session N3, détaillées en **section 2 quater**. N11 (dépendances transitives périmées dans les thèmes) bloque la release du core ; N10 (`@iconify-json/lucide` en devDependency) fait dépendre les icônes des thèmes de l'API Iconify au runtime.
+
 ### N3. `sharing_networks` est rangé dans `socials`, ce qui casse le typage des thèmes
+
+> ✅ **RÉSOLU (session N3).** `sharing.networks` est le nouveau bloc. `socials.sharing_networks` reste lu par `SharingButtons.vue`, avec un warn de dépréciation émis au build par le module, sur le même patron que `hidden` → `listed`. Aucun blog existant ne casse. La section 2 quater note que le symptôme allait au-delà du typecheck. Le passage ci-dessous décrit l'état d'origine.
 
 `app/app.config.ts:26` et `app/types/app-config.d.ts:92` placent `sharing_networks: string[]` **à l'intérieur** de `socials`, à côté de `mastodon`, `github`, etc. Or ce n'est pas un profil social, c'est la config du bouton de partage. Conséquence concrète, visible dans le typecheck de Bento :
 
