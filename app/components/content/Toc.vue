@@ -1,64 +1,74 @@
 <template>
-    <nav v-if="isTocEnabled" class="w-full lg:w-2/3 mx-auto bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden dark:bg-gray-800 dark:border-gray-700">
-        <div class="p-5">
-            <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-100">
-                Table of contents
-            </h2>
-            <div class="mb-3 font-normal ">
-                <ul class="pl-0 ">
-                    <li
-                        v-for="subtitle in doc?.body.toc?.links"
-                        :key="subtitle.text"
-                        class="py-1 list-decimal ml-4 "
-                        :class="{ 'ml-6': subtitle.depth === 3 }"
-                    >
-                        <NuxtLink
-                            class="hover:text-smalt-blue-700 font-normal text-slate-800 dark:text-slate-300"
-                            :class="{ 'text-shark-400': subtitle.depth === 3 }"
-                            :to="'#' + subtitle.id"
-                        >
-                            {{ subtitle.text }}
-                        </NuxtLink>
-                        <ul v-if="subtitle.children && showTocChildren" class="my-2">
-                            <li
-                                v-for="{ id: childId, text: childText } in subtitle.children"
-                                :id="`${childId}`"
-                                :key="childId"
-                                class="mb-2 text-xs last:mb-0"
-                            >
-                                <NuxtLink :to="`#${childId}`">
-                                    {{ childText }}
-                                </NuxtLink>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <nav
+    v-if="links.length"
+    class="rounded-xl border border-default bg-elevated/40 p-5"
+  >
+    <p class="text-sm font-semibold text-default mb-3">
+      Table of contents
+    </p>
+    <ul class="flex flex-col gap-1.5">
+      <li
+        v-for="link in links"
+        :key="link.id"
+      >
+        <ULink
+          :to="`#${link.id}`"
+          class="text-sm text-muted hover:text-primary"
+        >
+          {{ link.text }}
+        </ULink>
+
+        <ul
+          v-if="link.children?.length && showTocChildren"
+          class="mt-1.5 flex flex-col gap-1.5 pl-4"
+        >
+          <li
+            v-for="child in link.children"
+            :key="child.id"
+          >
+            <ULink
+              :to="`#${child.id}`"
+              class="text-sm text-muted hover:text-primary"
+            >
+              {{ child.text }}
+            </ULink>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
 </template>
+
 <script setup lang="ts">
-const props = defineProps({
-    showChildren: {
-        type: [Boolean, String],
-        default: false
-    }
-})
+import type { PageCollectionItem } from '@nuxt/content'
+
+const props = defineProps<{
+  // When the placing layout already has the document (the common case), it passes it in so
+  // the TOC reuses it. Used as an MDC component (`::toc`) inside markdown the doc is not
+  // available, so the component falls back to querying the current route.
+  doc?: PageCollectionItem
+  showChildren?: boolean | string
+}>()
 
 const config = useAppConfig()
 
-const showTocChildren = computed(() => {
-  const propValue = props.showChildren === true || props.showChildren === 'true'
-  return propValue || (config.toc?.showChildren ?? false)
-})
-
-const route = useRoute()
-const { data: doc } = await useAsyncData(`toc-${route.path}`, () => {
-  return queryCollection('page').path(route.path).first()
-})
-
-const isTocEnabled = computed(() =>
-  (doc.value?.body?.toc?.links?.length ?? 0) > 0
+const showTocChildren = computed(() =>
+  props.showChildren === true || props.showChildren === 'true' || (config.toc?.showChildren ?? false),
 )
 
+const route = useRoute()
+const { data: selfDoc } = props.doc
+  ? { data: ref<PageCollectionItem | null>(props.doc) }
+  : await useAsyncData(`toc-${route.path}`, () => queryCollection('page').path(route.path).first())
+
+type TocLink = { id: string, text: string, depth: number, children?: TocLink[] }
+type TocDoc = { body?: { toc?: { links?: TocLink[] } } }
+
+// The document body is a deeply recursive content AST. Narrowing each source to the shape
+// actually read here, before the `??`, keeps the type checker from walking that AST (and
+// hitting "excessively deep") for nothing.
+const links = computed<TocLink[]>(() => {
+  const doc = (props.doc as unknown as TocDoc | undefined) ?? (selfDoc.value as unknown as TocDoc | null)
+  return doc?.body?.toc?.links ?? []
+})
 </script>

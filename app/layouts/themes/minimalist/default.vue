@@ -45,6 +45,12 @@
       </header>
 
       <UPageBody>
+        <Toc
+          v-if="showToc"
+          :doc="doc"
+          class="mb-8"
+        />
+
         <ContentRenderer
           id="nuxtContent"
           :value="doc"
@@ -58,7 +64,7 @@
           >
             <span class="text-xs mr-1">Share</span>
             <SharingButtons
-              :title="doc.title"
+              :title="doc.title ?? ''"
               :cover="doc.cover"
             />
           </div>
@@ -112,6 +118,17 @@ const author = computed(() => findAuthor(props.doc?.author))
 const appConfig = useAppConfig()
 const sharingEnabled = computed(() =>
   (appConfig.sharing?.networks ?? appConfig.socials?.sharing_networks ?? []).length > 0,
+)
+
+// The table of contents shows when the site enables it globally (`table_of_contents` in
+// app.config), or when a post opts in through its own `table_of_contents` frontmatter. The
+// component hides itself on posts with no headings, so short pages never show an empty box.
+//
+// Note: an absent optional boolean comes back from the content store as `false`, not
+// `undefined`, so a per-post opt-out (`table_of_contents: false` while the site default is
+// on) cannot be told apart from "not set" and is not honoured here.
+const showToc = computed(() =>
+  props.doc?.table_of_contents === true || appConfig.table_of_contents === true,
 )
 
 // UContentSurround reads positions [prev, next] and renders an empty slot when either is
