@@ -26,6 +26,45 @@ declare module '@nuxt/schema' {
     code: string
   } & Record<string, string | boolean | number>
 
+  type SeoAiConfig = {
+    /**
+     * Generate a `/llms.txt` index of the blog, aimed at LLM consumption.
+     *
+     * This is an *invitation*, not a restriction: it makes the content easier
+     * for AI tools to read. It is not a way to opt out of crawling.
+     *
+     * @default false
+     */
+    llms?: boolean
+
+    /**
+     * Allow AI crawlers (both model training and retrieval/answer engines) to
+     * access the site, through `robots.txt`.
+     *
+     * Setting this to `false` adds a `Disallow: /` group for the known AI user
+     * agents (GPTBot, ClaudeBot, CCBot, Google-Extended, PerplexityBot, ...).
+     * Regular search engines are unaffected.
+     *
+     * This is a declarative request only. Well-behaved crawlers honour it;
+     * nothing enforces it at the network level.
+     *
+     * @default true
+     */
+    allowCrawlers?: boolean
+  }
+
+  type SeoConfig = {
+    /**
+     * Allow search engines to index the site.
+     *
+     * When set, this takes precedence over the `SITE_INDEXABLE` environment
+     * variable. Leave undefined to keep the env-based behaviour.
+     */
+    indexable?: boolean
+
+    ai?: SeoAiConfig
+  }
+
   interface AppConfig {
     url: string
     logo: string
@@ -34,6 +73,8 @@ declare module '@nuxt/schema' {
     name: string
     avatar: string
     description: string
+
+    seo?: SeoConfig
 
     pagination: {
       per_page: number
