@@ -2,8 +2,7 @@
     <NuxtLayout :name="theme" :doc="doc"  fallback='invalid' />
 </template>
 <script setup lang="ts">
-import type { LayoutKey } from "#app"
-import type { NuxtError } from '#app'
+import type { LayoutKey, NuxtError } from "#app"
 import {joinURL, withoutTrailingSlash} from 'ufo'
 import {findAuthor, msToISO8601Duration} from '#imports'
 
