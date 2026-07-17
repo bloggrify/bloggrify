@@ -121,14 +121,12 @@ const sharingEnabled = computed(() =>
 )
 
 // The table of contents shows when the site enables it globally (`table_of_contents` in
-// app.config), or when a post opts in through its own `table_of_contents` frontmatter. The
-// component hides itself on posts with no headings, so short pages never show an empty box.
-//
-// Note: an absent optional boolean comes back from the content store as `false`, not
-// `undefined`, so a per-post opt-out (`table_of_contents: false` while the site default is
-// on) cannot be told apart from "not set" and is not honoured here.
+// app.config) or when a post opts in with its own `table_of_contents` frontmatter, unless the
+// post opts out with `notoc`. The component also hides itself on posts with no headings, so
+// short pages never show an empty box.
 const showToc = computed(() =>
-  props.doc?.table_of_contents === true || appConfig.table_of_contents === true,
+  (appConfig.table_of_contents === true || props.doc?.table_of_contents === true)
+  && props.doc?.notoc !== true,
 )
 
 // UContentSurround reads positions [prev, next] and renders an empty slot when either is

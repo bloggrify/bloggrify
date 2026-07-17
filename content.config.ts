@@ -39,6 +39,10 @@ export default defineContentConfig({
         }).optional(),
 
         table_of_contents: z.boolean().optional(),
+        // Per-page opt-out, mirroring `nocomments`. An absent optional boolean comes back
+        // from the content store as `false` (never `undefined`), so a per-page override has
+        // to be expressed as a truthy flag rather than `table_of_contents: false`.
+        notoc: z.boolean().optional(),
         layout: z.string().optional(),
 
         tags: z.array(z.string()).optional(),
