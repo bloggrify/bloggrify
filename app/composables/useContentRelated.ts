@@ -117,7 +117,6 @@ export const useContentRelated = async (
     // Visibility filters (same as useContentListing)
     query = query
       .orWhere(q => q.where('listed', '=', true).where('listed', 'IS NULL'))
-      .orWhere(q => q.where('hidden', '=', false).where('hidden', 'IS NULL'))
       .orWhere(q => q.where('draft', '=', false).where('draft', 'IS NULL'))
 
     return query

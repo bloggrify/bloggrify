@@ -46,6 +46,14 @@ const {data: doc, error} = await useAsyncData(route.path, () => {
 // Check for fetch error
 checkFetchError(error)
 
+// A draft is never published. The module already keeps drafts out of the prerendered
+// routes, so this only bites when something links to one explicitly: rather than
+// generating the page anyway, the build reports it and writes nothing.
+// Drafts stay fully visible in dev, which is the point of writing one.
+if (!import.meta.dev && doc.value?.draft) {
+    throw createError({statusCode: 404, statusMessage: 'This post is a draft.', fatal: true})
+}
+
 if (doc.value?.layout) {
     const documentLayout = doc.value.layout as LayoutKey
     // a document Layout can be either : themes-something-${configTheme} or layout
@@ -116,9 +124,17 @@ useHead({
     ]
 })
 
+// `seo` is typed loosely by Nuxt Content, and `@nuxtjs/robots` injects `seo.robots`
+// after parsing, so the resolved directive string is not visible to the schema.
+const docRobots = doc.value?.seo?.robots as string | undefined
+
 useSeoMeta({
     title: doc.value?.title,
     description: doc.value?.description,
+    // `@nuxtjs/robots` turns the `robots` frontmatter into `seo.robots` at parse time,
+    // but it is up to the page to emit it. Left undefined, the module's own site-wide
+    // default applies, so this only ever narrows a single page.
+    robots: docRobots,
     ogTitle: doc.value?.title,
     ogDescription: doc.value?.description,
     author: author?.name,

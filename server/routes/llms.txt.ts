@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
         .all()
 
     const published = posts.filter((post: PageCollectionItem) => {
-        return Boolean(post.date) && !post.draft && !post.hidden
+        return Boolean(post.date) && !post.draft && post.listed !== false
     })
 
     const lines: string[] = [

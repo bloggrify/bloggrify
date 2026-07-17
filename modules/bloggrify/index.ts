@@ -58,6 +58,44 @@ export default defineNuxtModule({
             }
         })
 
+        // Every page that is not a draft gets prerendered explicitly.
+        //
+        // Without this, generation relies entirely on Nitro's link crawler, so a page
+        // reachable only by URL (`listed: false`) is never written to disk: it is absent
+        // from the listings, nothing links to it, the crawler never finds it, and the URL
+        // 404s. That defeats the whole point of an unlisted page. Listing them here also
+        // keeps the sitemap honest, since it is built from the same content and would
+        // otherwise advertise URLs that do not exist.
+        //
+        // Drafts are deliberately left out: not registering them is what keeps them off
+        // the disk, and `pages/[...slug].vue` refuses to render them outside dev as a
+        // second line of defence.
+        const publishedPaths = new Set<string>()
+
+        nuxt.hook('content:file:afterParse', (ctx) => {
+            const content = ctx.content as {path?: string, draft?: boolean, hidden?: boolean, listed?: boolean}
+
+            // `hidden` is the deprecated spelling of `listed: false`. Normalising it here,
+            // once, at build time, means every consumer (listings, RSS, llms.txt, themes)
+            // only ever has to know about `listed`.
+            if (content.hidden === true) {
+                if (content.listed === undefined) {
+                    content.listed = false
+                }
+                _warnDeprecatedHidden(ctx.file?.path)
+            }
+
+            if (content.path && !content.draft) {
+                publishedPaths.add(content.path)
+            }
+        })
+
+        nuxt.hook('prerender:routes', (ctx) => {
+            for (const path of publishedPaths) {
+                ctx.routes.add(path)
+            }
+        })
+
         // Propagate core's type augmentations (@nuxt/schema AppConfig, Author, etc.)
         // to consuming layers/themes. When Bloggrify is used through `extends`, the
         // core lives in node_modules and its `app/types/*.d.ts` files fall outside the
@@ -96,6 +134,21 @@ export default defineNuxtModule({
         })
     }
 })
+
+const _deprecatedHiddenFiles = new Set<string>()
+
+/** Warns once per file that `hidden` is deprecated, listing them all in a single box. */
+function _warnDeprecatedHidden (filePath?: string) {
+    if (!filePath || _deprecatedHiddenFiles.has(filePath)) {
+        return
+    }
+    _deprecatedHiddenFiles.add(filePath)
+    consola.warn(
+        colors.greenBright('Bloggrify') + ` - \`hidden: true\` is deprecated in ${filePath}. ` +
+        'It is an exact synonym of `listed: false`, which is the supported spelling. ' +
+        'Treating it as `listed: false` for now.'
+    )
+}
 
 /**
  * Reads the `seo` key out of the resolved `app.config.ts` files, most specific first.
