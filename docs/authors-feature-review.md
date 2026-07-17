@@ -4,7 +4,7 @@ Audit réalisé le 2026-07-17 sur `bloggrify` (core) et les thèmes `bloggrify-b
 
 Ce document est un plan de travail réutilisable d'une session à l'autre. Les cases à cocher indiquent l'avancement. Les chemins sans préfixe de dépôt sont relatifs à `bloggrify` (le core) ; les autres sont préfixés par le nom du dépôt.
 
-**Dernière mise à jour : 2026-07-17, fin du lot 1 + N2.**
+**Dernière mise à jour : 2026-07-17, fin du lot 1 + N2 + P18.**
 
 ---
 
@@ -31,8 +31,9 @@ Ce document est un plan de travail réutilisable d'une session à l'autre. Les c
 | P15 | `BentoListing` / `EpoxiaListing` ignoraient `author` | ✅ Fait | 1 |
 | P16 | Le core référence 2 images inexistantes | ⬜ À faire (inerte) | 3 |
 | P17 | `bluesky` rendu mais absent du type | ⬜ À faire | 3 |
+| P18 | Le fallback s'applique à l'affichage mais pas au listing | ✅ Fait | 1 |
 
-P13 à P17 ont été découverts pendant le lot 1, voir la section 2 bis.
+P13 à P17 ont été découverts pendant le lot 1, voir la section 2 bis. P18 a été découvert pendant la session N2, voir la section 2 ter.
 
 ### Notes annexes, hors périmètre auteurs (détail en section 4)
 
@@ -334,6 +335,64 @@ Après P3, la page auteur du core affiche « Hugo », mais le `<h1>` du header a
 ### Baselines de typecheck (pour mesurer une régression)
 
 Les thèmes ont des erreurs de typecheck pré-existantes. Toute comparaison future doit partir de là : **Bento 42, Epoxia 24, Mistral 31, core 0.** Méthode : `git stash -u` puis `npx nuxt typecheck` pour obtenir la baseline, comparer, `git stash pop`.
+
+## 2 ter. Découvertes de la session N2 (2026-07-17)
+
+### Nouveau P18 : le fallback s'appliquait à l'affichage mais pas au listing
+
+> ✅ **RÉSOLU.** Trouvé en regardant `/authors/john-doe` sur la démo en ligne, qui listait 0 article.
+
+Deux chemins de code appliquaient deux règles différentes pour un même article :
+
+```ts
+// Affichage, minimalist/default.vue:40
+const author = computed(() => findAuthor(props.doc?.author))   // pas d'auteur -> auteur par défaut
+
+// Listing, useContentListing.ts:113 (avant correctif)
+query = query.where('author', '=', author)                      // NULL ne matche jamais un username
+```
+
+Un article sans champ `author` **affichait** l'auteur par défaut grâce au fallback de `findAuthor`, mais n'apparaissait **jamais** sur la page de cet auteur, la requête comparant une colonne nulle à une chaîne. Sur la démo du core : 10 articles affichent « Hugo », sa page en listait 4.
+
+**Ce n'est pas un problème de démo mais de framework** : tout blog mono-auteur qui fait ce que le fallback l'invite à faire, ne pas répéter `author:` dans chaque article, obtient une page auteur vide alors que chaque article porte son nom.
+
+**Correctif** : quand le filtre porte sur l'auteur marqué `default: true`, le listing matche aussi les articles sans auteur. La règle devient « le fallback fait partie de la résolution, donc il s'applique partout ou nulle part ».
+
+```ts
+if (author === defaultAuthorUsername) {
+  query = query.orWhere(q => q.where('author', '=', author).where('author', 'IS NULL'))
+} else {
+  query = query.where('author', '=', author)
+}
+```
+
+L'auteur par défaut est dérivé via `useAuthor().findAuthor()` sans argument, donc sans dupliquer la règle du fallback. C'est le **premier appelant réel de `useAuthor()`**, ce qui entame la résorption de N8.
+
+**Piège lié, vérifié et écarté** : le filtre de visibilité juste en dessous ressemble à un bug mais n'en est pas un. Dans `@nuxt/content`, `orWhere(q => q.where(a).where(b))` produit `(a OR b)` (`query.js:53`), et les conditions successives sont jointes par AND (`query.js:132`). Le SQL final est donc `(author = X OR author IS NULL) AND (listed = true OR listed IS NULL) AND (draft = false OR draft IS NULL)`. Ne pas « corriger » ce passage.
+
+**Le lot 1 est passé à côté** : sa validation notait « 4 articles listés » comme un succès, sans voir que 6 autres articles affichaient Hugo sans figurer sur sa page.
+
+### Validation effectuée (ne pas refaire ce travail)
+
+| Vérification | Résultat |
+|---|---|
+| `/authors/hlassiege` page 1 / page 2 | 6 + 4 = **10 articles**, contre 4 avant |
+| Auteur non-défaut (ajouté temporairement en config) | **0 article**, le fallback ne déborde pas |
+| `/`, `/archives` | 6 articles, identique à la page auteur (attendu en mono-auteur) |
+| `/tags/release` | 4 articles, aucune régression |
+| `/categories/foo` | 404, N2 tient |
+| Typecheck core / ESLint | 0 erreur / clean |
+
+### `about.md` n'est pas un oubli
+
+`content/about.md` et `content/index.md` portent `listed: false`. Leur absence des listings est un choix éditorial explicite, ce sont des pages et non des articles. `content/seo.md` en revanche est bien listé (pas de `listed: false`) et compte donc dans les 10.
+
+### Fausses pistes de la session, à ne pas rejouer
+
+- **Le `node_modules` du core n'est pas cassé** (nuxt 4.4.8, binaire présent). Un diagnostic contraire vient d'un usage de chemins git-bash (`/c/Dev/...`) avec le node Windows, qui ne les résout pas. Utiliser PowerShell ou des chemins natifs pour sonder l'install.
+- **Le 500 observé sur `/`** pendant la session venait d'un serveur de dev en train de mourir, pas d'un bug. `/` répond 200.
+
+---
 
 ## 3. Plan d'action
 
