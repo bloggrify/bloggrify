@@ -1,49 +1,33 @@
 <template>
-    <div>
-        <MinimalistHeader/>
+  <MinimalistShell>
+    <MinimalistHero />
 
-        <MinimalistMenu />
+    <section class="mt-12 sm:mt-16">
+      <MinimalistListing
+        title="Latest posts"
+        :paginated="false"
+        :limit="6"
+      />
 
-        <main class="mt-10 w-3/4 mx-auto">
-            <div class="mt-4">
-                {{ description }}
-            </div>
-
-            <div class="mt-10">
-              <MinimalistListing
-                title="Last Posts"
-                :paginated="false"
-                :limit="6"
-              />
-
-
-              <div class="mt-4">
-                    <NuxtLink class="underline " to="/archives">
-                        Read all posts
-                    </NuxtLink>
-                </div>
-            </div>
-        </main>
-        <MinimalistFooter />
-    </div>
+      <div class="mt-8 flex justify-center">
+        <UButton
+          to="/archives"
+          label="Read all posts"
+          color="neutral"
+          variant="subtle"
+          trailing-icon="i-lucide-arrow-right"
+        />
+      </div>
+    </section>
+  </MinimalistShell>
 </template>
+
 <script setup lang="ts">
 import type { PageCollectionItem } from '@nuxt/content'
-import MinimalistMenu from '~/components/minimalist/MinimalistMenu.vue'
-import MinimalistFooter from '~/components/minimalist/MinimalistFooter.vue'
-import MinimalistHeader from '~/components/minimalist/MinimalistHeader.vue'
-import MinimalistListing from '~/components/content/MinimalistListing.vue'
 
+// `doc` is passed by the [...slug] page for the home document; the hero and listing read
+// everything they need from app.config and the content collection, so it is unused here.
 defineProps<{
-    doc: PageCollectionItem;
+  doc: PageCollectionItem
 }>()
-
-const config = useAppConfig()
-const description = config.description || 'A minimalist theme for Bloggrify'
 </script>
-<style>
-@reference "#core/assets/css/core.css";
-body {
-    @apply bg-white dark:bg-slate-900 dark:text-white;
-}
-</style>

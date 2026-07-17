@@ -3,3 +3,45 @@
 @import 'katex/dist/katex.min.css';
 
 @plugin "@tailwindcss/typography";
+
+/* Minimalist theme scope. These choices belong to the minimalist theme only and must not
+   leak into the other themes (bento/epoxia/mistral) that also consume this core, so they
+   are keyed on the `.minimalist` class carried by the theme shell rather than `:root`.
+   Declaring `font-family: 'Public Sans'` here is enough for @nuxt/fonts (registered by
+   @nuxt/ui) to fetch and optimise the font. */
+.minimalist {
+  font-family: 'Public Sans', ui-sans-serif, system-ui, sans-serif;
+
+  /* Slightly roomier reading measure, matching the portfolio blog layout. */
+  --ui-container: var(--container-4xl);
+
+  ::selection {
+    color: #282a30;
+    background-color: #c8c8c8;
+  }
+}
+
+.dark .minimalist ::selection {
+  color: #ffffff;
+  background-color: #474747;
+}
+
+/* Scroll reveal, driven by the `v-reveal` directive (app/plugins/reveal.client.ts).
+   Elements start hidden and transition in once they enter the viewport. Honours
+   reduced-motion preferences and stays visible when JS never runs (SSG fallback). */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  [data-reveal].reveal-in {
+    opacity: 1;
+    transform: none;
+  }
+}

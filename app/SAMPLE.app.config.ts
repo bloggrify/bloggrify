@@ -9,10 +9,27 @@ export default defineAppConfig({
 
     theme: 'minimalist',
 
+    // Nuxt UI theme overrides. `primary` drives buttons, badges, links, focus rings and
+    // the pagination of the minimalist theme. Any Nuxt UI colour name works.
+    ui: {
+        colors: {
+            primary: 'green',
+            neutral: 'neutral',
+        },
+    },
+
     name: 'John Doe',
     avatar: '/images/profile-john.jpg',
     description:
         'I\'m a professional web developer with a passion for writing about technology and the web.',
+
+    // Photos shown in the scrolling gallery of the home hero. Add your own images under
+    // `public/` and reference them here. Leave the array empty (or remove it) to hide the
+    // gallery: the hero then shows just your avatar, name, description and social links.
+    gallery: [
+        // { src: '/gallery/photo-1.jpg', alt: 'A short caption' },
+        // { src: '/gallery/photo-2.jpg', alt: 'Another caption' },
+    ],
 
     pagination: {
         per_page: 5,

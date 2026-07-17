@@ -1,24 +1,35 @@
 <template>
-    <div class="my-8 py-6 border-t border-gray-200 dark:border-gray-700">
-        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
-            Written by
-        </p>
-        <NuxtLink
-            :to="`/authors/${author.username}`"
-            class="text-lg font-medium text-gray-900 dark:text-white hover:underline"
-        >
-            {{ author.name }}
-        </NuxtLink>
-        <p v-if="author.description" class="mt-2 text-gray-600 dark:text-gray-400">
-            {{ author.description }}
-        </p>
+  <div class="my-12 flex items-start gap-4 rounded-xl border border-default bg-elevated/40 p-5">
+    <UAvatar
+      :src="author.avatar"
+      :alt="author.name"
+      :text="getInitials(author.name)"
+      size="xl"
+    />
+    <div class="min-w-0">
+      <p class="text-xs text-muted mb-0.5">
+        Written by
+      </p>
+      <ULink
+        :to="author.username ? `/authors/${author.username}` : undefined"
+        class="font-semibold text-default hover:text-primary"
+      >
+        {{ author.name }}
+      </ULink>
+      <p
+        v-if="author.description"
+        class="text-sm text-muted mt-1"
+      >
+        {{ author.description }}
+      </p>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import type { Author } from "@nuxt/schema"
+import type { Author } from '@nuxt/schema'
 
 defineProps<{
-    author: Author;
+  author: Author
 }>()
 </script>

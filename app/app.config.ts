@@ -5,10 +5,28 @@ export default defineAppConfig({
 
   theme: 'minimalist',
 
+  // Nuxt UI theme overrides. `primary` drives buttons, badges, links, focus rings and
+  // the pagination of the minimalist theme.
+  ui: {
+    colors: {
+      primary: 'green',
+      neutral: 'neutral',
+    },
+  },
+
   name: 'Bloggrify',
   avatar: '/images/logo.svg',
   description:
     'The official Bloggrify blog: release notes, features and guides for the static blog generator built on Nuxt Content.',
+
+  // Photos shown in the scrolling gallery of the home hero. Leave empty (or remove) to
+  // hide the gallery entirely; the hero then shows just the avatar, name and links.
+  gallery: [
+    { src: '/images/templates/minimalist.jpg', alt: 'Minimalist theme' },
+    { src: '/images/templates/bento.jpg', alt: 'Bento theme' },
+    { src: '/images/templates/epoxia.png', alt: 'Epoxia theme' },
+    { src: '/images/templates/bloggr.png', alt: 'Bloggr theme' },
+  ],
 
   pagination: {
     per_page: 5,
@@ -16,6 +34,7 @@ export default defineAppConfig({
 
   socials: {
     github: 'https://github.com/bloggrify/bloggrify',
+    bluesky: 'https://bsky.app/profile/hakanai.io',
   },
 
   sharing: {
@@ -73,6 +92,7 @@ export default defineAppConfig({
         'Author and maintainer of Bloggrify',
       socials: {
         github: 'https://github.com/hlassiege',
+        bluesky: 'https://bsky.app/profile/hakanai.io',
       },
     },
   ],

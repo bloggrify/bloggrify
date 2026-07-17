@@ -1,4 +1,12 @@
 <script setup lang="ts">
+// `collapsed` renders the trigger as a single icon button (for tight spots like a nav
+// pill); expanded it shows the full "Search…" button with the ⌘K hint.
+withDefaults(defineProps<{
+  collapsed?: boolean
+}>(), {
+  collapsed: false,
+})
+
 const searchTerm = ref('')
 
 const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('page'))
@@ -29,7 +37,7 @@ watch(open, (isOpen) => {
 
 <template>
   <UContentSearchButton
-    :collapsed="false"
+    :collapsed="collapsed"
     @pointerenter="ensureSearchIndex"
     @focus="ensureSearchIndex"
   />

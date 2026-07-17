@@ -104,6 +104,18 @@ declare module '@nuxt/schema' {
     avatar: string
     description: string
 
+    /**
+     * Photos shown in the scrolling gallery of the home hero (minimalist theme).
+     *
+     * Each entry is served from `public/`. Leave empty or omit to hide the gallery.
+     */
+    gallery?: Array<{
+      src: string
+      alt?: string
+      width?: number
+      height?: number
+    }>
+
     seo?: SeoConfig
 
     pagination: {

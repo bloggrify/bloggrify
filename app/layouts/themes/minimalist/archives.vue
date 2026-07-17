@@ -1,12 +1,11 @@
 <template>
-    <div>
-        <MinimalistHeader/>
+  <MinimalistShell>
+    <header class="mb-10">
+      <h1 class="text-4xl sm:text-5xl font-bold tracking-tight">
+        All posts
+      </h1>
+    </header>
 
-        <MinimalistMenu />
-
-        <main class="mt-10 w-full lg:w-3/5 mx-6 lg:mx-auto">
-            <MinimalistListing title="All Posts"/>
-        </main>
-        <MinimalistFooter />
-    </div>
+    <MinimalistListing />
+  </MinimalistShell>
 </template>
