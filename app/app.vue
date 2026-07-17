@@ -10,13 +10,15 @@
 </template>
 <script setup lang="ts">
 import {useAnalytics} from '#imports'
-import {useColorMode, useDark} from '@vueuse/core'
 
 const config = useAppConfig()
 
 useAnalytics()
-useColorMode({initialValue: 'light'})
-useDark().value = false
+
+// Color mode is configured declaratively in nuxt.config (`colorMode.preference: 'light'`):
+// every site defaults to light, and a theme enables dark simply by rendering a toggle
+// (e.g. `UColorModeButton`). The core does not force or override the mode here, so it never
+// has to know which theme is active.
 
 useSchemaOrg([
     defineWebSite({

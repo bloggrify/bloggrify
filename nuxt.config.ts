@@ -22,6 +22,14 @@ export default defineNuxtConfig({
     zeroRuntime: true
   },
 
+  // Every site defaults to light mode. A theme enables dark mode simply by rendering a
+  // toggle (e.g. UColorModeButton); themes that don't (bento/epoxia/mistral) stay light.
+  // This keeps color-mode handling declarative and out of the shared app.vue.
+  colorMode: {
+    preference: 'light',
+    fallback: 'light'
+  },
+
   runtimeConfig: {
     public: {
       url: url,
