@@ -4,7 +4,7 @@ Audit réalisé le 2026-07-17 sur `bloggrify` (core) et les thèmes `bloggrify-b
 
 Ce document est un plan de travail réutilisable d'une session à l'autre. Les cases à cocher indiquent l'avancement. Les chemins sans préfixe de dépôt sont relatifs à `bloggrify` (le core) ; les autres sont préfixés par le nom du dépôt.
 
-**Dernière mise à jour : 2026-07-17, fin du lot 1.**
+**Dernière mise à jour : 2026-07-17, fin du lot 1 + N2.**
 
 ---
 
@@ -41,7 +41,7 @@ Aucune n'est corrigée. Collectées pendant la session du lot 1.
 | # | Note | Gravité | Dépôt concerné |
 |---|---|---|---|
 | N1 | Le bug de P1 à l'identique pour les **catégories** : pas de `category.vue` sur minimalist (thème par défaut) ni Mistral | 🔴 Feature cassée, masquée par l'absence de `category:` dans le contenu | core, mistral |
-| N2 | `fallback='invalid'` renvoie une erreur développeur au visiteur au lieu d'une 404 | 🔴 Racine commune de P1 et N1 | core |
+| N2 | `fallback='invalid'` renvoie une erreur développeur au visiteur au lieu d'une 404 | ✅ Fait (404 + warn dev) | core |
 | N3 | `sharing_networks` rangé dans `socials` alors que ce n'en est pas un, casse le typage des thèmes | 🟠 Erreur de typecheck réelle | core (+ tous les thèmes) |
 | N9 | Le template publié sur npm embarque `url: 'https://minimalist.bloggrify.com/'` | 🟠 Impact SEO sur chaque nouveau blog | core (`SAMPLE.app.config.ts`) |
 | N4 | Dette de typecheck des thèmes : Bento 42, Epoxia 24, Mistral 31, core 0 | 🟡 Aucune CI ne la retient | les 3 thèmes |
@@ -50,7 +50,7 @@ Aucune n'est corrigée. Collectées pendant la session du lot 1.
 | N6 | Fichiers parasites : `nul` à la racine de la galaxie, `bash.exe.stackdump` ×2 | ⚪ Cosmétique | galaxie, core, bloggrify.com |
 | N7 | `// FIXME : remove when updated to the latest version` sur `url` | ⚪ À trancher à la prochaine montée de version | mistral |
 
-**N1 et N2 relèvent du lot 1 par nature** (feature cassée) et sont les meilleurs candidats à traiter ensuite si on ne passe pas directement au lot 2.
+**N1 et N2 relèvent du lot 1 par nature** (feature cassée). N2 est fait. **N1 reste le meilleur candidat à traiter ensuite** si on ne passe pas directement au lot 2, mais il n'est plus urgent : N2 lui a retiré son impact visiteur.
 
 ---
 
@@ -386,7 +386,7 @@ Les thèmes ont des erreurs de typecheck pré-existantes. Toute comparaison futu
 
 ## 4. Notes annexes (hors périmètre auteurs)
 
-Observations collectées pendant la session du lot 1. Elles ne concernent pas la feature auteurs et n'ont **pas** été corrigées, mais elles valent d'être traitées un jour. Triées par gravité.
+Observations collectées pendant la session du lot 1. Elles ne concernent pas la feature auteurs. Seule **N2 est corrigée** (session du 2026-07-17) ; les autres valent d'être traitées un jour. Triées par gravité.
 
 ### N1. Le bug de P1 existe à l'identique pour les CATÉGORIES, sur le thème par défaut
 
@@ -407,7 +407,15 @@ Deux façons de traiter : livrer `category.vue` pour minimalist et mistral, ou d
 
 ### N2. Le pattern `fallback='invalid'` transforme une page manquante en erreur, pas en 404
 
+> ✅ **RÉSOLU (2026-07-17).** `app/layouts/invalid.vue` renvoie désormais `createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })`, plus un `console.warn` gardé par `import.meta.dev` qui nomme la route et le thème concernés. Le droit d'un thème à ne pas implémenter une page est inchangé, seule la réponse au visiteur l'est. Le passage ci-dessous décrit l'état d'origine.
+
 `app/layouts/invalid.vue` fait un `createError({ name: 'Invalid layout', fatal: false, statusMessage: 'Invalid layout' })`. Quand un thème n'implémente pas une page (ce que `CLAUDE.md` autorise explicitement : « Un thème peut ne pas implémenter toutes les pages »), l'utilisateur voit « Invalid layout » et non une 404. C'est un message destiné au développeur du thème qui fuit vers le visiteur, et le code HTTP est faux pour un crawler. C'est le mécanisme commun derrière P1 et N1.
+
+**Le `statusCode` absent valait 500**, le défaut de `createError`. Une page qu'un thème choisissait légitimement de ne pas implémenter annonçait donc une erreur serveur, ce qui dit à un crawler « reviens plus tard » là où une 404 dit « oublie cette URL ». Confirmé empiriquement : `/categories/foo` répondait 500 avant le correctif, 404 après.
+
+Les 5 pages du core concernées (`[...slug]`, `tags/`, `categories/`, `authors/`, `archives/`) n'ont pas été touchées : elles passent toutes par le même fallback, le correctif est centralisé dans le layout.
+
+**Conséquence pour N1** : le trou des catégories sur minimalist et mistral est désormais inoffensif pour le visiteur. Livrer `category.vue` sur ces thèmes redevient une décision produit et non une correction de bug.
 
 ### N3. `sharing_networks` est rangé dans `socials`, ce qui casse le typage des thèmes
 
