@@ -80,19 +80,31 @@ const AI_CRAWLERS = [...new Set([...AiBots, ...ADDITIONAL_AI_BOTS])]
  * prerendered, so the generated files reflect the user's config.
  */
 export default defineNitroPlugin((nitroApp) => {
-    const seo = useAppConfig().seo
+    const appConfig = useAppConfig()
+    const seo = appConfig.seo
+
+    // `site.url` and `site.indexable` are seeded from the BASE_URL / SITE_INDEXABLE env
+    // vars when `nuxt.config.ts` is evaluated, and fall back to a development default
+    // (`http://localhost:3000`, non-indexable). Pushing onto the site config stack lets
+    // `app.config.ts` win, while leaving the env-based default in place when the key is
+    // not set.
+    //
+    // This is what nuxt-robots and nuxt-sitemap read: setting `nuxt.options.site` at
+    // build time is not enough for them. `modules/bloggrify` still has to mirror `url`
+    // into `runtimeConfig.public.url`, which is the separate source the canonical and
+    // og:url tags are built from, and which this hook cannot reach.
+    nitroApp.hooks.hook('site-config:init', ({ siteConfig }) => {
+        if (appConfig.url) {
+            siteConfig.push({ url: appConfig.url })
+        }
+
+        if (typeof seo?.indexable === 'boolean') {
+            siteConfig.push({ indexable: seo.indexable })
+        }
+    })
 
     if (!seo) {
         return
-    }
-
-    // `site.indexable` is read from the SITE_INDEXABLE env var when `nuxt.config.ts`
-    // is evaluated. Pushing onto the site config stack lets `app.config.ts` win,
-    // while leaving the env-based default in place when the key is not set.
-    if (typeof seo.indexable === 'boolean') {
-        nitroApp.hooks.hook('site-config:init', ({ siteConfig }) => {
-            siteConfig.push({ indexable: seo.indexable })
-        })
     }
 
     // Note: when the site is not indexable, nuxt-robots short-circuits to a blanket

@@ -1,5 +1,9 @@
 export default defineAppConfig({
-    url: 'https://minimalist.bloggrify.com/',
+    // The public URL of your blog. It drives the canonical tags, og:url, the sitemap
+    // and the RSS feed, so set it to your own domain before going live: leaving it
+    // wrong points your SEO at somebody else's site. It takes precedence over the
+    // BASE_URL environment variable.
+    url: 'https://example.com/',
 
     logo: '/images/logo.png',
 
@@ -21,9 +25,11 @@ export default defineAppConfig({
         facebook: 'https://facebook.com',
         instagram: 'https://instagram.com',
         github: 'https://github.com',
+    },
 
+    sharing: {
         // possible values, see https://github.com/stefanobartoletti/nuxt-social-share
-        sharing_networks: ['facebook', 'bluesky', 'linkedin', 'email', 'pinterest', 'reddit', 'pocket', 'whatsapp', 'telegram', 'skype']
+        networks: ['facebook', 'bluesky', 'linkedin', 'email', 'pinterest', 'reddit', 'pocket', 'whatsapp', 'telegram', 'skype']
     },
 
     newsletter: {

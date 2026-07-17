@@ -1,22 +1,45 @@
 
 declare module '@nuxt/schema' {
 
+  /**
+   * The social networks Bloggrify knows how to render a profile link for.
+   *
+   * Adding one here is not enough: `app/utils/socials.ts` must also map it to an
+   * icon and a label, otherwise the value is ignored at render time.
+   */
+  type SocialPlatform =
+    | 'bluesky'
+    | 'facebook'
+    | 'github'
+    | 'instagram'
+    | 'linkedin'
+    | 'mastodon'
+    | 'twitter'
+    | 'youtube'
+
+  /**
+   * Profile links, keyed by network. Every value is a full URL.
+   *
+   * Used both for the site identity (`AppConfig.socials`) and for each author
+   * (`Author.socials`), so a single component can render either.
+   */
+  type Socials = Partial<Record<SocialPlatform, string>> & {
+    /**
+     * The X/Twitter handle, without the leading `@`.
+     *
+     * This is *not* a URL and is not rendered as a profile link: it exists to
+     * attribute the post in the `twitter:creator` meta tag.
+     */
+    twitter_username?: string
+  }
+
   type Author = {
     default?: boolean
     username?: string
     name?: string
     description?: string
     avatar?: string
-    socials?: {
-      twitter?: string
-      twitter_username?: string
-      mastodon?: string
-      youtube?: string
-      linkedin?: string
-      facebook?: string
-      instagram?: string
-      github?: string
-    }
+    socials?: Socials
   }
 
   type AnalyticsProvider = 'hakanai' | 'blogtally' | 'pirsch' | 'plausible' | 'umami' | 'fathom' | 'google' | 'openpanel'
@@ -66,6 +89,13 @@ declare module '@nuxt/schema' {
   }
 
   interface AppConfig {
+    /**
+     * The public URL of the site, used for canonical tags, the sitemap, the RSS
+     * feed and schema.org.
+     *
+     * This takes precedence over the `BASE_URL` environment variable, which only
+     * provides the fallback used in development (`http://localhost:3000`).
+     */
     url: string
     logo: string
     language?: string
@@ -80,16 +110,22 @@ declare module '@nuxt/schema' {
       per_page: number
     }
 
-    socials: {
-      mastodon?: string
-      youtube?: string
-      linkedin?: string
-      facebook?: string
-      instagram?: string
-      github?: string
-      twitter?: string
-      twitter_username?: string
-      sharing_networks: string[]
+    socials: Socials & {
+      /**
+       * @deprecated Moved to `sharing.networks`. Sharing buttons are not a social
+       * profile, and keeping them here forced every consumer of `socials` to filter
+       * out a key that is not a network. Still honoured, with a build-time warning.
+       */
+      sharing_networks?: string[]
+    }
+
+    sharing?: {
+      /**
+       * The networks offered by the share buttons of a post.
+       *
+       * Possible values: see https://github.com/stefanobartoletti/nuxt-social-share
+       */
+      networks?: string[]
     }
 
     newsletter: {

@@ -4,23 +4,72 @@ import {createResolver, defineNuxtModule} from '@nuxt/kit'
 import {createJiti} from 'jiti'
 import {defu} from 'defu'
 import fs from 'node:fs'
+import {join} from 'node:path'
 import type {AppConfig} from '@nuxt/schema'
 
 // `SeoConfig` is declared inside the `@nuxt/schema` augmentation, and a module
 // augmentation cannot add new exports, so it is reached through `AppConfig`.
 type SeoConfig = NonNullable<AppConfig['seo']>
 
-/** The only part of a layer's `app.config.ts` this module reads at build time. */
-type PartialAppConfig = {seo?: SeoConfig}
+/** The parts of a layer's `app.config.ts` this module reads at build time. */
+type PartialAppConfig = {
+    url?: string
+    seo?: SeoConfig
+    socials?: {sharing_networks?: string[]}
+}
 
 export default defineNuxtModule({
     meta: {
         name: 'bloggrify',
         configKey: 'bloggrify',
     },
-    setup (options, nuxt) {
+    async setup (options, nuxt) {
 
         const {resolve} = createResolver(import.meta.url)
+
+        // `runtimeConfig.public.url` is seeded from BASE_URL in `nuxt.config.ts`, which falls
+        // back to `http://localhost:3000`. It is what `pages/[...slug].vue` builds the canonical
+        // and og:url tags from, and what `SharingButtons.vue` links to, so a deploy that forgets
+        // the env var ships canonical tags pointing at localhost, which is worse than not being
+        // indexed at all. Letting `app.config.ts` win keeps the URL next to the rest of the site
+        // identity, and makes BASE_URL a pure development fallback.
+        //
+        // The Nitro plugin in `server/plugins/seo.ts` pushes the same value onto the site config
+        // stack for nuxt-robots and nuxt-sitemap. Both are needed: this one never reaches those
+        // modules, and that one never reaches the tags rendered by the Vue app.
+        //
+        // Reading the config here rather than in a later hook is deliberate: `app:resolve` fires
+        // after the modules that consume `runtimeConfig` have been set up.
+        const layerAppConfig = await _readAppConfig(
+            nuxt.options._layers
+                .map(layer => join(layer.config.srcDir ?? layer.cwd, 'app.config.ts'))
+                .filter(path => fs.existsSync(path))
+        )
+
+        if (layerAppConfig.url) {
+            nuxt.options.runtimeConfig.public.url = layerAppConfig.url
+
+            // Between 2.0 and 3.1 the site URL came from BASE_URL only, so an upgraded project can
+            // carry both, with `app.config.ts` holding a value nobody has looked at in a while.
+            // The precedence flipped in 3.2, so that value now silently takes over the canonical
+            // tags: exactly the kind of SEO breakage nobody notices. Surface it instead of guessing.
+            //
+            // Only outside dev: pointing BASE_URL at localhost while `url` holds the production URL
+            // is the normal development setup, and warning about it on every `npm run dev` would
+            // just train everyone to ignore the message.
+            if (!nuxt.options.dev && process.env.BASE_URL && process.env.BASE_URL !== layerAppConfig.url) {
+                consola.warn(
+                    colors.greenBright('Bloggrify') + ' - the site URL is set twice, and the two ' +
+                    'disagree:\n' +
+                    `  app.config.ts  url: '${layerAppConfig.url}'  <- used\n` +
+                    `  BASE_URL           '${process.env.BASE_URL}'  <- ignored\n` +
+                    'Since 3.2 `url` in app.config.ts takes precedence and BASE_URL is only a ' +
+                    'development fallback. Check that the app.config.ts value is really your ' +
+                    'public URL: it drives the canonical tags, og:url, the sitemap and the RSS ' +
+                    'feed. Once it is correct, you can drop BASE_URL.'
+                )
+            }
+        }
 
         // Defaults for the `seo` key. These land in Nuxt's inline app config, which
         // has the lowest priority, so any user `app.config.ts` overrides them.
@@ -45,8 +94,17 @@ export default defineNuxtModule({
         })
 
         nuxt.hook('app:resolve', async (app) => {
-            const seo = await _readSeoConfig(app.configs)
+            const appConfig = await _readAppConfig(app.configs)
+            const seo = appConfig.seo
             llmsEnabled = seo?.ai?.llms === true
+
+            if (appConfig.socials?.sharing_networks) {
+                consola.warn(
+                    colors.greenBright('Bloggrify') + ' - `socials.sharing_networks` is deprecated in ' +
+                    'your app.config.ts. Sharing buttons are not a social profile: move the list to its ' +
+                    'own `sharing: { networks: [...] }` block. The old key still works for now.'
+                )
+            }
 
             if (llmsEnabled && seo?.ai?.allowCrawlers === false) {
                 consola.warn(
@@ -110,12 +168,15 @@ export default defineNuxtModule({
                 let message = colors.greenBright('Bloggrify') + '\n\n'
 
                 if(!process.env.BASE_URL) {
-                    message += 'BASE_URL is not set. This is not a problem if you are running Bloggrify in development mode.\n' +
-                        'However, it is recommended to set BASE_URL in production.\n\n'
+                    message += 'BASE_URL is not set. This is not a problem if you are running Bloggrify in development mode,\n' +
+                        'or if you set `url` in your app.config.ts, which takes precedence over BASE_URL.\n' +
+                        'Otherwise your site falls back to http://localhost:3000 and the sitemap and canonical\n' +
+                        'tags will point there.\n\n'
                 }
 
                 if(!process.env.SITE_INDEXABLE) {
-                    message += 'SITE_INDEXABLE is not set. It means your site will not be indexed by search engines..\n' +
+                    message += 'SITE_INDEXABLE is not set. It means your site will not be indexed by search engines,\n' +
+                        'unless you set `seo.indexable` in your app.config.ts, which takes precedence over SITE_INDEXABLE.\n' +
                         'Set the environment variable SITE_INDEXABLE to true to enable indexing.'
                 }
 
@@ -151,13 +212,14 @@ function _warnDeprecatedHidden (filePath?: string) {
 }
 
 /**
- * Reads the `seo` key out of the resolved `app.config.ts` files, most specific first.
+ * Reads the keys this module needs out of the resolved `app.config.ts` files, most
+ * specific first.
  *
  * `app.config.ts` relies on the `defineAppConfig` auto-import, which only exists inside
  * the bundler, so it is stubbed here for the duration of the read. The identity stub
  * matches Nuxt's own implementation.
  */
-async function _readSeoConfig (configPaths: string[]): Promise<SeoConfig | undefined> {
+async function _readAppConfig (configPaths: string[]): Promise<PartialAppConfig> {
     const jiti = createJiti(import.meta.url)
     const globals = globalThis as Record<string, unknown>
     const previous = globals.defineAppConfig
@@ -174,7 +236,7 @@ async function _readSeoConfig (configPaths: string[]): Promise<SeoConfig | undef
             }
         }
         // Same precedence as Nuxt's own app config template: first file wins.
-        return configs.reduce<PartialAppConfig>((merged, config) => defu(merged, config), {}).seo
+        return configs.reduce<PartialAppConfig>((merged, config) => defu(merged, config), {})
     } finally {
         globals.defineAppConfig = previous
     }
