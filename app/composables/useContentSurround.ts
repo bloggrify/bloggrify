@@ -1,8 +1,8 @@
-import type { PageCollectionItem, ContentNavigationItem } from '@nuxt/content'
+import type { PageCollectionItem } from '@nuxt/content'
 
 export interface ContentSurroundOptions {
   /**
-   * The current article document (takes precedence over path)
+   * The current article document
    */
   doc: PageCollectionItem
   /**
@@ -17,34 +17,30 @@ export interface ContentSurroundOptions {
 
 export interface ContentSurroundResult {
   /**
-   * Previous article (null if current is first)
+   * Previous (older) article, null if the current one is the oldest
    */
-  prev: Ref<ContentNavigationItem | null>
+  prev: Ref<PageCollectionItem | null>
   /**
-   * Next article (null if current is last)
+   * Next (newer) article, null if the current one is the newest
    */
-  next: Ref<ContentNavigationItem | null>
+  next: Ref<PageCollectionItem | null>
 }
 
 /**
- * Composable to fetch previous and next articles relative to the current article
- * Uses queryCollectionItemSurroundings internally with visibility filters
+ * Composable to fetch the previous and next articles relative to the current one,
+ * ordered by publication date. `prev` is the older post, `next` the newer one.
+ *
+ * It deliberately does not use `queryCollectionItemSurroundings`: that helper walks the
+ * navigation tree, which is sorted by file path (`stem`). On a blog that yields
+ * alphabetical neighbours instead of chronological ones. Here we reuse the same
+ * date-ordered, visibility-filtered query as the listing, then pick the adjacent posts.
  *
  * @example
  * ```typescript
- * // Using current route path
- * const { prev, next } = await useContentSurround()
- *
- * // Using a document
  * const { prev, next } = await useContentSurround({ doc: article })
- *
- * // With custom fields
- * const { prev, next } = await useContentSurround({
- *   fields: ['path', 'title', 'cover']
- * })
  * ```
  *
- * @param options - Configuration options for filtering and field selection
+ * @param options - Configuration options for filtering
  * @returns Previous and next articles
  */
 export const useContentSurround = async (
@@ -64,12 +60,9 @@ export const useContentSurround = async (
     `path-${doc.path.replace(/\//g, '-')}`,
   ].filter(Boolean).join('-')
 
-  // Fetch surrounding items using native Nuxt Content utility
-  const { data: surroundings } = await useAsyncData(cacheKey, async () => {
-    let query = queryCollectionItemSurroundings('page', doc.path, {
-      before: 1,
-      after: 1,
-    })
+  // Fetch every published post, newest first, using the same filters as useContentListing.
+  const { data: posts } = await useAsyncData(cacheKey, () => {
+    let query = queryCollection('page')
 
     // Apply prefix filter if specified
     if (prefix) {
@@ -81,12 +74,14 @@ export const useContentSurround = async (
       .orWhere(q => q.where('listed', '=', true).where('listed', 'IS NULL'))
       .orWhere(q => q.where('draft', '=', false).where('draft', 'IS NULL'))
 
-    return await query
+    return query.order('date', 'DESC').all()
   })
 
-  // Extract prev and next from surroundings array [prev, next]
-  const prev = computed(() => surroundings.value?.[0] || null)
-  const next = computed(() => surroundings.value?.[1] || null)
+  // The list runs newest to oldest, so the older post ("previous") sits one index later
+  // and the newer post ("next") one index earlier. A missing current post yields nulls.
+  const index = computed(() => posts.value?.findIndex(p => p.path === doc.path) ?? -1)
+  const prev = computed(() => index.value < 0 ? null : (posts.value?.[index.value + 1] ?? null))
+  const next = computed(() => index.value <= 0 ? null : (posts.value?.[index.value - 1] ?? null))
 
   return {
     prev,

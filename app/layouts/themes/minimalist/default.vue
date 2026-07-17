@@ -90,9 +90,13 @@ const props = defineProps<{
 const author = computed(() => findAuthor(props.doc?.author))
 
 // UContentSurround reads positions [prev, next] and renders an empty slot when either is
-// null, so the nulls are kept (not filtered) to preserve left/right alignment.
+// null, so the nulls are kept (not filtered) to preserve left/right alignment. Posts are
+// mapped to the fields the component renders, since a PageCollectionItem is not a
+// ContentSurroundLink.
 const { prev, next } = await useContentSurround({ doc: props.doc })
-const surround = computed(() => [prev.value, next.value] as ContentSurroundLink[])
+const toLink = (post: PageCollectionItem | null): ContentSurroundLink | null =>
+  post ? { path: post.path, title: post.title ?? '', description: post.description } as ContentSurroundLink : null
+const surround = computed(() => [toLink(prev.value), toLink(next.value)] as ContentSurroundLink[])
 
 const runtimeConfig = useRuntimeConfig()
 const articleLink = computed(() =>
