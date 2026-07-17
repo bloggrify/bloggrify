@@ -13,7 +13,21 @@ export const useAuthor = () => {
             // Return default author if no authorId provided
             return config.authors?.find((author: Author) => author.default)
         }
-        return config.authors?.find((author: Author) => author.username === authorId)
+
+        const author = config.authors?.find((author: Author) => author.username === authorId)
+
+        if (!author && import.meta.dev) {
+            // An unknown author resolves to undefined without falling back to the default one,
+            // and every consumer guards with `v-if`, so the bio, the schema.org Person and the
+            // author meta tags would silently disappear. Warn instead of failing quietly.
+            console.warn(
+                `[bloggrify] Unknown author "${authorId}". Add it to the \`authors\` array of your app.config.ts, `
+                + `or fix the \`author\` frontmatter field of the post referencing it. `
+                + `Known authors: ${config.authors?.map((a: Author) => a.username).join(', ') || 'none'}.`
+            )
+        }
+
+        return author
     }
 
     /**
