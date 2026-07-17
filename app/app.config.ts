@@ -1,29 +1,26 @@
 export default defineAppConfig({
   url: 'https://minimalist.bloggrify.com/',
 
-  logo: '/images/logo.png',
+  logo: '/images/logo.svg',
 
   theme: 'minimalist',
 
-  name: 'John Doe',
-  avatar: '/images/profile-john.jpg',
+  name: 'Bloggrify',
+  avatar: '/images/logo.svg',
   description:
-    'I\'m a professional web developer with a passion for writing about technology and the web.',
+    'The official Bloggrify blog: release notes, features and guides for the static blog generator built on Nuxt Content.',
 
   pagination: {
     per_page: 5,
   },
 
   socials: {
-    mastodon: 'https://piaille.fr',
-    youtube: 'https://youtube.com',
-    linkedin: 'https://linkedin.com',
-    facebook: 'https://facebook.com',
-    instagram: 'https://instagram.com',
-    github: 'https://github.com',
+    github: 'https://github.com/bloggrify/bloggrify',
+  },
 
+  sharing: {
     // possible values, see https://github.com/stefanobartoletti/nuxt-social-share
-    sharing_networks: ['facebook', 'bluesky', 'linkedin', 'email', 'pinterest', 'reddit', 'pocket', 'whatsapp', 'telegram', 'skype']
+    networks: ['facebook', 'bluesky', 'linkedin', 'email', 'pinterest', 'reddit', 'pocket', 'whatsapp', 'telegram', 'skype']
   },
 
   newsletter: {
@@ -48,7 +45,7 @@ export default defineAppConfig({
   seo: {
     // Allow search engines to index the site. Takes precedence over the
     // SITE_INDEXABLE environment variable. Remove to keep using the env var.
-    // indexable: true,
+    indexable: true,
 
     ai: {
       // Publish /llms.txt, a markdown index of your posts for AI tools.
@@ -75,14 +72,7 @@ export default defineAppConfig({
       description:
         'Author and maintainer of Bloggrify',
       socials: {
-        twitter: 'https://twitter.com',
-        twitter_username: 'username',
-        mastodon: 'https://piaille.fr',
-        youtube: 'https://youtube.com',
-        linkedin: 'https://linkedin.com',
-        facebook: 'https://facebook.com',
-        instagram: 'https://instagram.com',
-        github: 'https://github.com',
+        github: 'https://github.com/hlassiege',
       },
     },
   ],
