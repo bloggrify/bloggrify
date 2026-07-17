@@ -1,19 +1,14 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 import { useNuxt } from '@nuxt/kit'
 import { joinURL } from 'ufo'
-// import { asSitemapCollection } from '@nuxtjs/sitemap/content'
+import { defineSitemapSchema } from '@nuxtjs/sitemap/content'
+import { defineSchemaOrgSchema } from 'nuxt-schema-org/content'
 const { options } = useNuxt()
 const cwd = joinURL(options.rootDir, 'content')
 
 
 export default defineContentConfig({
   collections: {
-    // content: defineCollection(
-    //   asSitemapCollection({
-    //     type: 'page',
-    //     source: '**/*.md',
-    //   }),
-    // ),
     page: defineCollection({
       type: 'page',
       source: {
@@ -58,7 +53,7 @@ export default defineContentConfig({
           href: z.string()
         })).optional(),
 
-        schemaOrg: z.record(z.any()).optional(),
+        schemaOrg: defineSchemaOrgSchema(),
 
         links: z.array(z.object({
           label: z.string(),
@@ -67,7 +62,7 @@ export default defineContentConfig({
           target: z.string().optional()
         })).optional(),
 
-        sitemap: z.record(z.any()).optional(),
+        sitemap: defineSitemapSchema({ name: 'page' }),
 
 
       })
