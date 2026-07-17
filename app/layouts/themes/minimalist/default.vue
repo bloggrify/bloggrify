@@ -51,13 +51,25 @@
           class="prose dark:prose-invert max-w-none"
         />
 
-        <div class="flex items-center justify-end gap-2 text-sm text-muted mt-8">
+        <div class="flex flex-wrap items-center justify-between gap-2 text-sm text-muted mt-8 pt-6 border-t border-default">
+          <div
+            v-if="sharingEnabled"
+            class="flex items-center gap-1"
+          >
+            <span class="text-xs mr-1">Share</span>
+            <SharingButtons
+              :title="doc.title"
+              :cover="doc.cover"
+            />
+          </div>
+
           <UButton
             icon="i-lucide-link"
             size="sm"
             variant="link"
             color="neutral"
             label="Copy link"
+            class="ml-auto"
             @click="copyToClipboard(articleLink, 'Article link copied to clipboard')"
           />
         </div>
@@ -93,6 +105,14 @@ const props = defineProps<{
 }>()
 
 const author = computed(() => findAuthor(props.doc?.author))
+
+// The core SharingButtons component reads the networks from app.config; the row is only
+// rendered when at least one network is configured (sharing.networks, or the deprecated
+// socials.sharing_networks).
+const appConfig = useAppConfig()
+const sharingEnabled = computed(() =>
+  (appConfig.sharing?.networks ?? appConfig.socials?.sharing_networks ?? []).length > 0,
+)
 
 // UContentSurround reads positions [prev, next] and renders an empty slot when either is
 // null, so the nulls are kept (not filtered) to preserve left/right alignment. Posts are

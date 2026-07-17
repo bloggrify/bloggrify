@@ -38,8 +38,9 @@ export default defineAppConfig({
   },
 
   sharing: {
-    // possible values, see https://github.com/stefanobartoletti/nuxt-social-share
-    networks: ['facebook', 'bluesky', 'linkedin', 'email', 'pinterest', 'reddit', 'pocket', 'whatsapp', 'telegram', 'skype']
+    // The networks offered by the share buttons at the end of a post.
+    // Possible values, see https://github.com/stefanobartoletti/nuxt-social-share
+    networks: ['bluesky', 'linkedin', 'facebook', 'reddit', 'whatsapp', 'telegram', 'email']
   },
 
   newsletter: {
