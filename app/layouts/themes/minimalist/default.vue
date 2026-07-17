@@ -69,6 +69,11 @@
           :author="author"
         />
 
+        <NewsletterForm
+          title="Enjoyed this article?"
+          description="Subscribe to get new posts delivered to your inbox."
+        />
+
         <CommentSystem
           :id="doc.pageid"
           :nocomments="doc.nocomments"

@@ -19,6 +19,11 @@
         />
       </div>
     </section>
+
+    <NewsletterForm
+      title="Stay updated"
+      description="Get notified when a new post is published. No spam, unsubscribe anytime."
+    />
   </MinimalistShell>
 </template>
 
