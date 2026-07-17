@@ -26,9 +26,6 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
-            - name: Copy configuration file
-              run: cp app/SAMPLE.app.config.ts app/app.config.ts
-
             - name: Prepare Nuxt
               run: npm run prepare
 

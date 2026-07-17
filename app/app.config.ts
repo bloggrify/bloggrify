@@ -45,6 +45,24 @@ export default defineAppConfig({
 
   table_of_contents: true,
 
+  seo: {
+    // Allow search engines to index the site. Takes precedence over the
+    // SITE_INDEXABLE environment variable. Remove to keep using the env var.
+    // indexable: true,
+
+    ai: {
+      // Publish /llms.txt, a markdown index of your posts for AI tools.
+      // This makes your content easier to consume, it does not restrict anything.
+      llms: false,
+
+      // Set to false to ask AI crawlers (GPTBot, ClaudeBot, CCBot,
+      // Google-Extended, PerplexityBot, ...) not to use your content.
+      // Regular search engines are unaffected. This is a polite request:
+      // well-behaved crawlers honour it, nothing enforces it.
+      allowCrawlers: true,
+    },
+  },
+
   // The list of authors. The `username` is the key referenced by the `author`
   // frontmatter field of a post, and it is the slug of the `/authors/{username}` page.
   // The author flagged `default: true` is used for posts without an explicit author.
