@@ -147,7 +147,7 @@ if (doc.value?.cover) {
         twitterImage: joinURL(url ,'images/', doc.value?.cover)
     })
 } else {
-  defineOgImageComponent('BlogPost', {
+  defineOgImage('BlogPostSatori', {
     title: doc.value?.title,
     description: doc.value?.description,
   })
