@@ -6,6 +6,7 @@
             :alt="alt"
             :width="width"
             :height="height"
+            format="webp"
             :aria-labelledby="alt ? `caption-${uniqueId}` : undefined"
         />
         <figcaption v-if="alt" :id="`caption-${uniqueId}`" class="text-sm  text-center text-gray-600 dark:text-gray-300 mt-1">
