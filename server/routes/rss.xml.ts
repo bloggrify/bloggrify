@@ -9,9 +9,12 @@ export default defineEventHandler(async (event) => {
     const configUrl = runtimeConfig.public.url
     const url = withoutTrailingSlash(configUrl)
 
+    // Same filter as `useContentListing`: only published, listed posts belong in the feed.
+    // These groups are OR'd internally and AND'd together, so each line reads as
+    // "flag is off, or was never set".
     const docs = await queryCollection(event, 'page')
-      .orWhere((query : CollectionQueryGroup<PageCollectionItem>) => query.where('hidden', '=', true).where('hidden', 'IS NULL'))
-      .orWhere((query : CollectionQueryGroup<PageCollectionItem>) => query.where('draft', '=', true).where('draft', 'IS NULL'))
+      .orWhere((query : CollectionQueryGroup<PageCollectionItem>) => query.where('listed', '=', true).where('listed', 'IS NULL'))
+      .orWhere((query : CollectionQueryGroup<PageCollectionItem>) => query.where('draft', '=', false).where('draft', 'IS NULL'))
       .order('date', 'DESC')
         .all()
 
