@@ -1,6 +1,96 @@
 # Changelog
 
 
+## v3.2.0
+
+[compare changes](https://github.com/bloggrify/bloggrify/compare/v3.1.2...v3.2.0)
+
+### 🚀 Enhancements
+
+- Propagate core type augmentations to extending themes ([c4a5bb2](https://github.com/bloggrify/bloggrify/commit/c4a5bb2))
+- Add hakanai connect as a comment provider ([dd2efe9](https://github.com/bloggrify/bloggrify/commit/dd2efe9))
+- Add openpanel analytics provider ([7d838b4](https://github.com/bloggrify/bloggrify/commit/7d838b4))
+- Add seo config key to control indexing, ai crawlers and llms.txt ([94013da](https://github.com/bloggrify/bloggrify/commit/94013da))
+- Warn in dev when a post references an unknown author ([a926826](https://github.com/bloggrify/bloggrify/commit/a926826))
+- Read the site url and indexability from app.config.ts ([26dcaf8](https://github.com/bloggrify/bloggrify/commit/26dcaf8))
+- Add shared SocialLinks component and socials resolver ([d72c1d9](https://github.com/bloggrify/bloggrify/commit/d72c1d9))
+- Redesign the minimalist theme after the nuxt ui blog template ([f8094ef](https://github.com/bloggrify/bloggrify/commit/f8094ef))
+- Add newsletter signup form to minimalist theme ([92b6800](https://github.com/bloggrify/bloggrify/commit/92b6800))
+- Add social share buttons to minimalist posts ([e756ac5](https://github.com/bloggrify/bloggrify/commit/e756ac5))
+- Render table of contents in minimalist posts ([d75c103](https://github.com/bloggrify/bloggrify/commit/d75c103))
+- Add notoc frontmatter to hide the table of contents per post ([e81750b](https://github.com/bloggrify/bloggrify/commit/e81750b))
+- Add openpanel and hakanai pulse analytics to the blog ([e12df46](https://github.com/bloggrify/bloggrify/commit/e12df46))
+- Add the post author to seo metadata ([ea4793c](https://github.com/bloggrify/bloggrify/commit/ea4793c))
+- Add opt-in authors directory page ([6316f10](https://github.com/bloggrify/bloggrify/commit/6316f10))
+- Add themed error pages with per-theme override ([bef7609](https://github.com/bloggrify/bloggrify/commit/bef7609))
+
+### 🔥 Performance
+
+- Load search index on first search intent only ([901f3f1](https://github.com/bloggrify/bloggrify/commit/901f3f1))
+- Serve article images as webp ([ee546b6](https://github.com/bloggrify/bloggrify/commit/ee546b6))
+
+### 🩹 Fixes
+
+- Import LayoutKey from #app for nuxt compatibility ([3fb70aa](https://github.com/bloggrify/bloggrify/commit/3fb70aa))
+- Merge mdd component config with defaults ([7782fd9](https://github.com/bloggrify/bloggrify/commit/7782fd9))
+- Use configured language for date formatting ([f75116a](https://github.com/bloggrify/bloggrify/commit/f75116a))
+- **cli:** Read version from package.json to avoid drift ([5a457ef](https://github.com/bloggrify/bloggrify/commit/5a457ef))
+- Upgrade nuxt-og-image to v6 to restore og image generation ([ac5a682](https://github.com/bloggrify/bloggrify/commit/ac5a682))
+- Use defineOgImage with the resolved og image component name ([b9a6444](https://github.com/bloggrify/bloggrify/commit/b9a6444))
+- Return a 404 instead of a 500 when a theme has no layout for a page ([f6c3adc](https://github.com/bloggrify/bloggrify/commit/f6c3adc))
+- Stop drafts and unlisted pages leaking into the rss feed ([8e5bf5d](https://github.com/bloggrify/bloggrify/commit/8e5bf5d))
+- Make draft and listed frontmatter behave as documented ([95aa8ac](https://github.com/bloggrify/bloggrify/commit/95aa8ac))
+- List posts without an explicit author on the default author page ([c866f8a](https://github.com/bloggrify/bloggrify/commit/c866f8a))
+- Rename misleading blog menu label to About ([3751a7b](https://github.com/bloggrify/bloggrify/commit/3751a7b))
+- Order prev/next article navigation by date instead of file path ([6be6415](https://github.com/bloggrify/bloggrify/commit/6be6415))
+- Return a 404 instead of a 500 for unknown urls ([1967652](https://github.com/bloggrify/bloggrify/commit/1967652))
+
+### 💅 Refactors
+
+- Use typed sitemap and schema.org schemas in content config ([47ca0d9](https://github.com/bloggrify/bloggrify/commit/47ca0d9))
+- Drive color mode from nuxt config instead of app.vue ([2fb1b70](https://github.com/bloggrify/bloggrify/commit/2fb1b70))
+- Make analytics app config optional ([d1f0ff1](https://github.com/bloggrify/bloggrify/commit/d1f0ff1))
+
+### 📖 Documentation
+
+- Add authors feature review and action plan ([9c4fe73](https://github.com/bloggrify/bloggrify/commit/9c4fe73))
+- Mark n2 as resolved in the authors feature review ([6a97f98](https://github.com/bloggrify/bloggrify/commit/6a97f98))
+- Record the author listing fallback bug as p18 ([b0bfde9](https://github.com/bloggrify/bloggrify/commit/b0bfde9))
+- Record p9 core progress, n10, n11 and p19 in the authors review ([f215ed2](https://github.com/bloggrify/bloggrify/commit/f215ed2))
+- Track author seo work in the feature review ([0f3159c](https://github.com/bloggrify/bloggrify/commit/0f3159c))
+- Track authors page and error page work ([42d518d](https://github.com/bloggrify/bloggrify/commit/42d518d))
+
+### 📦 Build
+
+- Bundle lucide icons locally with @iconify-json/lucide ([3d7e2a0](https://github.com/bloggrify/bloggrify/commit/3d7e2a0))
+
+### 🏡 Chore
+
+- Upgrade dependencies (nuxt 4.4.8 + minor bumps) ([283d09f](https://github.com/bloggrify/bloggrify/commit/283d09f))
+- Remove image format config ignored by nuxt-img ([059ad47](https://github.com/bloggrify/bloggrify/commit/059ad47))
+- Upgrade nuxt seo modules to sitemap v8, robots v6 and schema-org v6 ([1ca8918](https://github.com/bloggrify/bloggrify/commit/1ca8918))
+- Align demo authors config with the content author ([4c26f81](https://github.com/bloggrify/bloggrify/commit/4c26f81))
+- Make the minimalist blog the official bloggrify blog ([b3bd012](https://github.com/bloggrify/bloggrify/commit/b3bd012))
+- Ignore eslint cache and bash stackdump ([64ae8b1](https://github.com/bloggrify/bloggrify/commit/64ae8b1))
+- Update content submodule with new blog posts ([84ba1bc](https://github.com/bloggrify/bloggrify/commit/84ba1bc))
+
+### 🎨 Styles
+
+- Merge duplicate #app type imports ([fac308b](https://github.com/bloggrify/bloggrify/commit/fac308b))
+
+### 🤖 CI
+
+- Stop overwriting the demo config with the npm template ([982639a](https://github.com/bloggrify/bloggrify/commit/982639a))
+- Serve the generated 404 page through bunny's error path ([b6b40f2](https://github.com/bloggrify/bloggrify/commit/b6b40f2))
+
+### 📝 Notes
+
+- `app.config.ts` (`url` and `seo.indexable`) now takes precedence over the `BASE_URL` and `SITE_INDEXABLE` environment variables, which become development fallbacks. Only projects that set both a `BASE_URL` and an `app.config.ts` `url` with different values are affected. ([26dcaf8](https://github.com/bloggrify/bloggrify/commit/26dcaf8))
+
+### ❤️ Contributors
+
+- Hlassiege <hlassiege@pm.me>
+
 ## v3.1.2
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v3.1.1...v3.1.2)
