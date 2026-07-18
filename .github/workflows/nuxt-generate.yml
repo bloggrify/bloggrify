@@ -35,6 +35,14 @@ jobs:
             - name: Generate static site
               run: npm run generate
 
+            # Bunny Storage serves a custom 404 only from `bunnycdn_errors/404.html` at the zone
+            # root. `nuxt generate` writes the error page to `404.html`, so copy it there;
+            # otherwise Bunny falls back to its own generic "404 - File Not Found" page.
+            - name: Wire the generated 404 page to Bunny's error path
+              run: |
+                mkdir -p .output/public/bunnycdn_errors
+                cp .output/public/404.html .output/public/bunnycdn_errors/404.html
+
             - name: Deploy to Bunny
               uses: R-J-dev/bunny-deploy@v2.1.1
               with:
