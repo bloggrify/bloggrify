@@ -62,6 +62,19 @@ export default defineAppConfig({
 
   table_of_contents: true,
 
+  // Client-side analytics. Both codes are public client IDs (they ship in the HTML
+  // of every page), so they live in clear here. This file is not part of the npm
+  // package, the distributed template is SAMPLE.app.config.ts.
+  //   - openpanel: OpenPanel client ID for this blog.
+  //   - hakanai:   Hakanai Pulse tracker code (distinct from the Hakanai Connect
+  //                key used by `comments` above, which is a different product).
+  analytics: {
+    providers: [
+      { provider: 'openpanel', code: 'ac46ee2c-652e-41e9-b731-749a3ccfc7c8' },
+      { provider: 'hakanai', code: 'f36ee1f4-9341-4009-9358-a0f0c219c0e3' },
+    ],
+  },
+
   seo: {
     // Allow search engines to index the site. Takes precedence over the
     // SITE_INDEXABLE environment variable. Remove to keep using the env var.
