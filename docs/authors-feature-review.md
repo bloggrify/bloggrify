@@ -403,6 +403,15 @@ Sur décision produit (« on ne fait que Mistral pour l'instant »). Trois fichi
 
 Baseline typecheck de Mistral **contre 3.2.0 : 18 erreurs** (l'ancienne baseline N4 de 31 était mesurée contre le core périmé, elle n'est plus la référence). Les 18 restantes sont la dette N4 pré-existante (`readingTime` possibly undefined, `subtitle` unknown dans `PageSidebar`, `doc.body.toc` possibly undefined). **0 erreur sur les fichiers touchés en N6.** ESLint clean.
 
+### Hors auteurs : adoption du bloc `seo` de 3.2.0 dans Mistral
+
+En parcourant le CHANGELOG 3.2.0 pour repérer ce que Mistral pouvait exploiter. Même logique que N7 (tout centraliser dans `app.config`) : un bloc `seo` a été ajouté à `bloggrify-mistral/app/app.config.ts`, sur décision produit de l'utilisateur.
+
+- `seo.indexable: false` : le démo reste hors des moteurs (au lieu de dépendre de `SITE_INDEXABLE`). Vérifié : `robots.txt` généré en `Disallow: /`.
+- `seo.ai.llms: true` : publie `/llms.txt` (vérifié : généré). `allowCrawlers` laissé au défaut `true` pour éviter le warning « contradictory » du core (`llms:true` + `allowCrawlers:false`). **Nuance** : avec `indexable:false`, `robots.txt` bloque de toute façon tous les crawlers via le wildcard ; `llms.txt` reste généré et récupérable directement, mais n'est pas « ouvert au crawl ».
+
+Autres pistes 3.2.0 relevées, non retenues : page 404 stylée pour Mistral (N12, optionnel) ; **N10 reste ouvert côté core** — `@iconify-json/lucide` est toujours en `devDependencies` de 3.2.0 (seul `simple-icons` est passé en `dependencies`), donc les `UIcon` lucide rendus par des composants core dans un thème dépendent encore de l'API Iconify au runtime.
+
 ### Nouveau Nx : `nuxt generate` de Mistral échoue sur des images de démo manquantes
 
 `npx nuxt generate` sort en erreur (`Exiting due to prerender errors`), mais les **10** erreurs sont toutes des `[404] IPX_FILE_NOT_FOUND` sur des couvertures d'articles du submodule `blog-content` (`/_ipx/_/covers/santorin.jpg`, `/blog/analytics.jpg`, `tokyo.jpg`…). Aucune n'est liée aux auteurs, aux commentaires ou à la release. Les pages elles-mêmes se rendent (`/authors/hlassiege` en 640 ms, articles OK). C'est un fichier image absent que l'optimiseur IPX tente de traiter, et le prerender le remonte en erreur fatale. **À investiguer hors périmètre auteurs** : soit les images manquent réellement du contenu de démo, soit il faut relâcher le `failOnError` du prerender pour les assets `/_ipx`.
