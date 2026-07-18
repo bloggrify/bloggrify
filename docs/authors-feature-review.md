@@ -68,7 +68,7 @@ Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 | N8 | `useAuthor()` est mort, seul le `findAuthor` **déprécié** est utilisé. `hasAuthor` jamais appelé | 🟡 La dépréciation est à l'envers de l'usage | core |
 | N5 | Warnings CSS `Expected ";" but found "}"` à chaque build | 🟡 Bruit permanent | core + thèmes |
 | N6 | Fichiers parasites : `nul` à la racine de la galaxie, `bash.exe.stackdump` ×2 | ⚪ Cosmétique | galaxie, core, bloggrify.com |
-| N7 | `// FIXME : remove when updated to the latest version` sur `url` | 🟡 Inversé par 3.2.0 : `url` est devenu la source de vérité (canonical/sitemap/RSS). Retirer le FIXME, garder le champ | mistral |
+| N7 | `// FIXME : remove when updated to the latest version` sur `url` | ✅ Fait (N6) : FIXME retiré, `url` gardé comme source de vérité (décision produit : tout centraliser dans `app.config`) | mistral |
 | N12 | Pages d'erreur refaites : 404 par défaut propre (aucune fuite de stack) + override par thème (`themes-{theme}-error`) + 404 minimalist stylée, **et** fix du 500 sur URL de contenu inconnue | ✅ Fait | core |
 
 **N1 et N2 relèvent du lot 1 par nature** (feature cassée). N2 est fait. **N1 reste le meilleur candidat à traiter ensuite** si on ne passe pas directement au lot 2, mais il n'est plus urgent : N2 lui a retiré son impact visiteur.
@@ -409,7 +409,7 @@ Baseline typecheck de Mistral **contre 3.2.0 : 18 erreurs** (l'ancienne baseline
 
 ### N7 (FIXME `url`) : le FIXME est inversé par la 3.2.0
 
-Investigué en N6. Voir la note N7 en section 4 pour le détail : jusqu'à 3.1 le champ `url` d'`app.config.ts` était mort (l'URL venait de `BASE_URL`), depuis 3.2 il est lu **et prioritaire** sur `BASE_URL` (canonical, `og:url`, sitemap, RSS). Il ne faut donc pas retirer `url` mais le commentaire FIXME. **Non touché en N6** (hors périmètre auteurs), à passer avec le reste.
+Investigué et **corrigé en N6**. Voir la note N7 en section 4 : jusqu'à 3.1 le champ `url` d'`app.config.ts` était mort (l'URL venait de `BASE_URL`), depuis 3.2 il est lu **et prioritaire** sur `BASE_URL` (canonical, `og:url`, sitemap, RSS). Le FIXME (« à retirer ») était donc inversé : c'est le commentaire qui part, pas le champ. Fait, sur décision produit de tout centraliser dans `app.config`.
 
 ---
 
@@ -561,7 +561,7 @@ Validé en dev : `/nexiste-pas-xyz` → 404, `/authors` (off) → 404 minimalist
 
 **Le FIXME est inversé par la 3.2.0** (vérifié en N6 dans `modules/bloggrify/index.ts:50-73`). Entre 2.0 et 3.1, l'URL du site venait uniquement de `BASE_URL` et le champ `url` d'`app.config.ts` n'était lu par personne : d'où « à retirer ». Depuis 3.2, le core lit ce champ et **lui donne la priorité sur `BASE_URL`** ; il pilote maintenant le canonical, `og:url`, le sitemap et le RSS (et un warning au build signale une divergence `BASE_URL`/`url`). Donc `url` n'est plus de la config morte à retirer, c'est la source de vérité recommandée.
 
-**Action** : supprimer le commentaire FIXME et **garder** le champ (`mistral.bloggrify.com` est bien l'URL de prod du démo). Changement d'une ligne, débloqué par la 3.2.0. **Non fait en N6** (le périmètre était la feature auteurs) ; à passer avec le reste.
+**✅ Fait (N6)** : commentaire FIXME retiré, champ `url` gardé (c'est bien l'URL de prod du démo). Décision produit confirmée par l'utilisateur : **tout centraliser dans `app.config`**, ne plus dépendre de `.env`/`BASE_URL` ni de `nuxt.config`. Le même arbitrage vaut pour les autres thèmes le jour où ils portent un FIXME identique.
 
 ### N8. `useAuthor()` est du code mort, et c'est le déprécié qui vit
 
