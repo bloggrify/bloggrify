@@ -431,7 +431,9 @@ Comme les fichiers étaient rangés sous `public/images/blog/`, la première con
 
 Correctif (aligner Mistral sur le core) : retrait du préfixe `'/images/' + ` dans les deux composants + `git mv public/images/blog → public/blog`. Vérifié : `nuxt generate` passe à **95 routes, 0 erreur IPX** (le core, en référence, fait 85 routes 0 erreur). Commit `fix: serve post covers at the content path instead of under /images`.
 
-Restes non bloquants, notés : le contenu partagé a des covers à conventions **incohérentes** (`doc/markdown.png` **relatif**, `/images/post-cover.jpg` **absolu sous /images**), qu'aucun des deux dépôts ne sert mais que le core tolère sans 404 (pas rendus en IPX sur ces pages). Reliquats orphelins dans Mistral : `public/images/covers/*` (12 covers voyage) et `public/images/doc/*`, plus référencés par le contenu actuel — cleanup optionnel.
+**Cleanup fait (N6)** : suppression des reliquats orphelins de l'ère « contenu autonome » de Mistral — `public/images/covers/*` (12 covers voyage) et 5 images `public/images/doc/*`, aucune référencée par le contenu partagé actuel. 17 fichiers retirés (`chore: remove orphaned demo cover and doc images`), generate revérifié à 0 erreur. Gardé : `public/images/doc/markdown.png`, encore **nommé** par `2024/markdown.md` (`cover: "doc/markdown.png"`).
+
+Reste non bloquant, à traiter côté **contenu** (hors Mistral) : le contenu partagé a des covers à conventions **incohérentes** — `doc/markdown.png` (**relatif**, ne résout nulle part) et `/images/post-cover.jpg` (**absolu sous /images**, fichier absent des deux dépôts). Le core les tolère sans 404 (pas rendus en IPX sur ces pages), mais ces covers ne s'affichent pas. À normaliser en chemins absolus style `/blog/…` avec les fichiers au bon endroit, dans le submodule `content`.
 
 ### N7 (FIXME `url`) : le FIXME est inversé par la 3.2.0
 
