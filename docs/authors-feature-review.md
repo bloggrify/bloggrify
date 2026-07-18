@@ -49,8 +49,11 @@ Depuis la release 3.2.0, le lot 2 se porte thème par thème. **Seul Mistral est
 | P13 — `import type { Author }` | `app/layouts/themes/{theme}/author.vue` | ✅ (core) | ✅ N6 | ⬜ | ⬜ |
 | P14 — `nuxt generate` vert (comments on) | — | n/a | ✅ N6 | ⬜ (licence) | ⬜ (licence) |
 | N11 — deps transitives re-résolues | `node_modules` après `npm install` | n/a | ✅ N6 | ⬜ | ⬜ |
+| N10 — collection lucide bundlée | `@iconify-json/lucide` en `dependencies` du thème | ✅ (core en dev) | ✅ N6 | ⬜ | ⬜ |
 
 Détail des trois fichiers Mistral touchés en N6 : voir section 2 quinquies. Bento et Epoxia ne sont pas validables au runtime sans leur licence (`BLOGGRIFY_BENTO_LICENSE` / `BLOGGRIFY_EPOXIA_LICENSE`), cf. lot 1.
+
+Hors portage lot 2, Mistral a aussi reçu en N6 : le nettoyage du FIXME `url` (N7) et un bloc `seo` centralisé (`indexable: false` + `ai.llms: true`). Voir les notes correspondantes.
 
 ### Notes annexes, hors périmètre auteurs (détail en section 4)
 
@@ -62,7 +65,7 @@ Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 | N2 | `fallback='invalid'` renvoie une erreur développeur au visiteur au lieu d'une 404 | ✅ Fait (404 + warn dev) | core |
 | N3 | `sharing_networks` rangé dans `socials` alors que ce n'en est pas un, casse le typage des thèmes | ✅ Fait (`sharing.networks` + fallback déprécié) | core (+ tous les thèmes) |
 | N11 | Les thèmes ne peuvent pas charger le core packé : leurs dépendances transitives sont périmées | ✅ Résolu par la release 3.2.0 + réinstall (vérifié sur Mistral : content 3.15.0, schema-org 6.2.3) ; à revérifier sur Bento/Epoxia | les 3 thèmes |
-| N10 | `@iconify-json/lucide` est en devDependency du core, donc absent chez les thèmes | 🟠 Icônes résolues via l'API Iconify au runtime, en déploiement statique | core (+ tous les thèmes) |
+| N10 | `@iconify-json/lucide` est en devDependency du core, donc absent chez les thèmes | 🟢 Décision : le devDep core est **volontaire** (ne pas imposer lucide à tous les consommateurs) ; chaque thème embarque la collection. Mistral fait (N6), Bento/Epoxia restants | chaque thème |
 | N9 | Le template publié sur npm embarque `url: 'https://minimalist.bloggrify.com/'` | 🟠 Impact SEO sur chaque nouveau blog | core (`SAMPLE.app.config.ts`) |
 | N4 | Dette de typecheck des thèmes : Bento 42, Epoxia 24, Mistral 31→18 (contre 3.2.0), core 0 | 🟡 Aucune CI ne la retient ; Mistral remesuré à 18 contre 3.2.0 (N6), Bento/Epoxia à remesurer | les 3 thèmes |
 | N8 | `useAuthor()` est mort, seul le `findAuthor` **déprécié** est utilisé. `hasAuthor` jamais appelé | 🟡 La dépréciation est à l'envers de l'usage | core |
@@ -410,7 +413,9 @@ En parcourant le CHANGELOG 3.2.0 pour repérer ce que Mistral pouvait exploiter.
 - `seo.indexable: false` : le démo reste hors des moteurs (au lieu de dépendre de `SITE_INDEXABLE`). Vérifié : `robots.txt` généré en `Disallow: /`.
 - `seo.ai.llms: true` : publie `/llms.txt` (vérifié : généré). `allowCrawlers` laissé au défaut `true` pour éviter le warning « contradictory » du core (`llms:true` + `allowCrawlers:false`). **Nuance** : avec `indexable:false`, `robots.txt` bloque de toute façon tous les crawlers via le wildcard ; `llms.txt` reste généré et récupérable directement, mais n'est pas « ouvert au crawl ».
 
-Autres pistes 3.2.0 relevées, non retenues : page 404 stylée pour Mistral (N12, optionnel) ; **N10 reste ouvert côté core** — `@iconify-json/lucide` est toujours en `devDependencies` de 3.2.0 (seul `simple-icons` est passé en `dependencies`), donc les `UIcon` lucide rendus par des composants core dans un thème dépendent encore de l'API Iconify au runtime.
+Autres pistes 3.2.0 relevées : page 404 stylée pour Mistral (N12, optionnel, non retenue).
+
+**N10 traité côté Mistral (décision produit).** `@iconify-json/lucide` reste **volontairement** en `devDependencies` du core : l'utilisateur ne veut pas imposer la collection à tous les consommateurs du core. La bonne maille est donc le thème. `@iconify-json/lucide` (`^1.2.117`) a été ajouté aux `dependencies` de Mistral, `npm install` fait. Vérifié au build : Nuxt Icon passe en `server bundle mode: local`, le bundle client contient les icônes localement, et le HTML généré ne contient **aucun** `api.iconify.design`. Les composants core rendus dans Mistral qui utilisent lucide (bouton copier de `clipboard.ts`, `Alert.vue`, `NewsletterForm.vue`) ne dépendent donc plus de l'API Iconify. Bento et Epoxia doivent faire pareil.
 
 ### Nouveau Nx : `nuxt generate` de Mistral échoue sur des images de démo manquantes
 
@@ -458,7 +463,7 @@ Investigué et **corrigé en N6**. Voir la note N7 en section 4 : jusqu'à 3.1 l
 ### Lot 3 : dette
 
 - [~] **N11** Levé par la release 3.2.0. **Vérifié sur Mistral** : `npm install` a re-résolu les transitives (`@nuxt/content` 3.15.0, `nuxt-schema-org` 6.2.3, `@iconify-json/simple-icons` 1.2.90), le hook `prepare:types` est bien dans le paquet, typecheck et generate tournent. **Reste à revérifier sur Bento et Epoxia** (réinstall + chargement).
-- [ ] **N10** Passer `@iconify-json/lucide` de `devDependencies` à `dependencies` dans le core : les thèmes n'ont aucune collection Iconify, donc leurs `UIcon` lucide sont résolus via l'API Iconify au runtime. (`simple-icons` est déjà en `dependencies` depuis 3.2.0 et confirmé installé chez Mistral.)
+- [~] **N10** ~~Passer `@iconify-json/lucide` en `dependencies` du core~~ — **décision inversée** : le core le garde en `devDependencies` volontairement (ne pas imposer la collection à tous les consommateurs). Chaque thème embarque la collection dont il a besoin. **Mistral fait (N6)** : `@iconify-json/lucide` ajouté à ses `dependencies`, build vérifié en `local bundle mode` sans appel Iconify. **Restent Bento et Epoxia.** (`simple-icons`, lui, est en `dependencies` du core depuis 3.2.0 car requis par le composant `SocialLinks` partagé.)
 - [~] **P13** Retirer le `type Author = NonNullable<ReturnType<typeof findAuthor>>` des `author.vue` et repasser à `import type { Author } from '@nuxt/schema'`. **Mistral fait en N6** (hook `prepare:types` bien publié en 3.2.0, typecheck 0 erreur sur le fichier). **Restent Bento et Epoxia.** **Ne couvre pas le contexte serveur** : `rss.xml.ts` ne peut de toute façon pas importer `Author` (le hook ne câble que le tsconfig de l'app), il garde son type structurel local. Voir la note serveur en P7.
 - [x] **P14** Vérifié sur 3.2.0 (session N6) : `nuxt generate` de Mistral rend les pages d'articles **commentaires activés** (`provider: 'hakanai'`), aucun crash `website_id`. Le build sort malgré tout en erreur, mais uniquement sur des `IPX_FILE_NOT_FOUND` d'images de démo, sans rapport avec les commentaires ni les auteurs (voir Nx en 2 quinquies).
 - [x] **P17** `bluesky` ajouté au type via `SocialPlatform` (session N3, avec P9).
