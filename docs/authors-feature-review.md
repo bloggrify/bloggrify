@@ -4,9 +4,9 @@ Audit réalisé le 2026-07-17 sur `bloggrify` (core) et les thèmes `bloggrify-b
 
 Ce document est un plan de travail réutilisable d'une session à l'autre. Les cases à cocher indiquent l'avancement. Les chemins sans préfixe de dépôt sont relatifs à `bloggrify` (le core) ; les autres sont préfixés par le nom du dépôt.
 
-**Dernière mise à jour : 2026-07-18 (session N4). Lot 2 SEO terminé côté core : P7a/b/c + P19.**
+**Dernière mise à jour : 2026-07-18 (session N5). P12 livré côté core : page `/authors` opt-in. Lot 2 core terminé (seul P9-thèmes reste, bloqué par N11).**
 
-Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côté core (N3), puis le SEO auteur (N4). Le détail archéologique des sessions closes a été élagué au fil de l'eau ; seul ce qui guide un travail restant est conservé.
+Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côté core (N3), puis le SEO auteur (N4), puis la page `/authors` (N5). Le détail archéologique des sessions closes a été élagué au fil de l'eau ; seul ce qui guide un travail restant est conservé.
 
 ---
 
@@ -27,7 +27,7 @@ Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côt
 | P9 | Rendu des socials dupliqué dans les thèmes | 🟡 Core fait, thèmes bloqués sur la release | 2 |
 | P10 | Déréférencements non gardés (crash potentiel) | ✅ Fait | 1 |
 | P11 | Contrat incohérent entre pages de listing | ⬜ À faire | 3 |
-| P12 | Page `/authors` manquante | ⬜ À faire | 2 |
+| P12 | Page `/authors` manquante | ✅ Fait (opt-in) | 2 |
 | P13 | Core publié ne propage pas le type `Author` | 🟡 Contourné, à nettoyer après release | 3 |
 | P14 | Core publié casse le build de Mistral | 🟡 Déjà fixé dans le git du core, à vérifier après release | 3 |
 | P15 | `BentoListing` / `EpoxiaListing` ignoraient `author` | ✅ Fait | 1 |
@@ -36,7 +36,7 @@ Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côt
 | P18 | Le fallback s'applique à l'affichage mais pas au listing | ✅ Fait | 1 |
 | P19 | `twitter_username` posé en `twitter:creator` | ✅ Fait | 2 |
 
-Reste ouvert : **P12** (lot 2, non bloqué), **P9 thèmes** (bloqué par N11), et tout le lot 3 (dette). P13 à P17 ont été découverts pendant le lot 1, P18 pendant N2, P19 pendant N3.
+Reste ouvert du lot 2 : **P9 thèmes** seulement (bloqué par N11). Tout le lot 3 (dette) reste ouvert. P13 à P17 ont été découverts pendant le lot 1, P18 pendant N2, P19 pendant N3.
 
 ### Notes annexes, hors périmètre auteurs (détail en section 4)
 
@@ -55,6 +55,7 @@ Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 | N5 | Warnings CSS `Expected ";" but found "}"` à chaque build | 🟡 Bruit permanent | core + thèmes |
 | N6 | Fichiers parasites : `nul` à la racine de la galaxie, `bash.exe.stackdump` ×2 | ⚪ Cosmétique | galaxie, core, bloggrify.com |
 | N7 | `// FIXME : remove when updated to the latest version` sur `url` | ⚪ À trancher à la prochaine montée de version | mistral |
+| N12 | Pages d'erreur refaites : 404 par défaut propre (aucune fuite de stack) + override par thème (`themes-{theme}-error`) + 404 minimalist stylée, **et** fix du 500 sur URL de contenu inconnue | ✅ Fait | core |
 
 **N1 et N2 relèvent du lot 1 par nature** (feature cassée). N2 est fait. **N1 reste le meilleur candidat à traiter ensuite** si on ne passe pas directement au lot 2, mais il n'est plus urgent : N2 lui a retiré son impact visiteur.
 
@@ -226,9 +227,18 @@ Le mapping social → icône → URL n'a rien de thématique. Il devrait vivre d
 
 Le choix de la page auteur est le bon au regard de la règle « pas de data fetching dans les thèmes ». Mais alors les `ArticleHeader` des thèmes ne devraient pas appeler `findAuthor` eux-mêmes : la résolution devrait descendre depuis le layout `default.vue`, comme le fait déjà `app/layouts/themes/minimalist/default.vue:40`.
 
-### P12. Il manque `/authors`
+### P12. Il manque `/authors` ✅ (lot 2, session N5)
 
-Pas de page listant les auteurs. Sur un blog multi-auteurs, les pages auteurs ne sont atteignables que depuis un article. L'arbre des pages est exactement : `[...slug].vue`, `archives/[...slug].vue`, `authors/[...username].vue`, `categories/[...slug].vue`, `tags/[...slug].vue`.
+Il manquait une page listant les auteurs. Sur un blog multi-auteurs, les fiches n'étaient atteignables que depuis un article. Livré **opt-in** (décision produit prise avec l'utilisateur) : un annuaire qui agrège nom/bio/liens de tous n'est pas un défaut neutre, et un blog mono-auteur (la majorité) n'en tire rien.
+
+- Toggle **global**, off par défaut : `authors_page: { enabled: true }` (type dans `app/types/app-config.d.ts`, documenté en bloc commenté dans `app.config.ts` et `SAMPLE.app.config.ts`). Doc utilisateur : `bloggrify.com/content/1.introduction/5.configuration.md` (ligne de table + note).
+- `app/pages/authors/index.vue` résout la liste depuis la config et délègue à `themes-${theme}-authors` (règle « pas de data fetching dans les thèmes »). Layout minimalist : `app/layouts/themes/minimalist/authors.vue` (grille de cartes liées à `/authors/{username}`).
+- **Prerender conditionnel** calqué sur `llms.txt` (`modules/bloggrify/index.ts`) : `/authors` n'a aucun lien entrant par défaut (absent du menu), donc le crawler ne l'atteint pas ; il faut l'ajouter explicitement aux routes quand le flag est actif. `_readAppConfig` lit `authors_page.enabled` au build.
+- **Effet de bord corrigé** : `/authors` sans username tombait dans le catch-all `[...username].vue` et affichait l'auteur par défaut. Désormais `index.vue` gagne le routing sur ce chemin exact ; désactivé, il renvoie une vraie 404 au lieu de la fiche par défaut.
+
+Validé au runtime (`nuxt generate` du core, flag activé temporairement) : `/authors/index.html` généré avec « Hugo » et le lien vers `/authors/hlassiege`, la fiche individuelle intacte, typecheck 0 erreur, ESLint clean.
+
+**Reste pour les autres thèmes** : bento/epoxia/mistral n'ont pas de layout `authors.vue`. Un blog sous ces thèmes qui active le flag obtient une 404 sur `/authors` (via le fallback `invalid` → 404 de N2), tant que leur layout n'est pas livré. À traiter avec **P9-thèmes**, bloqué par N11.
 
 ---
 
@@ -399,8 +409,8 @@ C'est pour cette raison que `@iconify-json/simple-icons` a été ajouté en **`d
 - [x] **P7a** (session N4) `url` (`/authors/{username}`) + `sameAs` (les socials, via `resolveSocialLinks`) posés sur le `Person` de `[...slug].vue`. Validé au runtime dans le HTML généré.
 - [x] **P7b** (session N4) `<dc:creator>` par item dans `server/routes/rss.xml.ts`, fallback défaut mirroir de `findAuthor` (non importable côté serveur), namespace `xmlns:dc` injecté à la main. Validé : 12 items crédités.
 - [x] **P7c + P19** (session N4) prop `author` passée à `BlogPost.satori.vue`, et `twitter:creator` posé depuis `twitter_username`. Validés au runtime (OG cache key `author_Hugo`, `<meta name="twitter:creator">`).
-- [ ] **P12** Ajouter une page `/authors` listant les auteurs. Le lien entrant n'est plus le seul recours : `_readAppConfig` du module sait lire `app.config.ts` au build, donc la route peut être prérendue explicitement (cf. section 2 quater). **Seul item lot 2 restant non bloqué.**
-- [ ] **P9 (thèmes)** Remplacer les 4 composants dupliqués (`MistralAuthorCardSocialLinks`, `BentoSocialLinks`, `BentoPostAuthorSocialLinks`, `EpoxiaPostAuthorSocialLinks`) par de fins wrappers de style autour de `SocialLinks`. **Bloqué par N11**, à faire après la release du core. Garder leurs noms publics : ils sont dans `components/content/`, donc utilisables en MDC.
+- [x] **P12** (session N5) Page `/authors` **opt-in** (`authors_page.enabled`, off par défaut), prérendue conditionnellement via `_readAppConfig` (patron `llms.txt`). Layout minimalist livré ; validée au runtime. Voir P12 en section 2. Layouts des autres thèmes à livrer avec P9-thèmes (bloqué N11).
+- [ ] **P9 (thèmes)** Remplacer les 4 composants dupliqués (`MistralAuthorCardSocialLinks`, `BentoSocialLinks`, `BentoPostAuthorSocialLinks`, `EpoxiaPostAuthorSocialLinks`) par de fins wrappers de style autour de `SocialLinks`, **et** livrer le layout `authors.vue` des 3 thèmes (P12). **Bloqué par N11**, à faire après la release du core. Garder leurs noms publics : ils sont dans `components/content/`, donc utilisables en MDC.
 
 ### Lot 3 : dette
 
@@ -491,6 +501,25 @@ Baselines : **Bento 42, Epoxia 24, Mistral 31, core 0.** Le core est propre, les
 - `bash.exe.stackdump` à la racine de `bloggrify` et de `bloggrify.com`.
 
 Le `.gitignore` du core a été modifié dans ton working tree pour ignorer `/bash.exe.stackdump` et `/.eslintcache` (ce n'est pas moi, c'était déjà là). Ignorer le symptôme plutôt que supprimer la cause.
+
+### N12. Pages d'erreur (404 par défaut + override par thème)
+
+Découvert en testant `/authors` désactivé (P12) : l'ancienne `app/error.vue` déballait la stack via `v-html` (gardée par `import.meta.dev`, donc dev seulement) et utilisait des couleurs hardcodées (`bg-blue-500`, `gray-*`) au lieu des tokens du thème. Refait en deux étapes.
+
+**Bug préexistant corrigé en cours de route** (`app/pages/[...slug].vue`) : une URL de contenu inconnue renvoyait `null` de `queryCollection().first()` (pas une erreur), le doc null partait au layout, et `useContentSurround` crashait en **500** (`Cannot read properties of null (reading 'path')`). Ajout d'un `throw createError(404)` quand `!doc.value`. C'est le catch-all, donc **toute** URL mal tapée était concernée : elles font désormais un 404 propre au lieu d'un 500.
+
+**Mécanisme (le core délègue, le thème style)** :
+
+- `app/error.vue` est rendu **hors** de `app.vue`, donc il fournit son propre `<UApp>` et délègue à `themes-${theme}-error` avec `fallback="error-default"` (même patron que les pages → `themes-${theme}-*`).
+- `app/composables/useErrorPage.ts` centralise le dérivé : `statusCode`, `title`/`description` **visitor-safe** (le `error.message`/`error.stack` n'est jamais rendu en prod), `handleError` (`clearError({ redirect: '/' })`), et une ligne `message` dev-only. Un layout d'erreur n'écrit que du markup.
+- `app/layouts/error-default.vue` : la 404 neutre du framework (fallback pour tout thème sans page d'erreur).
+- `app/layouts/themes/minimalist/error.vue` : la 404 minimalist, reprise d'un design fourni par l'utilisateur (badge éclair flottant, grand « 404 » serif avec le « 0 » en pastille à yeux clignants, puce mono « Error 404 »), dans `MinimalistShell` (header + footer), en tokens de thème (light + dark). **Serif système** (`ui-serif, Georgia`) posé sur `.error-display` dans `core.css` : aucune police nommée, donc @nuxt/fonts ne télécharge rien (contrainte explicite de l'utilisateur : ne pas alourdir le core).
+
+Interaction avec P12 : `/authors` est une route **statique** (opt-in). Quand le flag est off, le module l'ajoute à `nitro.prerender.ignore` (regex ancrée `/^\/authors\/?$/`, pour ne pas toucher `/authors/{username}`), sinon le crawler la prérendait et cassait le build sur le 404.
+
+Validé en dev : `/nexiste-pas-xyz` → 404, `/authors` (off) → 404 minimalist, `/` et `/seo` → 200. Doc utilisateur : `bloggrify.com/content/3.reference/7.theming.md` (« Custom error page »). Relié à N2 (le fallback `invalid` → 404).
+
+**Reste pour les autres thèmes** : bento/epoxia/mistral n'ont pas de `error.vue` → ils tombent sur `error-default` (correct, pas cassé). Leur donner une 404 stylée est optionnel, à faire avec P9-thèmes (bloqué N11) si souhaité.
 
 ### N7. FIXME en attente dans Mistral
 
