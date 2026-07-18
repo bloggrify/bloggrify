@@ -8,6 +8,9 @@
       <p class="text-3xl text-slate-400 text-center max-w-4xl">
         {{ description }}
       </p>
+      <p v-if="author" class="text-2xl text-slate-500 text-center mt-10">
+        by {{ author }}
+      </p>
     </div>
   </div>
 </template>
@@ -16,5 +19,6 @@
 defineProps<{
   title: string
   description: string
+  author?: string
 }>()
 </script>

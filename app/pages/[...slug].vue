@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import type { LayoutKey, NuxtError } from "#app"
 import {joinURL, withoutTrailingSlash} from 'ufo'
-import {findAuthor, msToISO8601Duration} from '#imports'
+import {findAuthor, msToISO8601Duration, resolveSocialLinks} from '#imports'
 
 const route = useRoute()
 const config = useAppConfig()
@@ -95,11 +95,25 @@ const author = findAuthor(doc.value?.author)
 let schemaAuthor
 
 if (author?.name) {
+    // Link the Person to their author page (`url`) and their profiles (`sameAs`) so
+    // search engines can reconcile the byline across the site and the wider web.
+    // `sameAs` reuses `resolveSocialLinks` rather than re-mapping the socials block.
+    const sameAs = resolveSocialLinks(author.socials).map(link => link.url)
     schemaAuthor = {
         '@type': 'Person',
         name: author.name,
+        url: author.username
+            ? withoutTrailingSlash(joinURL(url, 'authors', author.username))
+            : undefined,
+        sameAs: sameAs.length ? sameAs : undefined,
     }
 }
+
+// `twitter_username` is a handle, not a profile URL: its only job is to attribute
+// the post to its author on X. Rendered here as `twitter:creator` (P19).
+const twitterCreator = author?.socials?.twitter_username
+    ? `@${author.socials.twitter_username}`
+    : undefined
 let timeRequired
 if (doc.value?.readingTime?.time && doc.value?.readingTime?.time > 0) {
     timeRequired = msToISO8601Duration(doc.value.readingTime.time)
@@ -143,6 +157,7 @@ useSeoMeta({
     ogUrl: withoutTrailingSlash(postLink),
     twitterTitle: doc.value?.title,
     twitterDescription: doc.value?.description,
+    twitterCreator: twitterCreator,
     twitterCard: 'summary',
     articleTag: doc.value?.tags ? doc.value.tags : [],
 })
@@ -166,6 +181,7 @@ if (doc.value?.cover) {
   defineOgImage('BlogPostSatori', {
     title: doc.value?.title,
     description: doc.value?.description,
+    author: author?.name,
   })
 }
 
