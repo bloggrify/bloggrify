@@ -73,6 +73,7 @@ Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 | N6 | Fichiers parasites : `nul` à la racine de la galaxie, `bash.exe.stackdump` ×2 | ⚪ Cosmétique | galaxie, core, bloggrify.com |
 | N7 | `// FIXME : remove when updated to the latest version` sur `url` | ✅ Fait (N6) : FIXME retiré, `url` gardé comme source de vérité (décision produit : tout centraliser dans `app.config`) | mistral |
 | N12 | Pages d'erreur refaites : 404 par défaut propre (aucune fuite de stack) + override par thème (`themes-{theme}-error`) + 404 minimalist stylée, **et** fix du 500 sur URL de contenu inconnue | ✅ Fait | core |
+| N13 | `nuxt generate` de Mistral cassé par un conflit de convention de chemin des covers (Mistral préfixait `/images/` là où core/contenu utilisent `/blog/`) | ✅ Fait (N6) : préfixe retiré + `git mv images/blog → blog`, generate à 0 erreur | mistral |
 
 **N1 et N2 relèvent du lot 1 par nature** (feature cassée). N2 est fait. **N1 reste le meilleur candidat à traiter ensuite** si on ne passe pas directement au lot 2, mais il n'est plus urgent : N2 lui a retiré son impact visiteur.
 
@@ -417,9 +418,20 @@ Autres pistes 3.2.0 relevées : page 404 stylée pour Mistral (N12, optionnel, n
 
 **N10 traité côté Mistral (décision produit).** `@iconify-json/lucide` reste **volontairement** en `devDependencies` du core : l'utilisateur ne veut pas imposer la collection à tous les consommateurs du core. La bonne maille est donc le thème. `@iconify-json/lucide` (`^1.2.117`) a été ajouté aux `dependencies` de Mistral, `npm install` fait. Vérifié au build : Nuxt Icon passe en `server bundle mode: local`, le bundle client contient les icônes localement, et le HTML généré ne contient **aucun** `api.iconify.design`. Les composants core rendus dans Mistral qui utilisent lucide (bouton copier de `clipboard.ts`, `Alert.vue`, `NewsletterForm.vue`) ne dépendent donc plus de l'API Iconify. Bento et Epoxia doivent faire pareil.
 
-### Nouveau Nx : `nuxt generate` de Mistral échoue sur des images de démo manquantes
+### Nouveau N13 : `nuxt generate` de Mistral échouait sur les covers ✅ (résolu N6)
 
-`npx nuxt generate` sort en erreur (`Exiting due to prerender errors`), mais les **10** erreurs sont toutes des `[404] IPX_FILE_NOT_FOUND` sur des couvertures d'articles du submodule `blog-content` (`/_ipx/_/covers/santorin.jpg`, `/blog/analytics.jpg`, `tokyo.jpg`…). Aucune n'est liée aux auteurs, aux commentaires ou à la release. Les pages elles-mêmes se rendent (`/authors/hlassiege` en 640 ms, articles OK). C'est un fichier image absent que l'optimiseur IPX tente de traiter, et le prerender le remonte en erreur fatale. **À investiguer hors périmètre auteurs** : soit les images manquent réellement du contenu de démo, soit il faut relâcher le `failOnError` du prerender pour les assets `/_ipx`.
+`npx nuxt generate` sortait en erreur (`Exiting due to prerender errors`) sur des `[404] IPX_FILE_NOT_FOUND` de covers d'articles. **Ce n'étaient pas des images manquantes** (diagnostic initial faux) mais un **conflit de convention de chemin** propre à Mistral.
+
+Cause exacte : les covers du contenu partagé (`content`) sont des chemins **absolus** style core (`cover: "/blog/analytics.jpg"`, `"/blog/bloggrify.png"`). Le core les rend **bruts** et sert les fichiers depuis `public/blog/`. Mistral, lui, mélangeait deux conventions sur les mêmes pages :
+
+- les composants **core** qu'il réutilise (ex. `MinimalistListing` dans `author.vue`) rendent le cover brut → requête `/blog/analytics.jpg` ;
+- ses composants **propres** (`MistralLimitedListOfPosts.vue`, `layouts/themes/mistral/default.vue`) préfixaient `'/images/' + cover` → requête `/images/blog/analytics.jpg`.
+
+Comme les fichiers étaient rangés sous `public/images/blog/`, la première convention 404ait ; les déplacer sous `public/blog/` aurait juste inversé le problème. **Aucun emplacement unique ne satisfait les deux conventions.** Le préfixe `/images/` était un reliquat de l'ancien contenu autonome de Mistral (covers relatifs, tout sous `/images/`).
+
+Correctif (aligner Mistral sur le core) : retrait du préfixe `'/images/' + ` dans les deux composants + `git mv public/images/blog → public/blog`. Vérifié : `nuxt generate` passe à **95 routes, 0 erreur IPX** (le core, en référence, fait 85 routes 0 erreur). Commit `fix: serve post covers at the content path instead of under /images`.
+
+Restes non bloquants, notés : le contenu partagé a des covers à conventions **incohérentes** (`doc/markdown.png` **relatif**, `/images/post-cover.jpg` **absolu sous /images**), qu'aucun des deux dépôts ne sert mais que le core tolère sans 404 (pas rendus en IPX sur ces pages). Reliquats orphelins dans Mistral : `public/images/covers/*` (12 covers voyage) et `public/images/doc/*`, plus référencés par le contenu actuel — cleanup optionnel.
 
 ### N7 (FIXME `url`) : le FIXME est inversé par la 3.2.0
 
@@ -465,7 +477,7 @@ Investigué et **corrigé en N6**. Voir la note N7 en section 4 : jusqu'à 3.1 l
 - [~] **N11** Levé par la release 3.2.0. **Vérifié sur Mistral** : `npm install` a re-résolu les transitives (`@nuxt/content` 3.15.0, `nuxt-schema-org` 6.2.3, `@iconify-json/simple-icons` 1.2.90), le hook `prepare:types` est bien dans le paquet, typecheck et generate tournent. **Reste à revérifier sur Bento et Epoxia** (réinstall + chargement).
 - [~] **N10** ~~Passer `@iconify-json/lucide` en `dependencies` du core~~ — **décision inversée** : le core le garde en `devDependencies` volontairement (ne pas imposer la collection à tous les consommateurs). Chaque thème embarque la collection dont il a besoin. **Mistral fait (N6)** : `@iconify-json/lucide` ajouté à ses `dependencies`, build vérifié en `local bundle mode` sans appel Iconify. **Restent Bento et Epoxia.** (`simple-icons`, lui, est en `dependencies` du core depuis 3.2.0 car requis par le composant `SocialLinks` partagé.)
 - [~] **P13** Retirer le `type Author = NonNullable<ReturnType<typeof findAuthor>>` des `author.vue` et repasser à `import type { Author } from '@nuxt/schema'`. **Mistral fait en N6** (hook `prepare:types` bien publié en 3.2.0, typecheck 0 erreur sur le fichier). **Restent Bento et Epoxia.** **Ne couvre pas le contexte serveur** : `rss.xml.ts` ne peut de toute façon pas importer `Author` (le hook ne câble que le tsconfig de l'app), il garde son type structurel local. Voir la note serveur en P7.
-- [x] **P14** Vérifié sur 3.2.0 (session N6) : `nuxt generate` de Mistral rend les pages d'articles **commentaires activés** (`provider: 'hakanai'`), aucun crash `website_id`. Le build sort malgré tout en erreur, mais uniquement sur des `IPX_FILE_NOT_FOUND` d'images de démo, sans rapport avec les commentaires ni les auteurs (voir Nx en 2 quinquies).
+- [x] **P14** Vérifié sur 3.2.0 (session N6) : `nuxt generate` de Mistral rend les pages d'articles **commentaires activés** (`provider: 'hakanai'`), aucun crash `website_id`. Le build sortait en erreur sur des `IPX_FILE_NOT_FOUND` de covers, désormais **résolu** (conflit de convention de chemin, voir N13) : generate passe à 95 routes, 0 erreur.
 - [x] **P17** `bluesky` ajouté au type via `SocialPlatform` (session N3, avec P9).
 - [x] **P19** `twitter:creator` posé depuis `twitter_username` dans `[...slug].vue` (session N4, avec P7c).
 - [ ] **P16** Nettoyer `logo: '/images/logo.png'` et `avatar: '/images/profile-john.jpg'` du core (fichiers inexistants), ou ajouter les images. Décider aussi du sort de ces champs dans `SAMPLE.app.config.ts`, qui est publié : un utilisateur qui copie le template hérite de chemins morts.
