@@ -38,6 +38,20 @@ Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côt
 
 Reste ouvert du lot 2 : **P9 thèmes + P12 layout pour Bento et Epoxia** (Mistral est fait). Tout le lot 3 (dette) reste ouvert. P13 à P17 ont été découverts pendant le lot 1, P18 pendant N2, P19 pendant N3.
 
+### État par thème du portage lot 2 (côté thèmes)
+
+Depuis la release 3.2.0, le lot 2 se porte thème par thème. **Seul Mistral est fait (session N6).**
+
+| Livrable | Fichier (relatif au dépôt du thème) | Minimalist (core) | Mistral | Bento | Epoxia |
+|---|---|---|---|---|---|
+| P9 — socials via `resolveSocialLinks` | composant `*SocialLinks` en `components/content/` | ✅ (core) | ✅ N6 | ⬜ | ⬜ |
+| P12 — layout `authors.vue` | `app/layouts/themes/{theme}/authors.vue` | ✅ (core) | ✅ N6 | ⬜ | ⬜ |
+| P13 — `import type { Author }` | `app/layouts/themes/{theme}/author.vue` | ✅ (core) | ✅ N6 | ⬜ | ⬜ |
+| P14 — `nuxt generate` vert (comments on) | — | n/a | ✅ N6 | ⬜ (licence) | ⬜ (licence) |
+| N11 — deps transitives re-résolues | `node_modules` après `npm install` | n/a | ✅ N6 | ⬜ | ⬜ |
+
+Détail des trois fichiers Mistral touchés en N6 : voir section 2 quinquies. Bento et Epoxia ne sont pas validables au runtime sans leur licence (`BLOGGRIFY_BENTO_LICENSE` / `BLOGGRIFY_EPOXIA_LICENSE`), cf. lot 1.
+
 ### Notes annexes, hors périmètre auteurs (détail en section 4)
 
 Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
@@ -54,7 +68,7 @@ Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 | N8 | `useAuthor()` est mort, seul le `findAuthor` **déprécié** est utilisé. `hasAuthor` jamais appelé | 🟡 La dépréciation est à l'envers de l'usage | core |
 | N5 | Warnings CSS `Expected ";" but found "}"` à chaque build | 🟡 Bruit permanent | core + thèmes |
 | N6 | Fichiers parasites : `nul` à la racine de la galaxie, `bash.exe.stackdump` ×2 | ⚪ Cosmétique | galaxie, core, bloggrify.com |
-| N7 | `// FIXME : remove when updated to the latest version` sur `url` | ⚪ À trancher à la prochaine montée de version | mistral |
+| N7 | `// FIXME : remove when updated to the latest version` sur `url` | 🟡 Inversé par 3.2.0 : `url` est devenu la source de vérité (canonical/sitemap/RSS). Retirer le FIXME, garder le champ | mistral |
 | N12 | Pages d'erreur refaites : 404 par défaut propre (aucune fuite de stack) + override par thème (`themes-{theme}-error`) + 404 minimalist stylée, **et** fix du 500 sur URL de contenu inconnue | ✅ Fait | core |
 
 **N1 et N2 relèvent du lot 1 par nature** (feature cassée). N2 est fait. **N1 reste le meilleur candidat à traiter ensuite** si on ne passe pas directement au lot 2, mais il n'est plus urgent : N2 lui a retiré son impact visiteur.
@@ -393,9 +407,9 @@ Baseline typecheck de Mistral **contre 3.2.0 : 18 erreurs** (l'ancienne baseline
 
 `npx nuxt generate` sort en erreur (`Exiting due to prerender errors`), mais les **10** erreurs sont toutes des `[404] IPX_FILE_NOT_FOUND` sur des couvertures d'articles du submodule `blog-content` (`/_ipx/_/covers/santorin.jpg`, `/blog/analytics.jpg`, `tokyo.jpg`…). Aucune n'est liée aux auteurs, aux commentaires ou à la release. Les pages elles-mêmes se rendent (`/authors/hlassiege` en 640 ms, articles OK). C'est un fichier image absent que l'optimiseur IPX tente de traiter, et le prerender le remonte en erreur fatale. **À investiguer hors périmètre auteurs** : soit les images manquent réellement du contenu de démo, soit il faut relâcher le `failOnError` du prerender pour les assets `/_ipx`.
 
-### N7 (FIXME `url`) reste à trancher
+### N7 (FIXME `url`) : le FIXME est inversé par la 3.2.0
 
-`bloggrify-mistral/app/app.config.ts:4` garde `// FIXME : remove when updated to the latest version of Bloggrify` sur `url: 'https://mistral.bloggrify.com/'`. La 3.2.0 est une montée de version, donc le moment de décider. Le « pourquoi » du FIXME n'est pas documenté (probablement : `url` devait migrer vers `site.url` de `nuxt.config`). **Non touché en N6** faute de contexte sur l'intention — à confirmer avec l'utilisateur avant de retirer le champ (impact SEO : canonical, sitemap, og:url).
+Investigué en N6. Voir la note N7 en section 4 pour le détail : jusqu'à 3.1 le champ `url` d'`app.config.ts` était mort (l'URL venait de `BASE_URL`), depuis 3.2 il est lu **et prioritaire** sur `BASE_URL` (canonical, `og:url`, sitemap, RSS). Il ne faut donc pas retirer `url` mais le commentaire FIXME. **Non touché en N6** (hors périmètre auteurs), à passer avec le reste.
 
 ---
 
@@ -543,7 +557,11 @@ Validé en dev : `/nexiste-pas-xyz` → 404, `/authors` (off) → 404 minimalist
 
 ### N7. FIXME en attente dans Mistral
 
-`bloggrify-mistral/app/app.config.ts:4` : `// FIXME : remove when updated to the latest version of Bloggrify` sur le champ `url`. À trancher lors de la prochaine montée de version.
+`bloggrify-mistral/app/app.config.ts:4` : `// FIXME : remove when updated to the latest version of Bloggrify` sur le champ `url: 'https://mistral.bloggrify.com/'`.
+
+**Le FIXME est inversé par la 3.2.0** (vérifié en N6 dans `modules/bloggrify/index.ts:50-73`). Entre 2.0 et 3.1, l'URL du site venait uniquement de `BASE_URL` et le champ `url` d'`app.config.ts` n'était lu par personne : d'où « à retirer ». Depuis 3.2, le core lit ce champ et **lui donne la priorité sur `BASE_URL`** ; il pilote maintenant le canonical, `og:url`, le sitemap et le RSS (et un warning au build signale une divergence `BASE_URL`/`url`). Donc `url` n'est plus de la config morte à retirer, c'est la source de vérité recommandée.
+
+**Action** : supprimer le commentaire FIXME et **garder** le champ (`mistral.bloggrify.com` est bien l'URL de prod du démo). Changement d'une ligne, débloqué par la 3.2.0. **Non fait en N6** (le périmètre était la feature auteurs) ; à passer avec le reste.
 
 ### N8. `useAuthor()` est du code mort, et c'est le déprécié qui vit
 
