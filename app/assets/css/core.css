@@ -15,6 +15,14 @@
   /* Slightly roomier reading measure, matching the portfolio blog layout. */
   --ui-container: var(--container-4xl);
 
+  /* The error page renders its oversized status number and headline in a display serif.
+     This is a *system* serif stack on purpose: no named web font, so @nuxt/fonts has nothing
+     to download and the core stays as light as it is. It uses whatever serif the visitor's
+     device already has. */
+  .error-display {
+    font-family: ui-serif, Georgia, 'Times New Roman', serif;
+  }
+
   ::selection {
     color: #282a30;
     background-color: #c8c8c8;

@@ -1,43 +1,29 @@
 <template>
-    <div
-        class="h-screen flex flex-col justify-center items-center text-center px-4"
-    >
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">
-            Sorry, this page is not available
-        </h2>
-        <span class="mb-8"
-        >Maybe the page you are looking for has been moved.</span
-        >
-
-        <div
-            v-if="isDev && error"
-            class="block mb-5 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-        >
-            <h5
-                class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
-            >
-                Error
-            </h5>
-            <p class="font-normal text-gray-700 dark:text-gray-400">
-                <strong>{{ error.statusCode }}</strong> - {{ error.message }}
-            </p>
-            <div v-if="error.stack" class="mt-4" v-html="error.stack"/>
-        </div>
-
-        <button
-            class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition duration-150 ease-in-out"
-            @click="navigateTo('/')"
-        >
-            Home
-        </button>
-    </div>
+  <UApp>
+    <NuxtLayout
+      :name="errorLayout"
+      :error="error"
+      fallback="error-default"
+    />
+  </UApp>
 </template>
+
 <script setup lang="ts">
-import type { NuxtError } from '#app'
+import type { LayoutKey, NuxtError } from '#app'
 
-const isDev = import.meta.env.DEV
-
+// Nuxt renders this component in place of the whole app when an error is thrown: an unknown
+// route, or a page a theme chooses not to implement (the `invalid` layout turns that into a
+// 404). It sits *outside* `app.vue`, so it provides its own `<UApp>`.
+//
+// It delegates to the active theme's error layout (`themes-{theme}-error`), exactly like the
+// pages delegate to `themes-{theme}-*`. A theme that ships one styles the page as it likes; a
+// theme that does not falls back to `error-default`, the framework's plain page. The shared
+// logic (status, messages, home action) lives in `useErrorPage`, so a theme only writes markup.
 defineProps<{
-    error: NuxtError
+  error: NuxtError
 }>()
+
+const config = useAppConfig()
+const theme = config.theme || 'minimalist'
+const errorLayout = `themes-${theme}-error` as LayoutKey
 </script>
