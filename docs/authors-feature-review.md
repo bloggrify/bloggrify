@@ -4,23 +4,25 @@ Audit réalisé le 2026-07-17 sur `bloggrify` (core) et les thèmes `bloggrify-b
 
 Ce document est un plan de travail réutilisable d'une session à l'autre. Les cases à cocher indiquent l'avancement. Les chemins sans préfixe de dépôt sont relatifs à `bloggrify` (le core) ; les autres sont préfixés par le nom du dépôt.
 
-**Dernière mise à jour : 2026-07-17, lot 1 + N2 + P18, puis P9/P17/N3 côté core (session N3).**
+**Dernière mise à jour : 2026-07-18 (session N4). Lot 2 SEO terminé côté core : P7a/b/c + P19.**
+
+Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côté core (N3), puis le SEO auteur (N4). Le détail archéologique des sessions closes a été élagué au fil de l'eau ; seul ce qui guide un travail restant est conservé.
 
 ---
 
 ## 0. Tableau de bord
 
-### Feature auteurs (détail en sections 2 et 2 bis, plan en section 3)
+### Feature auteurs (détail en section 2, découvertes en 2 bis à 2 quater, plan en section 3)
 
 | # | Problème | État | Lot |
 |---|---|---|---|
 | P1 | Pages auteurs cassées sur les 3 thèmes | ✅ Fait | 1 |
-| P2 | Prerender des routes auteurs | ✅ Clos sans code (infaisable et inutile) | 1 |
+| P2 | Prerender des routes auteurs | ✅ Clos sans code (le crawl suffit) | 1 |
 | P3 | Contenu de démo désaligné avec la config | ✅ Fait | 1 |
 | P4 | Fallback asymétrique et silencieux | ✅ Fait (warn dev) | 1 |
 | P5 | Deux sources d'identité concurrentes | ⬜ À faire | 3 |
 | P6 | Le typage ment (3 vérités) | ⬜ À faire | 3 |
-| P7 | Auteur absent du SEO (schema.org, RSS, OG) | ⬜ À faire | 2 |
+| P7 | Auteur absent du SEO (schema.org, RSS, OG) | ✅ Fait (a/b/c) | 2 |
 | P8 | Un seul auteur par article | ⬜ À faire | 3 |
 | P9 | Rendu des socials dupliqué dans les thèmes | 🟡 Core fait, thèmes bloqués sur la release | 2 |
 | P10 | Déréférencements non gardés (crash potentiel) | ✅ Fait | 1 |
@@ -32,13 +34,13 @@ Ce document est un plan de travail réutilisable d'une session à l'autre. Les c
 | P16 | Le core référence 2 images inexistantes | ⬜ À faire (inerte) | 3 |
 | P17 | `bluesky` rendu mais absent du type | ✅ Fait | 2 |
 | P18 | Le fallback s'applique à l'affichage mais pas au listing | ✅ Fait | 1 |
-| P19 | `twitter_username` est de la config morte | ⬜ À faire (inerte) | 2 |
+| P19 | `twitter_username` posé en `twitter:creator` | ✅ Fait | 2 |
 
-P13 à P17 ont été découverts pendant le lot 1, voir la section 2 bis. P18 a été découvert pendant la session N2, voir la section 2 ter. P19 a été découvert pendant la session N3, voir la section 2 quater.
+Reste ouvert : **P12** (lot 2, non bloqué), **P9 thèmes** (bloqué par N11), et tout le lot 3 (dette). P13 à P17 ont été découverts pendant le lot 1, P18 pendant N2, P19 pendant N3.
 
 ### Notes annexes, hors périmètre auteurs (détail en section 4)
 
-Aucune n'est corrigée. Collectées pendant la session du lot 1.
+Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 
 | # | Note | Gravité | Dépôt concerné |
 |---|---|---|---|
@@ -139,68 +141,23 @@ Contrairement à l'impression initiale, **les pages auteurs existent**. Le probl
 
 ## 2. Problèmes identifiés, par gravité
 
-> ⚠️ **Cette section décrit l'état AVANT le lot 1** et sert de mémoire du diagnostic. Chaque problème porte son état actuel. Les corrections d'analyse sont en section 2 bis.
+> Les problèmes résolus sont réduits à leur constat + correctif. Les problèmes ouverts (P5, P6, P8, P9, P11, P12) gardent le diagnostic complet, c'est ce qui guide le travail. Les corrections d'analyse et découvertes sont en sections 2 bis à 2 quater.
 
-### P1. Les pages auteurs sont cassées sur les 3 thèmes publiés
+### P1. Pages auteurs cassées sur les 3 thèmes ✅ (lot 1)
 
-> ✅ **RÉSOLU (lot 1).** `author.vue` créé dans les 3 thèmes, liens posés. Le passage ci-dessous décrit l'état d'origine.
+Aucun thème n'avait de layout `author.vue`, donc `/authors/{username}` tombait sur `invalid.vue`. Résolu : `author.vue` créé dans les 3 thèmes + lien `/authors/{username}` posé (via `MinimalistAuthorBio` côté core, que le crawler suit). La doc de Mistral annonçait pourtant déjà la feature.
 
-`app/pages/authors/[...username].vue` résout `themes-${configTheme}-author`. Or aucun des trois thèmes n'a de layout `author.vue` :
+### P2. Prerender des routes auteurs ✅ clos sans code (lot 1)
 
-- `bloggrify-bento/app/layouts/themes/bento/` : `archives`, `category`, `default`, `home`, `portfolio`, `tag`
-- `bloggrify-epoxia/app/layouts/themes/epoxia/` : `archives`, `category`, `default`, `home`, `portfolio`, `tag`
-- `bloggrify-mistral/app/layouts/themes/mistral/` : `archives`, `default`, `home`, `tag`
+Le crawl des liens suffit à prérendre les pages auteurs existantes, exactement comme tags et catégories. L'énumération explicite des routes est désormais possible via `_readAppConfig` du module (voir 2 quater) et servira à **P12**. Gap accepté : un auteur sans aucun article n'est jamais lié, donc jamais généré (identique à un tag inutilisé). À noter, hors sujet auteur : `@nuxtjs/sitemap` tourne en `zeroRuntime: true` sans source auteur, donc les pages auteurs sont absentes du sitemap.
 
-Le `fallback='invalid'` renvoie donc vers `app/layouts/invalid.vue`, qui fait délibérément un `createError({ name: 'Invalid layout', fatal: false, statusMessage: 'Invalid layout' })`. Concrètement, `/authors/hlassiege` sur Mistral affiche une page d'erreur.
+### P3. Contenu de démo désaligné avec la config ✅ (lot 1)
 
-Aggravant : `bloggrify-mistral/content/2025/version-3-0.md:30` annonce aux utilisateurs de Mistral que « Author pages are automatically generated based on the authors you define in your app.config.ts file ». On documente une feature qui ne marche pas sur le thème concerné. Le `CHANGELOG.md:104` liste « Author pages » comme livré en 3.0.
+Le core déclarait `john-doe` alors que le submodule `blog-content` signe `hlassiege` : `findAuthor` retournait `undefined` et la feature tournait désactivée sans le montrer (P4 explique pourquoi ça passait inaperçu). Résolu en alignant la config du core sur le contenu (`hlassiege` / « Hugo »). `SAMPLE.app.config.ts` garde `john-doe` (c'est le template publié sur npm). Bento et Epoxia n'étaient pas concernés (contenu local sans champ `author`).
 
-Second aggravant : aucun de ces thèmes ne pose de lien vers `/authors/...`. Seul `app/components/minimalist/MinimalistAuthorBio.vue:7` le fait. En déploiement statique (le seul mode supporté), le crawler Nitro ne découvre donc jamais la route et ne la prérend pas. Ajouter le layout ne suffira pas, il faut aussi le lien ou le prerender explicite (voir P2).
+### P4. Fallback asymétrique et silencieux ✅ (lot 1, signalement)
 
-### P2. Le prerender des routes auteurs n'est pas garanti
-
-> ✅ **CLOS SANS CODE (lot 1).** L'analyse ci-dessous est **erronée** : le hook proposé est infaisable (`appConfig` indisponible au build) et inutile (le crawl suffit). Voir la correction en section 2 bis avant d'y retoucher.
-
-`nuxt.config.ts:108-110` ne liste que `/rss.xml` dans `nitro.prerender.routes`. Les pages auteurs ne sortent que par crawl des liens. C'est fragile alors que la liste des auteurs est connue statiquement au moment du build.
-
-Un hook `nitro:config` qui énumère `config.authors` et pousse `/authors/${username}` (plus les `/page/N` selon le nombre d'articles) rendrait le prerender déterministe et indépendant du fait qu'un thème pose ou non un lien. C'est la même mécanique qui servira pour un futur index `/authors`.
-
-À noter : `@nuxtjs/sitemap` est configuré avec `zeroRuntime: true` (`nuxt.config.ts:54-56`) et aucune source auteur. Les pages auteurs sont donc absentes du sitemap.
-
-### P3. Le contenu de démo ne correspond pas à la config
-
-> ✅ **RÉSOLU (lot 1)**, mais le tableau ci-dessous est **partiellement faux** : Bento et Epoxia n'étaient pas concernés. Voir la correction en section 2 bis.
-
-Le submodule `content` utilise `author: "hlassiege"` dans tous ses articles (`content/2025/version-3-0.md:3`, `version-2-0.md`, `version-2-1.md`, `new-custom-component.md`).
-
-Mais les configs déclarent :
-
-| Dépôt | `username` déclaré | `default: true` |
-|---|---|---|
-| `bloggrify` (core) | `john-doe` (`app/app.config.ts:52`) | oui (ligne 51) |
-| `bloggrify-bento` | `john-doe` (`app/app.config.ts:68`) | oui (ligne 67) |
-| `bloggrify-epoxia` | `john-doe` (`app/app.config.ts:55`) | oui (ligne 54) |
-| `bloggrify-mistral` | `hlassiege` (`app/app.config.ts:52`) | oui (ligne 54) |
-
-Seul Mistral est aligné. Sur la démo du core, sur Bento et sur Epoxia, `findAuthor('hlassiege')` retourne `undefined` : la bio, le `Person` schema.org et les meta `author` disparaissent silencieusement. La vitrine tourne avec la feature désactivée sans que personne ne le voie. C'est P4 qui explique pourquoi ça n'a pas été détecté.
-
-`app/SAMPLE.app.config.ts:48-68` contient le même bloc `john-doe` que `app/app.config.ts:48-68`.
-
-### P4. Le fallback est asymétrique et silencieux
-
-> ✅ **RÉSOLU (lot 1)** côté signalement : un `console.warn` en dev liste les usernames connus quand un auteur ne résout pas. **Le comportement lui-même n'a pas changé** : un auteur inconnu retourne toujours `undefined` sans fallback. C'était volontaire (un fallback silencieux masquerait la faute de frappe), mais reste discutable.
-
-```ts
-if (!authorId) return config.authors?.find(a => a.default)  // fallback
-return config.authors?.find(a => a.username === authorId)   // pas de fallback
-```
-
-- Auteur **absent** du frontmatter : fallback sur l'auteur `default: true`. Si aucun auteur n'est marqué `default`, retourne `undefined`.
-- Auteur **inconnu** (faute de frappe, ou config désalignée) : retourne `undefined`, sans fallback.
-
-En aval, tout le monde fait `v-if="author"` (`app/layouts/themes/minimalist/default.vue:21`, les `AuthorCard` des thèmes) ou laisse `schemaAuthor` undefined (`app/pages/[...slug].vue:89-94`). L'utilisateur perd sa bio et son SEO sans aucun signal. Seule `/authors/{inconnu}` fait un vrai 404.
-
-`bloggrify validate` détecte le cas (`cli/commands/validate.ts:63-64` : `Author '${post.author}' not found in app.config.ts`), mais seulement si on le lance. Un `console.warn` en dev quand un `authorId` non vide ne résout pas coûterait trois lignes et aurait attrapé P3 immédiatement.
+Auteur absent du frontmatter → fallback sur `default: true` ; auteur inconnu (faute de frappe) → `undefined` sans fallback. Le comportement reste volontairement inchangé (un fallback silencieux masquerait la faute de frappe), mais un `console.warn` en dev (`useAuthor.ts`) liste désormais les usernames connus quand un auteur non vide ne résout pas. C'est discutable et lié à N8.
 
 ### P5. Deux sources d'identité concurrentes
 
@@ -237,13 +194,13 @@ Corollaires dans le CLI :
   Dès que l'auteur par défaut n'est pas en première position, le CLI et le runtime divergent.
 - `cli/utils/author.ts:32` et `cli/utils/config.ts:14` parsent le même tableau avec des regex différentes (`/authors:\s*\[([\s\S]*?)\n\s*\]/m` vs `/authors:\s*\[([\s\S]*?)\]/m`). La seconde est non-greedy jusqu'au **premier** `]`, donc elle tronque au premier crochet imbriqué.
 
-### P7. L'auteur est absent partout où il aurait de la valeur SEO
+### P7. Auteur absent du SEO ✅ (lot 2, session N4)
 
-- **RSS** : `server/routes/rss.xml.ts` ne lit jamais `author`. `feed.addItem({...})` (lignes 33-41) passe title/id/link/description/date/image uniquement. Pas de `<author>` ni de `<dc:creator>`.
-- **OG images** : `app/components/OgImage/BlogPost.satori.vue` n'accepte que `title` et `description`. `defineOgImage('BlogPostSatori', {...})` (`app/pages/[...slug].vue:150-153`) ne passe pas l'auteur.
-- **Schema.org** : le `Person` de `app/pages/[...slug].vue:89-94` ne pose que `name`. Ni `url` vers `/authors/{username}`, ni `sameAs` avec les socials.
+- **P7a schema.org** : le `Person` de `[...slug].vue` porte désormais `url` (`/authors/{username}`) et `sameAs` (les socials), dérivés de `resolveSocialLinks` (pas de second mapping).
+- **P7b RSS** : `<dc:creator>` par item dans `rss.xml.ts`. La résolution du nom reproduit le fallback de `findAuthor` (le composable n'est pas importable côté serveur, même angle mort que P13, voir aussi la note serveur ci-dessous), et le namespace `xmlns:dc` est injecté à la main car la lib `feed` ne le déclare que si un item porte du HTML `content`.
+- **P7c OG image** : prop `author` ajoutée à `BlogPost.satori.vue`, câblée depuis `defineOgImage`. Traité avec **P19** : `twitter_username` est posé en `twitter:creator`.
 
-Le `sameAs` + `url` est le gain le plus facile du lot : les données sont déjà là, il n'y a qu'à les mapper.
+Note serveur durable : dans `server/` (nitro), `import type { Author } from '@nuxt/schema'` **échoue** (`TS2305`), l'augmentation n'étant câblée que dans le tsconfig de l'app. Le RSS type donc les 3 champs lus par un type structurel local. Même classe de problème que P13/P6b.
 
 ### P8. Un seul auteur par article
 
@@ -259,12 +216,9 @@ Chaque thème réimplémente le rendu des socials avec ses propres SVG inline :
 
 Le mapping social → icône → URL n'a rien de thématique. Il devrait vivre dans un composant core que les thèmes stylent.
 
-### P10. Deux fragilités concrètes (crash potentiel)
+### P10. Déréférencements non gardés (crash potentiel) ✅ (lot 1)
 
-> ✅ **RÉSOLU (lot 1).** `MistralSideAuthorCard` enveloppé dans `<template v-if="author">`, `v-if` d'Epoxia passés en `author.socials?.`. Bonus : le `NuxtImg` de `mistral/ArticleHeader` est désormais gardé par `v-if="author.avatar"`.
-
-- `bloggrify-mistral/app/components/content/MistralSideAuthorCard.vue:4,18` lit `author.avatar` et `author.socials` **sans garde** à la racine du template, alors que `findAuthor()` sans argument retourne `undefined` si aucun auteur n'a `default: true`. Ce composant est rendu sur la home (`layouts/themes/mistral/home.vue:8`).
-- `bloggrify-epoxia/app/components/themes/epoxia/AuthorPortfolioHeader.vue` déréférence `author.socials.x` sans optional chaining alors que `socials` est optionnel dans le type.
+`MistralSideAuthorCard` (lisait `author.avatar`/`author.socials` sans garde alors que `findAuthor()` peut renvoyer `undefined`, rendu sur la home) enveloppé dans `<template v-if="author">` ; `v-if` d'Epoxia passés en `author.socials?.` ; bonus `NuxtImg` de `mistral/ArticleHeader` gardé par `v-if="author.avatar"`.
 
 ### P11. Incohérence de contrat entre les pages de listing
 
@@ -288,15 +242,6 @@ L'audit affirmait que le core, Bento et Epoxia étaient cassés. Faux. Le submod
 
 Nuance utile : dans le submodule, seuls les 4 articles de 2025 portent `author:`. Ceux de 2024 n'en ont pas et passent par le fallback.
 
-### Correction de P2 : le hook était infaisable ET inutile
-
-Deux constats vérifiés empiriquement, à ne pas re-tenter :
-
-1. **`nuxt.options.appConfig` ne contient PAS `app.config.ts` au build.** Sonde posée dans un hook `nitro:config` : `authors = undefined`, `keys = ["nuxt","ui","icon"]` (uniquement les défauts fournis par les modules). Le hook « énumérer `config.authors` au build » est donc impossible sans ajouter un parser d'`app.config.ts`, ce qui ferait un **troisième** parser après les deux du CLI (cf. P6c). Rejeté.
-2. **Le crawl suffit.** `nuxt generate` produit `/authors/hlassiege/` dès que P3 rend l'auteur résolvable, parce que `MinimalistAuthorBio` pose le lien et que `crawlLinks` le suit. C'est exactement le mécanisme des tags et catégories, qui ne sont pas non plus dans `prerender.routes`.
-
-**Gap résiduel accepté** : un auteur sans aucun article n'est jamais lié, donc jamais généré. Identique au cas d'un tag inutilisé. Non traité.
-
 ### Nouveau P13 : le core 3.1.2 publié ne propage pas le type `Author` aux thèmes
 
 Le hook `prepare:types` de `modules/bloggrify/index.ts:19-21` **n'existe que dans le git du core**, pas dans le 3.1.2 publié que les 3 thèmes consomment (`grep -c "prepare:types"` = 0 sur `node_modules/@bloggrify/core`). Le 3.1.2 ship pourtant bien `app/types/app-config.d.ts`, mais rien ne le référence côté thème.
@@ -319,9 +264,9 @@ L'optional chaining s'arrête à `comments` et ne couvre pas `hyvor_talk`. Mistr
 
 **Déjà corrigé dans le git du core** (`app/components/CommentSystem.vue` a bien `hyvor_talk?.website_id`), donc ça se résoudra à la prochaine release. Aucune action à faire sur le core. À vérifier après release.
 
-### Nouveau P15 : `BentoListing` et `EpoxiaListing` avaient oublié l'option `author`
+### Nouveau P15 : `BentoListing` / `EpoxiaListing` ignoraient `author` ✅ (lot 1)
 
-Les deux re-wrappent `useContentListing` et ne forwardaient que `category` / `tag` / `prefix`, alors que le core supporte `author`. Corrigé dans le lot 1. Illustration directe de P9 : chaque thème réimplémente un wrapper et perd des options au passage. `MistralListing` n'existe pas, Mistral utilise directement `MinimalistListing` du core, et n'avait donc pas le problème.
+Les deux re-wrappent `useContentListing` et ne forwardaient que `category` / `tag` / `prefix`. Corrigé. Illustration directe de P9 : chaque thème réimplémente un wrapper et perd des options. Mistral utilise directement `MinimalistListing` du core, donc n'avait pas le problème.
 
 ### Nouveau P16 : le core référence deux images inexistantes (inerte)
 
@@ -329,9 +274,9 @@ Les deux re-wrappent `useContentListing` et ne forwardaient que `category` / `ta
 
 **Sans effet visible** : `logo` et `avatar` ne sont lus **nulle part** dans le code du core (`minimalist` n'affiche que `config.name`), ils ne sont consommés que par les thèmes, qui ont leurs propres configs et images. C'est de la config morte et trompeuse. Pour cette raison l'entrée auteur du core créée en P3 **omet `avatar`** plutôt que de pointer vers un fichier absent.
 
-### Nouveau P17 : `bluesky` est rendu par les thèmes mais absent du type `Author`
+### Nouveau P17 : `bluesky` rendu mais absent du type ✅ (session N3)
 
-`bloggrify-mistral/app/app.config.ts:59` déclare `socials.bluesky` sur un auteur, et `MistralAuthorCardSocialLinks` sait le rendre (idem `BentoPostAuthorSocialLinks`). Mais le type `Author.socials` de `app/types/app-config.d.ts:10-19` ne déclare pas `bluesky`. À intégrer dans P6a/P9.
+Les thèmes rendaient `socials.bluesky` alors que le type `Author.socials` ne le déclarait pas. Ajouté au type `SocialPlatform` avec P9.
 
 ### P5 est devenu visible sur la démo du core
 
@@ -347,21 +292,9 @@ Les thèmes ont des erreurs de typecheck pré-existantes. Toute comparaison futu
 
 > ✅ **RÉSOLU.** Trouvé en regardant `/authors/john-doe` sur la démo en ligne, qui listait 0 article.
 
-Deux chemins de code appliquaient deux règles différentes pour un même article :
+L'affichage (`minimalist/default.vue:40`) résout via `findAuthor`, donc un article sans champ `author` **affiche** l'auteur par défaut. Le listing (`useContentListing.ts:113`) faisait `where('author', '=', author)`, et une colonne NULL ne matche jamais un username : l'article n'apparaissait **jamais** sur la page de cet auteur. Problème de framework, pas de démo : tout blog mono-auteur qui suit l'invitation du fallback (ne pas répéter `author:` partout) obtient une page auteur vide.
 
-```ts
-// Affichage, minimalist/default.vue:40
-const author = computed(() => findAuthor(props.doc?.author))   // pas d'auteur -> auteur par défaut
-
-// Listing, useContentListing.ts:113 (avant correctif)
-query = query.where('author', '=', author)                      // NULL ne matche jamais un username
-```
-
-Un article sans champ `author` **affichait** l'auteur par défaut grâce au fallback de `findAuthor`, mais n'apparaissait **jamais** sur la page de cet auteur, la requête comparant une colonne nulle à une chaîne. Sur la démo du core : 10 articles affichent « Hugo », sa page en listait 4.
-
-**Ce n'est pas un problème de démo mais de framework** : tout blog mono-auteur qui fait ce que le fallback l'invite à faire, ne pas répéter `author:` dans chaque article, obtient une page auteur vide alors que chaque article porte son nom.
-
-**Correctif** : quand le filtre porte sur l'auteur marqué `default: true`, le listing matche aussi les articles sans auteur. La règle devient « le fallback fait partie de la résolution, donc il s'applique partout ou nulle part ».
+**Correctif** : quand le filtre porte sur l'auteur `default: true`, le listing matche aussi les articles sans auteur (« le fallback fait partie de la résolution, il s'applique partout ou nulle part »).
 
 ```ts
 if (author === defaultAuthorUsername) {
@@ -371,31 +304,15 @@ if (author === defaultAuthorUsername) {
 }
 ```
 
-L'auteur par défaut est dérivé via `useAuthor().findAuthor()` sans argument, donc sans dupliquer la règle du fallback. C'est le **premier appelant réel de `useAuthor()`**, ce qui entame la résorption de N8.
+L'auteur par défaut est dérivé via `useAuthor().findAuthor()` sans argument (pas de duplication de la règle). C'est le **premier appelant réel de `useAuthor()`**, ce qui entame la résorption de N8.
 
-**Piège lié, vérifié et écarté** : le filtre de visibilité juste en dessous ressemble à un bug mais n'en est pas un. Dans `@nuxt/content`, `orWhere(q => q.where(a).where(b))` produit `(a OR b)` (`query.js:53`), et les conditions successives sont jointes par AND (`query.js:132`). Le SQL final est donc `(author = X OR author IS NULL) AND (listed = true OR listed IS NULL) AND (draft = false OR draft IS NULL)`. Ne pas « corriger » ce passage.
+**Piège lié, vérifié et écarté (ne pas « corriger »)** : le filtre de visibilité juste en dessous ressemble à un bug mais n'en est pas un. Dans `@nuxt/content`, `orWhere(q => q.where(a).where(b))` produit `(a OR b)`, et les conditions successives sont jointes par AND. Le SQL final est `(author = X OR author IS NULL) AND (listed = true OR listed IS NULL) AND (draft = false OR draft IS NULL)`.
 
-**Le lot 1 est passé à côté** : sa validation notait « 4 articles listés » comme un succès, sans voir que 6 autres articles affichaient Hugo sans figurer sur sa page.
+Détail utile pour les comptages : `content/about.md` et `content/index.md` portent `listed: false` (pages, pas articles) et sont volontairement hors listings ; `content/seo.md` est listé.
 
-### Validation effectuée (ne pas refaire ce travail)
+### Piège d'outillage : chemins git-bash sous node Windows
 
-| Vérification | Résultat |
-|---|---|
-| `/authors/hlassiege` page 1 / page 2 | 6 + 4 = **10 articles**, contre 4 avant |
-| Auteur non-défaut (ajouté temporairement en config) | **0 article**, le fallback ne déborde pas |
-| `/`, `/archives` | 6 articles, identique à la page auteur (attendu en mono-auteur) |
-| `/tags/release` | 4 articles, aucune régression |
-| `/categories/foo` | 404, N2 tient |
-| Typecheck core / ESLint | 0 erreur / clean |
-
-### `about.md` n'est pas un oubli
-
-`content/about.md` et `content/index.md` portent `listed: false`. Leur absence des listings est un choix éditorial explicite, ce sont des pages et non des articles. `content/seo.md` en revanche est bien listé (pas de `listed: false`) et compte donc dans les 10.
-
-### Fausses pistes de la session, à ne pas rejouer
-
-- **Le `node_modules` du core n'est pas cassé** (nuxt 4.4.8, binaire présent). Un diagnostic contraire vient d'un usage de chemins git-bash (`/c/Dev/...`) avec le node Windows, qui ne les résout pas. Utiliser PowerShell ou des chemins natifs pour sonder l'install.
-- **Le 500 observé sur `/`** pendant la session venait d'un serveur de dev en train de mourir, pas d'un bug. `/` répond 200.
+`node_modules` du core sondé avec des chemins git-bash (`/c/Dev/...`) sous node Windows → faux diagnostic de « node_modules cassé ». Utiliser PowerShell ou des chemins natifs pour sonder l'install.
 
 ## 2 quater. Découvertes de la session N3 (2026-07-17, lot 2 / P9)
 
@@ -438,44 +355,15 @@ C'est pour cette raison que `@iconify-json/simple-icons` a été ajouté en **`d
 
 `@iconify-json/lucide` devrait passer en `dependencies` pour la même raison.
 
-### Nouveau P19 : `twitter_username` est de la config morte
+### P19 : `twitter_username` posé en `twitter:creator` ✅ (session N4)
 
-`twitter_username` est déclaré dans le type (`app/types/app-config.d.ts`), renseigné dans `app.config.ts` et dans `SAMPLE.app.config.ts`, lu et réécrit par le CLI (`cli/utils/author.ts`)... et **lu par aucun composant des 4 dépôts**. Exactement le même motif que `logo` / `avatar` en P16.
+`twitter_username` était déclaré dans le type, renseigné en config, lu/réécrit par le CLI, et **lu par aucun composant** (même motif que `logo`/`avatar` en P16). Ce n'est pas une URL mais un handle : `resolveSocialLinks` l'ignore, et P7c le pose désormais en `twitter:creator` (`[...slug].vue`).
 
-Ce n'est pas une URL mais un handle, donc il n'a rien à faire dans un rendu de liens de profils. Sa place naturelle est la meta `twitter:creator`, ce qui en fait un candidat direct pour **P7**. Le type le documente désormais comme tel. En attendant, `resolveSocialLinks` l'ignore explicitement plutôt que de le rendre en lien cassé.
+### `_readAppConfig` peut lire `app.config.ts` au build (pour P12)
 
-### Correction de P9 : la meilleure base n'était pas Mistral
+`modules/bloggrify/index.ts` lit `app.config.ts` au build via jiti (`_readAppConfig`, en stubbant `defineAppConfig`), pour les clés `seo` et `socials.sharing_networks`. Le mécanisme est générique : **P12 (`/authors`) peut s'en servir** pour prérendre l'index des auteurs sans dépendre d'un lien entrant posé par chaque thème. (Le crawl, lui, suffit pour les pages auteurs individuelles existantes.)
 
-Le lot 2 recommandait de partir de `MistralAuthorCardSocialLinks`, « déjà data-driven avec une map d'icônes ». Les 4 composants sont en fait **data-driven à l'identique** avec la **même** map. Le seul qui se distingue est `EpoxiaPostAuthorSocialLinks`, correctement typé (`Record<SocialPlatform, ...>` + type guard dans le filtre) : c'est le seul qui **ne produit pas** les erreurs `can't be used to index type` citées en N4.
-
-### N3 avait un symptôme runtime, pas seulement un typecheck
-
-L'audit ne relevait que l'erreur TS2559. En réalité, les 3 composants non typés font `if (!icons[key] && value) console.warn(...)`. Donc :
-
-- `MistralFooter` passe `config.socials` (qui contient `sharing_networks`) → `Social platform "sharing_networks" is not supported` **à chaque rendu**.
-- Tout auteur ayant `twitter_username` déclenche le même warn.
-
-Le correctif de N3 (`sharing.networks`) et `resolveSocialLinks` (qui ne warn que sur une clé réellement inconnue) suppriment les deux.
-
-### Correction de P2 : le hook n'est plus infaisable
-
-La section 2 bis affirme que « `nuxt.options.appConfig` ne contient PAS `app.config.ts` au build » et qu'énumérer `config.authors` demanderait un troisième parser. **C'était vrai au lot 1, ça ne l'est plus** : `modules/bloggrify/index.ts` lit désormais `app.config.ts` au build via jiti (`_readAppConfig`, ex-`_readSeoConfig`), en stubbant `defineAppConfig`, pour la clé `seo`. Cette session l'a étendu à `socials.sharing_networks` pour le warn de dépréciation de N3.
-
-Le mécanisme existe donc déjà, il est générique, et **P12 (`/authors`) peut s'en servir** pour prérendre l'index des auteurs plutôt que de dépendre d'un lien entrant posé par chaque thème. Le point 1 de la correction de P2 est à considérer comme périmé ; le point 2 (le crawl suffit pour les pages auteurs existantes) reste vrai.
-
-### Validation effectuée (ne pas refaire ce travail)
-
-| Vérification | Résultat |
-|---|---|
-| Typecheck core | **0 erreur** |
-| `nuxt generate` du core | OK |
-| `/authors/hlassiege` généré | **7 réseaux rendus** (Facebook, GitHub, Instagram, LinkedIn, Mastodon, X, YouTube), contre 4 avant |
-| SVG des icônes | inline dans le HTML statique, **aucun `api.iconify.design`** |
-| `twitter_username` | non rendu en lien, **plus de warn** |
-| Warn de dépréciation N3 | part bien au build avec l'ancienne clé, et l'ancienne clé **fonctionne toujours** |
-| Thèmes | **non validés**, bloqués par N11. `node_modules` restaurés à l'identique, aucun fichier de thème touché. |
-
-### Piège d'outillage de la session
+### Piège d'outillage : `rtk npx`
 
 `rtk npx <cmd>` est traduit en `npm run <cmd>` et échoue avec `Missing script`. Pour `npx nuxt typecheck` (les thèmes n'ont pas de script `typecheck`), utiliser `npx` directement.
 
@@ -487,7 +375,7 @@ Le mécanisme existe donc déjà, il est générique, et **P12 (`/authors`) peut
 
 - [x] **P3** Aligné. **Sens retenu : les configs s'alignent sur le contenu, pas l'inverse.** Le submodule `blog-content` porte les **vrais** articles du blog Bloggrify, donc `author: "hlassiege"` reste. Seul `bloggrify/app/app.config.ts` change (`john-doe` → `hlassiege` / « Hugo »). `SAMPLE.app.config.ts` **garde `john-doe`** : c'est lui qui est publié sur npm comme template. Bento, Epoxia et Mistral non touchés.
 - [x] **P4** `console.warn` ajouté dans `app/composables/useAuthor.ts`, gardé par `import.meta.dev`, listant les usernames connus.
-- [x] **P2** Rescopé, aucun hook écrit. Voir la section « Corrections d'analyse » : le hook était infaisable **et** inutile.
+- [x] **P2** Rescopé, aucun hook écrit : le crawl suffit à prérendre les pages auteurs existantes (voir P2 en section 2).
 - [x] **P1** Livré. `author.vue` créé dans les 3 thèmes + lien `/authors/{username}` posé + prop `author` câblée dans `BentoListing` / `EpoxiaListing`.
 - [x] **P10** `MistralSideAuthorCard` enveloppé dans `<template v-if="author">` (multi-root), `v-if` d'Epoxia passés en `author.socials?.`. Bonus : `NuxtImg` de `mistral/ArticleHeader` gardé par `v-if="author.avatar"` (`avatar` est optionnel, un `src` undefined est un bug latent).
 
@@ -508,20 +396,20 @@ Le mécanisme existe donc déjà, il est générique, et **P12 (`/authors`) peut
 ### Lot 2 : valeur immédiate
 
 - [x] **P9 (core)** `app/utils/socials.ts` + `app/components/SocialLinks.vue` + minimalist branché dessus. P17 (`bluesky`) et N3 (`sharing_networks`) traités dans la foulée, comme prévu. Voir la section 2 quater.
-- [ ] **P9 (thèmes)** Remplacer les 4 composants dupliqués par de fins wrappers de style autour de `SocialLinks`. **Bloqué par N11**, et à ne faire qu'après la release du core. Garder leurs noms publics : ils sont dans `components/content/`, donc utilisables en MDC dans le markdown des utilisateurs.
-- [ ] **P7a** Ajouter `url` (vers `/authors/{username}`) et `sameAs` (les socials) au `Person` schema.org dans `app/pages/[...slug].vue:89-94`. Le gain le plus facile du lot. **Consommer `resolveSocialLinks` de `app/utils/socials.ts`** plutôt que d'écrire un second mapping.
-- [ ] **P7b** Ajouter l'auteur au flux RSS (`<dc:creator>` ou `<author>`) dans `server/routes/rss.xml.ts`.
-- [ ] **P12** Ajouter une page `/authors` listant les auteurs. Le lien entrant n'est plus le seul recours : `_readAppConfig` du module sait lire `app.config.ts` au build, donc la route peut être prérendue explicitement (cf. la correction de P2 en section 2 quater).
-- [ ] **P7c** Passer l'auteur aux OG images (`BlogPost.satori.vue` + l'appel dans `[...slug].vue:150-153`). Traiter **P19** au passage : `twitter_username` n'existe que pour la meta `twitter:creator`, qui n'est posée nulle part.
+- [x] **P7a** (session N4) `url` (`/authors/{username}`) + `sameAs` (les socials, via `resolveSocialLinks`) posés sur le `Person` de `[...slug].vue`. Validé au runtime dans le HTML généré.
+- [x] **P7b** (session N4) `<dc:creator>` par item dans `server/routes/rss.xml.ts`, fallback défaut mirroir de `findAuthor` (non importable côté serveur), namespace `xmlns:dc` injecté à la main. Validé : 12 items crédités.
+- [x] **P7c + P19** (session N4) prop `author` passée à `BlogPost.satori.vue`, et `twitter:creator` posé depuis `twitter_username`. Validés au runtime (OG cache key `author_Hugo`, `<meta name="twitter:creator">`).
+- [ ] **P12** Ajouter une page `/authors` listant les auteurs. Le lien entrant n'est plus le seul recours : `_readAppConfig` du module sait lire `app.config.ts` au build, donc la route peut être prérendue explicitement (cf. section 2 quater). **Seul item lot 2 restant non bloqué.**
+- [ ] **P9 (thèmes)** Remplacer les 4 composants dupliqués (`MistralAuthorCardSocialLinks`, `BentoSocialLinks`, `BentoPostAuthorSocialLinks`, `EpoxiaPostAuthorSocialLinks`) par de fins wrappers de style autour de `SocialLinks`. **Bloqué par N11**, à faire après la release du core. Garder leurs noms publics : ils sont dans `components/content/`, donc utilisables en MDC.
 
 ### Lot 3 : dette
 
 - [ ] **N11** **Prérequis à la release**, et donc à P13, P14 et P9 (thèmes). Réinstaller les dépendances des 3 thèmes contre le core à releaser, et vérifier qu'ils chargent. Sans ça la release sort avec un crash au démarrage. Voir la section 2 quater.
 - [ ] **N10** Passer `@iconify-json/lucide` de `devDependencies` à `dependencies` dans le core : les thèmes n'ont aucune collection Iconify, donc leurs `UIcon` lucide sont résolus via l'API Iconify au runtime.
-- [ ] **P13** Après la prochaine release du core, retirer le `type Author = NonNullable<ReturnType<typeof findAuthor>>` des 3 `author.vue` et repasser à `import type { Author } from '@nuxt/schema'`, une fois le hook `prepare:types` publié.
+- [ ] **P13** Après la prochaine release du core, retirer le `type Author = NonNullable<ReturnType<typeof findAuthor>>` des 3 `author.vue` et repasser à `import type { Author } from '@nuxt/schema'`, une fois le hook `prepare:types` publié. **Ne couvre pas le contexte serveur** : `rss.xml.ts` ne peut de toute façon pas importer `Author` (le hook ne câble que le tsconfig de l'app), il garde son type structurel local. Voir la note serveur en P7.
 - [ ] **P14** Après la prochaine release du core, vérifier que `nuxt generate` de Mistral repasse au vert sans désactiver les commentaires (le fix `hyvor_talk?.` est déjà dans le git du core).
 - [x] **P17** `bluesky` ajouté au type via `SocialPlatform` (session N3, avec P9).
-- [ ] **P19** Poser la meta `twitter:creator` à partir de `twitter_username`, ou retirer le champ. À traiter avec P7c.
+- [x] **P19** `twitter:creator` posé depuis `twitter_username` dans `[...slug].vue` (session N4, avec P7c).
 - [ ] **P16** Nettoyer `logo: '/images/logo.png'` et `avatar: '/images/profile-john.jpg'` du core (fichiers inexistants), ou ajouter les images. Décider aussi du sort de ces champs dans `SAMPLE.app.config.ts`, qui est publié : un utilisateur qui copie le template hérite de chemins morts.
 - [ ] **P6a** Rendre `Author.username` requis dans `app/types/app-config.d.ts`.
 - [ ] **P6b** Faire importer le type `Author` du core par le CLI au lieu de la duplication de `cli/utils/author.ts:5-21`.
