@@ -111,6 +111,14 @@ export default defineAppConfig({
     },
   ],
 
+  // Publish a `/authors` page listing every author above. Off by default: it is only
+  // useful on a multi-author blog, and aggregating everyone's name and bio is a choice,
+  // not a default. Add `/authors` to `menu` below to link it. Individual author pages
+  // (`/authors/{username}`) work regardless of this setting.
+  // authors_page: {
+  //   enabled: true,
+  // },
+
   menu: [
     { name: 'About', path: '/about' },
     { name: 'Blog', path: '/archives' },

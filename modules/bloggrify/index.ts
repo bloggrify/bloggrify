@@ -16,6 +16,7 @@ type PartialAppConfig = {
     url?: string
     seo?: SeoConfig
     socials?: {sharing_networks?: string[]}
+    authors_page?: {enabled?: boolean}
 }
 
 export default defineNuxtModule({
@@ -71,6 +72,19 @@ export default defineNuxtModule({
             }
         }
 
+        // The `/authors` directory is opt-in (`authors_page.enabled`). Unlike the dynamic
+        // tag/category pages, it is a *static* route, so Nitro tries to prerender it on every
+        // build; when the feature is off, the page raises a 404 and that aborts `nuxt generate`.
+        // Decide it once here, at setup (before Nitro is configured): prerender `/authors` only
+        // when enabled (added in `prerender:routes` below), and ignore it otherwise. The regex
+        // is anchored so it never swallows the individual `/authors/{username}` pages.
+        const authorsPageEnabled = layerAppConfig.authors_page?.enabled === true
+        if (!authorsPageEnabled) {
+            nuxt.options.nitro.prerender ??= {}
+            nuxt.options.nitro.prerender.ignore ??= []
+            ;(nuxt.options.nitro.prerender.ignore as Array<string | RegExp>).push(/^\/authors\/?$/)
+        }
+
         // Defaults for the `seo` key. These land in Nuxt's inline app config, which
         // has the lowest priority, so any user `app.config.ts` overrides them.
         nuxt.options.appConfig.seo = defu(nuxt.options.appConfig.seo, {
@@ -80,16 +94,20 @@ export default defineNuxtModule({
             },
         })
 
-        // `/llms.txt` is opt-in, so the route must only be prerendered when the user
-        // asked for it: an unconditional prerender would emit a 404 on every build
-        // for everyone else. Deciding this needs the merged app config at build time,
-        // which Nuxt only exposes as a list of file paths (`app:resolve`), hence the
-        // manual read below. `prerender:routes` fires later, so the flag is set by then.
+        // `/llms.txt` is opt-in, so the route must only be prerendered when the user asked
+        // for it: an unconditional prerender would emit a 404 on every build for everyone
+        // else. Deciding this needs the merged app config at build time, which Nuxt only
+        // exposes as a list of file paths (`app:resolve`), hence the manual read below.
+        // `prerender:routes` fires later, so the flag is set by then. (`/authors` is decided
+        // at setup above, since its ignore rule must land before Nitro is configured.)
         let llmsEnabled = false
 
         nuxt.hook('prerender:routes', (ctx) => {
             if (llmsEnabled) {
                 ctx.routes.add('/llms.txt')
+            }
+            if (authorsPageEnabled) {
+                ctx.routes.add('/authors')
             }
         })
 

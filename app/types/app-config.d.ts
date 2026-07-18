@@ -185,6 +185,21 @@ declare module '@nuxt/schema' {
 
     authors: Array<Author>
 
+    /**
+     * The `/authors` directory page, listing every author declared in `authors`
+     * and linking to each `/authors/{username}` page.
+     *
+     * Opt-in on purpose: aggregating the name, bio and links of every contributor
+     * is not a neutral default, and a single-author blog gains nothing from it.
+     * When disabled (the default) the page is not generated and `/authors` returns
+     * a 404. Individual author pages (`/authors/{username}`) are unaffected.
+     *
+     * @default { enabled: false }
+     */
+    authors_page?: {
+      enabled?: boolean
+    }
+
     menu: Array<{
       name: string
       path: string
