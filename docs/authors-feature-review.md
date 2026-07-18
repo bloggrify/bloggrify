@@ -4,9 +4,9 @@ Audit réalisé le 2026-07-17 sur `bloggrify` (core) et les thèmes `bloggrify-b
 
 Ce document est un plan de travail réutilisable d'une session à l'autre. Les cases à cocher indiquent l'avancement. Les chemins sans préfixe de dépôt sont relatifs à `bloggrify` (le core) ; les autres sont préfixés par le nom du dépôt.
 
-**Dernière mise à jour : 2026-07-18 (session N5). P12 livré côté core : page `/authors` opt-in. Lot 2 core terminé (seul P9-thèmes reste, bloqué par N11).**
+**Dernière mise à jour : 2026-07-18 (session N6). Core 3.2.0 releasé : N11 débloqué. Lot 2 thèmes livré **pour Mistral uniquement** (P9-social + P12-layout `authors.vue`), P13 et P14 clos côté Mistral. Bento et Epoxia restent à faire.**
 
-Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côté core (N3), puis le SEO auteur (N4), puis la page `/authors` (N5). Le détail archéologique des sessions closes a été élagué au fil de l'eau ; seul ce qui guide un travail restant est conservé.
+Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côté core (N3), puis le SEO auteur (N4), puis la page `/authors` (N5), puis la release 3.2.0 et le lot 2 thèmes côté Mistral (N6). Le détail archéologique des sessions closes a été élagué au fil de l'eau ; seul ce qui guide un travail restant est conservé.
 
 ---
 
@@ -24,19 +24,19 @@ Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côt
 | P6 | Le typage ment (3 vérités) | ⬜ À faire | 3 |
 | P7 | Auteur absent du SEO (schema.org, RSS, OG) | ✅ Fait (a/b/c) | 2 |
 | P8 | Un seul auteur par article | ⬜ À faire | 3 |
-| P9 | Rendu des socials dupliqué dans les thèmes | 🟡 Core fait, thèmes bloqués sur la release | 2 |
+| P9 | Rendu des socials dupliqué dans les thèmes | 🟡 Core + Mistral faits, Bento/Epoxia restants | 2 |
 | P10 | Déréférencements non gardés (crash potentiel) | ✅ Fait | 1 |
 | P11 | Contrat incohérent entre pages de listing | ⬜ À faire | 3 |
-| P12 | Page `/authors` manquante | ✅ Fait (opt-in) | 2 |
-| P13 | Core publié ne propage pas le type `Author` | 🟡 Contourné, à nettoyer après release | 3 |
-| P14 | Core publié casse le build de Mistral | 🟡 Déjà fixé dans le git du core, à vérifier après release | 3 |
+| P12 | Page `/authors` manquante | ✅ Core + layout Mistral ; Bento/Epoxia restants | 2 |
+| P13 | Core publié ne propage pas le type `Author` | 🟡 Mistral nettoyé (3.2.0) ; Bento/Epoxia restants | 3 |
+| P14 | Core publié casse le build de Mistral | ✅ Vérifié sur 3.2.0 (comments activés, aucun crash `website_id`) | 3 |
 | P15 | `BentoListing` / `EpoxiaListing` ignoraient `author` | ✅ Fait | 1 |
 | P16 | Le core référence 2 images inexistantes | ⬜ À faire (inerte) | 3 |
 | P17 | `bluesky` rendu mais absent du type | ✅ Fait | 2 |
 | P18 | Le fallback s'applique à l'affichage mais pas au listing | ✅ Fait | 1 |
 | P19 | `twitter_username` posé en `twitter:creator` | ✅ Fait | 2 |
 
-Reste ouvert du lot 2 : **P9 thèmes** seulement (bloqué par N11). Tout le lot 3 (dette) reste ouvert. P13 à P17 ont été découverts pendant le lot 1, P18 pendant N2, P19 pendant N3.
+Reste ouvert du lot 2 : **P9 thèmes + P12 layout pour Bento et Epoxia** (Mistral est fait). Tout le lot 3 (dette) reste ouvert. P13 à P17 ont été découverts pendant le lot 1, P18 pendant N2, P19 pendant N3.
 
 ### Notes annexes, hors périmètre auteurs (détail en section 4)
 
@@ -47,10 +47,10 @@ Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 | N1 | Le bug de P1 à l'identique pour les **catégories** : pas de `category.vue` sur minimalist (thème par défaut) ni Mistral | 🔴 Feature cassée, masquée par l'absence de `category:` dans le contenu | core, mistral |
 | N2 | `fallback='invalid'` renvoie une erreur développeur au visiteur au lieu d'une 404 | ✅ Fait (404 + warn dev) | core |
 | N3 | `sharing_networks` rangé dans `socials` alors que ce n'en est pas un, casse le typage des thèmes | ✅ Fait (`sharing.networks` + fallback déprécié) | core (+ tous les thèmes) |
-| N11 | Les thèmes ne peuvent pas charger le core packé : leurs dépendances transitives sont périmées | 🔴 Bloque la release et toute validation locale des thèmes | les 3 thèmes |
+| N11 | Les thèmes ne peuvent pas charger le core packé : leurs dépendances transitives sont périmées | ✅ Résolu par la release 3.2.0 + réinstall (vérifié sur Mistral : content 3.15.0, schema-org 6.2.3) ; à revérifier sur Bento/Epoxia | les 3 thèmes |
 | N10 | `@iconify-json/lucide` est en devDependency du core, donc absent chez les thèmes | 🟠 Icônes résolues via l'API Iconify au runtime, en déploiement statique | core (+ tous les thèmes) |
 | N9 | Le template publié sur npm embarque `url: 'https://minimalist.bloggrify.com/'` | 🟠 Impact SEO sur chaque nouveau blog | core (`SAMPLE.app.config.ts`) |
-| N4 | Dette de typecheck des thèmes : Bento 42, Epoxia 24, Mistral 31, core 0 | 🟡 Aucune CI ne la retient, et la baseline n'est plus mesurable (voir N11) | les 3 thèmes |
+| N4 | Dette de typecheck des thèmes : Bento 42, Epoxia 24, Mistral 31→18 (contre 3.2.0), core 0 | 🟡 Aucune CI ne la retient ; Mistral remesuré à 18 contre 3.2.0 (N6), Bento/Epoxia à remesurer | les 3 thèmes |
 | N8 | `useAuthor()` est mort, seul le `findAuthor` **déprécié** est utilisé. `hasAuthor` jamais appelé | 🟡 La dépréciation est à l'envers de l'usage | core |
 | N5 | Warnings CSS `Expected ";" but found "}"` à chaque build | 🟡 Bruit permanent | core + thèmes |
 | N6 | Fichiers parasites : `nul` à la racine de la galaxie, `bash.exe.stackdump` ×2 | ⚪ Cosmétique | galaxie, core, bloggrify.com |
@@ -59,7 +59,7 @@ Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 
 **N1 et N2 relèvent du lot 1 par nature** (feature cassée). N2 est fait. **N1 reste le meilleur candidat à traiter ensuite** si on ne passe pas directement au lot 2, mais il n'est plus urgent : N2 lui a retiré son impact visiteur.
 
-**N11 est le prochain vrai sujet** : il bloque la release du core, donc P13, P14 et la moitié de P9. Voir la section 2 quater.
+**N11 est levé depuis la release 3.2.0** (vérifié sur Mistral). Le prochain vrai sujet est le **portage du lot 2 sur Bento et Epoxia** (P9-social + P12-layout + P13-nettoyage), sur le même patron que Mistral en N6. Voir la section 2 quater et 2 quinquies.
 
 ---
 
@@ -377,6 +377,26 @@ C'est pour cette raison que `@iconify-json/simple-icons` a été ajouté en **`d
 
 `rtk npx <cmd>` est traduit en `npm run <cmd>` et échoue avec `Missing script`. Pour `npx nuxt typecheck` (les thèmes n'ont pas de script `typecheck`), utiliser `npx` directement.
 
+## 2 quinquies. Découvertes de la session N6 (2026-07-18, release 3.2.0, lot 2 Mistral)
+
+### Le lot 2 thèmes a été porté sur Mistral uniquement
+
+Sur décision produit (« on ne fait que Mistral pour l'instant »). Trois fichiers touchés, tous validés :
+
+- `app/layouts/themes/mistral/author.vue` : workaround P13 retiré, `import type { Author } from '@nuxt/schema'` rétabli.
+- `app/components/content/MistralAuthorCardSocialLinks.vue` : la map d'icônes SVG inline (8 réseaux dupliqués) remplacée par `resolveSocialLinks` + `UIcon`. Les deux appelants (`author.vue`, `MistralSideAuthorCard`) sont inchangés (l'API `:socials` est identique). Vérifié dans le HTML généré : les 8 réseaux se rendent avec les labels du core (`Open X profile` pour `twitter`), et `@nuxt/icon` inline le SVG de `simple-icons` au build (aucun `api.iconify.design`, cf. N10).
+- `app/layouts/themes/mistral/authors.vue` : nouveau layout `themes-mistral-authors`, grille de cartes `UAvatar` liées à `/authors/{username}`. Validé au runtime en activant `authors_page.enabled` temporairement (`/authors/index.html` généré, H1 « Authors », lien vers la fiche, puis flag reverté).
+
+Baseline typecheck de Mistral **contre 3.2.0 : 18 erreurs** (l'ancienne baseline N4 de 31 était mesurée contre le core périmé, elle n'est plus la référence). Les 18 restantes sont la dette N4 pré-existante (`readingTime` possibly undefined, `subtitle` unknown dans `PageSidebar`, `doc.body.toc` possibly undefined). **0 erreur sur les fichiers touchés en N6.** ESLint clean.
+
+### Nouveau Nx : `nuxt generate` de Mistral échoue sur des images de démo manquantes
+
+`npx nuxt generate` sort en erreur (`Exiting due to prerender errors`), mais les **10** erreurs sont toutes des `[404] IPX_FILE_NOT_FOUND` sur des couvertures d'articles du submodule `blog-content` (`/_ipx/_/covers/santorin.jpg`, `/blog/analytics.jpg`, `tokyo.jpg`…). Aucune n'est liée aux auteurs, aux commentaires ou à la release. Les pages elles-mêmes se rendent (`/authors/hlassiege` en 640 ms, articles OK). C'est un fichier image absent que l'optimiseur IPX tente de traiter, et le prerender le remonte en erreur fatale. **À investiguer hors périmètre auteurs** : soit les images manquent réellement du contenu de démo, soit il faut relâcher le `failOnError` du prerender pour les assets `/_ipx`.
+
+### N7 (FIXME `url`) reste à trancher
+
+`bloggrify-mistral/app/app.config.ts:4` garde `// FIXME : remove when updated to the latest version of Bloggrify` sur `url: 'https://mistral.bloggrify.com/'`. La 3.2.0 est une montée de version, donc le moment de décider. Le « pourquoi » du FIXME n'est pas documenté (probablement : `url` devait migrer vers `site.url` de `nuxt.config`). **Non touché en N6** faute de contexte sur l'intention — à confirmer avec l'utilisateur avant de retirer le champ (impact SEO : canonical, sitemap, og:url).
+
 ---
 
 ## 3. Plan d'action
@@ -410,14 +430,14 @@ C'est pour cette raison que `@iconify-json/simple-icons` a été ajouté en **`d
 - [x] **P7b** (session N4) `<dc:creator>` par item dans `server/routes/rss.xml.ts`, fallback défaut mirroir de `findAuthor` (non importable côté serveur), namespace `xmlns:dc` injecté à la main. Validé : 12 items crédités.
 - [x] **P7c + P19** (session N4) prop `author` passée à `BlogPost.satori.vue`, et `twitter:creator` posé depuis `twitter_username`. Validés au runtime (OG cache key `author_Hugo`, `<meta name="twitter:creator">`).
 - [x] **P12** (session N5) Page `/authors` **opt-in** (`authors_page.enabled`, off par défaut), prérendue conditionnellement via `_readAppConfig` (patron `llms.txt`). Layout minimalist livré ; validée au runtime. Voir P12 en section 2. Layouts des autres thèmes à livrer avec P9-thèmes (bloqué N11).
-- [ ] **P9 (thèmes)** Remplacer les 4 composants dupliqués (`MistralAuthorCardSocialLinks`, `BentoSocialLinks`, `BentoPostAuthorSocialLinks`, `EpoxiaPostAuthorSocialLinks`) par de fins wrappers de style autour de `SocialLinks`, **et** livrer le layout `authors.vue` des 3 thèmes (P12). **Bloqué par N11**, à faire après la release du core. Garder leurs noms publics : ils sont dans `components/content/`, donc utilisables en MDC.
+- [~] **P9 (thèmes)** Remplacer les composants dupliqués par de fins wrappers de style, **et** livrer le layout `authors.vue` des thèmes (P12). Garder leurs noms publics (`components/content/`, utilisables en MDC). **Mistral fait en N6** (`MistralAuthorCardSocialLinks` réécrit en wrapper de `resolveSocialLinks` + `UIcon` ; `app/layouts/themes/mistral/authors.vue` livré). **Restent Bento (`BentoSocialLinks`, `BentoPostAuthorSocialLinks`) et Epoxia (`EpoxiaPostAuthorSocialLinks`)**, non validables au runtime sans licence (voir lot 1). Choix retenu pour Mistral, à rejouer : wrapper `resolveSocialLinks` plutôt que le composant `SocialLinks` du core, car ce dernier n'expose pas de classe de conteneur (pas de `flex`/`gap`), exactement comme le fait déjà `MinimalistProfileHeader`.
 
 ### Lot 3 : dette
 
-- [ ] **N11** **Prérequis à la release**, et donc à P13, P14 et P9 (thèmes). Réinstaller les dépendances des 3 thèmes contre le core à releaser, et vérifier qu'ils chargent. Sans ça la release sort avec un crash au démarrage. Voir la section 2 quater.
-- [ ] **N10** Passer `@iconify-json/lucide` de `devDependencies` à `dependencies` dans le core : les thèmes n'ont aucune collection Iconify, donc leurs `UIcon` lucide sont résolus via l'API Iconify au runtime.
-- [ ] **P13** Après la prochaine release du core, retirer le `type Author = NonNullable<ReturnType<typeof findAuthor>>` des 3 `author.vue` et repasser à `import type { Author } from '@nuxt/schema'`, une fois le hook `prepare:types` publié. **Ne couvre pas le contexte serveur** : `rss.xml.ts` ne peut de toute façon pas importer `Author` (le hook ne câble que le tsconfig de l'app), il garde son type structurel local. Voir la note serveur en P7.
-- [ ] **P14** Après la prochaine release du core, vérifier que `nuxt generate` de Mistral repasse au vert sans désactiver les commentaires (le fix `hyvor_talk?.` est déjà dans le git du core).
+- [~] **N11** Levé par la release 3.2.0. **Vérifié sur Mistral** : `npm install` a re-résolu les transitives (`@nuxt/content` 3.15.0, `nuxt-schema-org` 6.2.3, `@iconify-json/simple-icons` 1.2.90), le hook `prepare:types` est bien dans le paquet, typecheck et generate tournent. **Reste à revérifier sur Bento et Epoxia** (réinstall + chargement).
+- [ ] **N10** Passer `@iconify-json/lucide` de `devDependencies` à `dependencies` dans le core : les thèmes n'ont aucune collection Iconify, donc leurs `UIcon` lucide sont résolus via l'API Iconify au runtime. (`simple-icons` est déjà en `dependencies` depuis 3.2.0 et confirmé installé chez Mistral.)
+- [~] **P13** Retirer le `type Author = NonNullable<ReturnType<typeof findAuthor>>` des `author.vue` et repasser à `import type { Author } from '@nuxt/schema'`. **Mistral fait en N6** (hook `prepare:types` bien publié en 3.2.0, typecheck 0 erreur sur le fichier). **Restent Bento et Epoxia.** **Ne couvre pas le contexte serveur** : `rss.xml.ts` ne peut de toute façon pas importer `Author` (le hook ne câble que le tsconfig de l'app), il garde son type structurel local. Voir la note serveur en P7.
+- [x] **P14** Vérifié sur 3.2.0 (session N6) : `nuxt generate` de Mistral rend les pages d'articles **commentaires activés** (`provider: 'hakanai'`), aucun crash `website_id`. Le build sort malgré tout en erreur, mais uniquement sur des `IPX_FILE_NOT_FOUND` d'images de démo, sans rapport avec les commentaires ni les auteurs (voir Nx en 2 quinquies).
 - [x] **P17** `bluesky` ajouté au type via `SocialPlatform` (session N3, avec P9).
 - [x] **P19** `twitter:creator` posé depuis `twitter_username` dans `[...slug].vue` (session N4, avec P7c).
 - [ ] **P16** Nettoyer `logo: '/images/logo.png'` et `avatar: '/images/profile-john.jpg'` du core (fichiers inexistants), ou ajouter les images. Décider aussi du sort de ces champs dans `SAMPLE.app.config.ts`, qui est publié : un utilisateur qui copie le template hérite de chemins morts.
