@@ -46,6 +46,14 @@ const {data: doc, error} = await useAsyncData(route.path, () => {
 // Check for fetch error
 checkFetchError(error)
 
+// This is the catch-all content page, so every unknown URL lands here. A path that matches
+// no document returns `null` (not a fetch error), so without this guard the page keeps going
+// with a null `doc` and the theme layout crashes (e.g. `useContentSurround` reads `doc.path`),
+// turning a plain not-found into a 500. Throw a clean 404 instead: the error page takes over.
+if (!doc.value) {
+    throw createError({statusCode: 404, statusMessage: 'Page not found', fatal: true})
+}
+
 // A draft is never published. The module already keeps drafts out of the prerendered
 // routes, so this only bites when something links to one explicitly: rather than
 // generating the page anyway, the build reports it and writes nothing.
