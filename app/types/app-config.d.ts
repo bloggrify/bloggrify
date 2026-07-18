@@ -146,7 +146,7 @@ declare module '@nuxt/schema' {
       provider: string
     }
 
-    analytics: {
+    analytics?: {
       providers: Array<AnalyticsProviderConfig>
     }
 
