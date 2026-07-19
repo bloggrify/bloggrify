@@ -47,7 +47,15 @@ declare module '@nuxt/schema' {
   type AnalyticsProviderConfig = {
     provider: AnalyticsProvider
     code: string
-  } & Record<string, string | boolean | number>
+    /**
+     * Endpoint the tracker sends events to, for self-hosted instances.
+     *
+     * Only read by `openpanel` today. Left empty, the tracker talks to the
+     * provider's own cloud. Any *other* extra key is forwarded to the tracker
+     * script as a `data-*` attribute instead.
+     */
+    apiUrl?: string
+  } & Record<string, string | boolean | number | undefined>
 
   type SeoAiConfig = {
     /**

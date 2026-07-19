@@ -11,6 +11,10 @@ type ScriptAttributes = {
     [key: string]: string | boolean | number | undefined
 }
 
+// Keys read by the provider templates themselves. Anything else in a provider
+// config is forwarded to the tracker script as a `data-*` attribute.
+const CONSUMED_KEYS = ['provider', 'code', 'apiUrl']
+
 export const useAnalytics = () => {
     const config = useAppConfig()
     const providers = (config.analytics?.providers || []) as AnalyticsProviderConfig[]
@@ -73,7 +77,7 @@ export const useAnalytics = () => {
                     innerHTML: `
                         window.op = window.op || function(...args){(window.op.q = window.op.q || []).push(args);};
                         window.op('init', {
-                            clientId: '${provider.code}',
+                            clientId: '${provider.code}',${provider.apiUrl ? `\n                            apiUrl: '${provider.apiUrl}',` : ''}
                             trackScreenViews: true,
                             trackOutgoingLinks: true,
                             trackAttributes: true,
@@ -87,12 +91,12 @@ export const useAnalytics = () => {
 
         if (scripts.length > 0) {
             const extraParams = Object.entries(provider).reduce((acc, [key, value]) => {
-                if (key !== 'provider' && key !== 'code') {
+                if (!CONSUMED_KEYS.includes(key)) {
                     const attributeKey = key.startsWith('data-') ? key : `data-${key.replace(/[A-Z]/g, m => `-${m.toLowerCase()}`)}`
                     acc[attributeKey] = value
                 }
                 return acc
-            }, {} as Record<string, string | boolean | number>)
+            }, {} as Record<string, string | boolean | number | undefined>)
 
             scripts[0] = { ...scripts[0], ...extraParams }
         }
