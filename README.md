@@ -18,7 +18,7 @@
 
 </div>
 
-**Bloggrify is a Nuxt Content starter specialized for blogging.**
+**Bloggrify is a Nuxt layer that turns Markdown files into a blog.**
 
 Built on the excellent [Nuxt Content](https://content.nuxt.com/) framework, Bloggrify provides:
 
@@ -62,7 +62,7 @@ If you use this project and it saves you time. [How about supporting it?](https:
 
 ## Supporting the project
 
-I created this blog starters because I know how **tedious** it is to assemble all the bricks needed to have an SEO-efficient blog, with a clean, accessible design, responsive, with features already integrated (comment system, rss feed, newsletter, sitemap etc...).
+I created Bloggrify because I know how **tedious** it is to assemble all the bricks needed to have an SEO-efficient blog, with a clean, accessible design, responsive, with features already integrated (comment system, rss feed, newsletter, sitemap etc...).
 
 **If you consider that you've really saved time**, **you might consider supporting this work**.
 It's optional, but it will be much appreciated.
