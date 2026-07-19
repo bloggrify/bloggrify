@@ -20,10 +20,31 @@
 
 **Bloggrify is a Nuxt layer that turns Markdown files into a blog.**
 
+<a href="https://minimalist.bloggrify.com">
+  <img src="https://raw.githubusercontent.com/bloggrify/bloggrify/main/public/images/templates/minimalist.jpg" alt="Minimalist, the theme bundled with Bloggrify" width="100%">
+</a>
+
+<table>
+  <tr>
+    <td width="33%" align="center">
+      <a href="https://mistral.bloggrify.com"><img src="https://raw.githubusercontent.com/bloggrify/bloggrify/main/public/images/templates/bloggr.png" alt="Mistral theme" width="100%"></a>
+      <br><b>Mistral</b> · free
+    </td>
+    <td width="33%" align="center">
+      <a href="https://bento.bloggrify.com"><img src="https://raw.githubusercontent.com/bloggrify/bloggrify/main/public/images/templates/bento.jpg" alt="Bento theme" width="100%"></a>
+      <br><b>Bento</b> · paid
+    </td>
+    <td width="33%" align="center">
+      <a href="https://epoxia.bloggrify.com"><img src="https://raw.githubusercontent.com/bloggrify/bloggrify/main/public/images/templates/epoxia.png" alt="Epoxia theme" width="100%"></a>
+      <br><b>Epoxia</b> · paid
+    </td>
+  </tr>
+</table>
+
 Built on the excellent [Nuxt Content](https://content.nuxt.com/) framework, Bloggrify provides:
 
 ✅ **Pre-configured integrations** (not just dependencies)
-- 6 analytics providers (Google Analytics, Plausible, Pirsch, Umami, Fathom, Hakanai Pulse, Openpanel)
+- 7 analytics providers (Google Analytics, Plausible, Pirsch, Umami, Fathom, Hakanai Pulse, Openpanel)
 - 2 newsletter services (MailerLite, Hakanai Broadcast)
 - Comment systems (Hakanai Connect, Hyvor Talk)
 - Social sharing 
