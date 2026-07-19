@@ -55,6 +55,11 @@ declare module '@nuxt/schema' {
      * script as a `data-*` attribute instead.
      */
     apiUrl?: string
+    /**
+     * URL of the tracker script itself, for self-hosted instances that serve it
+     * from their own domain. Defaults to the provider's public CDN.
+     */
+    scriptUrl?: string
   } & Record<string, string | boolean | number | undefined>
 
   type SeoAiConfig = {

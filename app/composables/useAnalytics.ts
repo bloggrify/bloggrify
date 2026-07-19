@@ -13,7 +13,7 @@ type ScriptAttributes = {
 
 // Keys read by the provider templates themselves. Anything else in a provider
 // config is forwarded to the tracker script as a `data-*` attribute.
-const CONSUMED_KEYS = ['provider', 'code', 'apiUrl']
+const CONSUMED_KEYS = ['provider', 'code', 'apiUrl', 'scriptUrl']
 
 export const useAnalytics = () => {
     const config = useAppConfig()
@@ -99,6 +99,11 @@ export const useAnalytics = () => {
             }, {} as Record<string, string | boolean | number | undefined>)
 
             scripts[0] = { ...scripts[0], ...extraParams }
+
+            // Self-hosted instances serve the tracker from their own domain.
+            if (provider.scriptUrl) {
+                scripts[0].src = provider.scriptUrl
+            }
         }
 
         return scripts

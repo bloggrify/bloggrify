@@ -70,7 +70,12 @@ export default defineAppConfig({
   //                key used by `comments` above, which is a different product).
   analytics: {
     providers: [
-      { provider: 'openpanel', code: 'ac46ee2c-652e-41e9-b731-749a3ccfc7c8', apiUrl: 'https://opapi.hakanai.io' },
+      {
+        provider: 'openpanel',
+        code: 'ac46ee2c-652e-41e9-b731-749a3ccfc7c8',
+        apiUrl: 'https://opapi.hakanai.io',
+        scriptUrl: 'https://hla.hakanai.io/op1.js',
+      },
       { provider: 'hakanai', code: 'f36ee1f4-9341-4009-9358-a0f0c219c0e3' },
     ],
   },
