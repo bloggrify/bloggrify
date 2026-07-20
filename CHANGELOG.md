@@ -1,6 +1,21 @@
 # Changelog
 
 
+## [3.3.0](https://github.com/bloggrify/bloggrify/compare/v3.2.0...v3.3.0) (2026-07-20)
+
+
+### Features
+
+* allow loading the analytics tracker script from a self-hosted url ([42f9f86](https://github.com/bloggrify/bloggrify/commit/42f9f86f8f769be2e4077490f2dc90a778852c7a))
+* carry a per-platform rel on social links ([0afcd86](https://github.com/bloggrify/bloggrify/commit/0afcd86542649bec9740e2bfe2ee941eaa9fb8f2))
+
+
+### Bug Fixes
+
+* guard the catch-all route params against vue-router 5 ([efee788](https://github.com/bloggrify/bloggrify/commit/efee7888c8534153773103b39422820dafa1419a))
+* resolve vue-router 5 to restore the typecheck ([1e07f98](https://github.com/bloggrify/bloggrify/commit/1e07f98b7fe100e74689449f0bd3079637426ac6))
+* send openpanel events to the configured self-hosted api url ([be1ca68](https://github.com/bloggrify/bloggrify/commit/be1ca68d98d8ff80eeb4963d9b756de13dcd03ea))
+
 ## v3.2.0
 
 [compare changes](https://github.com/bloggrify/bloggrify/compare/v3.1.2...v3.2.0)
@@ -743,4 +758,3 @@ Never released (skipped)
 ### ❤️ Contributors
 
 - Hlassiege <hlassiege@gmail.com>
-
