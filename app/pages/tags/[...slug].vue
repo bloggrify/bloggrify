@@ -5,10 +5,16 @@
 import type { LayoutKey } from "#app"
 const route = useRoute()
 const config = useAppConfig()
-const slug = route.params.slug as string[]
+// Same vue-router 5 guard as the root catch-all: an empty param arrives as `undefined`.
+const slug = (route.params.slug ?? []) as string[]
 
 const configTheme = config.theme || 'minimalist'
 const tag = slug[0]
+
+// `/tags` without a tag is not a listing we serve, it is a not-found.
+if (!tag) {
+    throw createError({statusCode: 404, statusMessage: 'Page not found', fatal: true})
+}
 const title = 'Tag: ' + tag
 const description = title
 useSeoMeta({

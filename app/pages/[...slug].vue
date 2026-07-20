@@ -8,7 +8,11 @@ import {findAuthor, msToISO8601Duration, resolveSocialLinks} from '#imports'
 
 const route = useRoute()
 const config = useAppConfig()
-const slug = route.params.slug as string[]
+// `?? []` is load-bearing on the home page. On `/`, this catch-all matches with an empty
+// param, and vue-router 5 reports it as `undefined` where 4 gave an empty array. Reading
+// `slug.length` below then throws, and the only route affected is the one every visitor
+// lands on first: the build fails on `/` alone with a bare 500.
+const slug = (route.params.slug ?? []) as string[]
 
 /**
  * Checks and throws errors from Nuxt data fetching composables
