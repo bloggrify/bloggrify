@@ -7,7 +7,7 @@
             :aria-label="`Open ${link.label} profile`"
             :class="linkClass"
             target="_blank"
-            rel="nofollow noopener noreferrer"
+            :rel="link.rel"
         >
             <UIcon :name="link.icon" :class="iconClass" />
         </NuxtLink>

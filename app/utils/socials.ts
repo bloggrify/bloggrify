@@ -1,18 +1,28 @@
 import type { SocialPlatform, Socials } from '@nuxt/schema'
 
 /**
+ * The `rel` of an outgoing profile link. Not editorial content, so it does not
+ * pass authority, and it never hands the target window a `window.opener`.
+ */
+export const DEFAULT_SOCIAL_REL = 'nofollow noopener noreferrer'
+
+/**
  * The single source of truth for how a social network is rendered.
  *
  * Themes must not redefine this map: they style `<SocialLinks>`, they do not
  * decide which networks exist or what they look like.
+ *
+ * `rel` is per-platform because it is not decoration. Mastodon reads `rel="me"`
+ * on the link back from your site to decide whether to show the profile link as
+ * verified, so dropping it silently breaks a feature the visitor can see.
  */
-export const SOCIAL_PLATFORMS: Record<SocialPlatform, { icon: string, label: string }> = {
+export const SOCIAL_PLATFORMS: Record<SocialPlatform, { icon: string, label: string, rel?: string }> = {
     bluesky: { icon: 'i-simple-icons-bluesky', label: 'Bluesky' },
     facebook: { icon: 'i-simple-icons-facebook', label: 'Facebook' },
     github: { icon: 'i-simple-icons-github', label: 'GitHub' },
     instagram: { icon: 'i-simple-icons-instagram', label: 'Instagram' },
     linkedin: { icon: 'i-simple-icons-linkedin', label: 'LinkedIn' },
-    mastodon: { icon: 'i-simple-icons-mastodon', label: 'Mastodon' },
+    mastodon: { icon: 'i-simple-icons-mastodon', label: 'Mastodon', rel: `me ${DEFAULT_SOCIAL_REL}` },
     twitter: { icon: 'i-simple-icons-x', label: 'X' },
     youtube: { icon: 'i-simple-icons-youtube', label: 'YouTube' },
 }
@@ -22,6 +32,8 @@ export type SocialLink = {
     url: string
     icon: string
     label: string
+    /** Always set: falls back to {@link DEFAULT_SOCIAL_REL}. Bind it, do not hardcode `rel`. */
+    rel: string
 }
 
 const _isPlatform = (key: string): key is SocialPlatform => key in SOCIAL_PLATFORMS
@@ -56,5 +68,6 @@ export function resolveSocialLinks (socials?: Socials): SocialLink[] {
             platform,
             url: socials[platform] as string,
             ...SOCIAL_PLATFORMS[platform],
+            rel: SOCIAL_PLATFORMS[platform].rel ?? DEFAULT_SOCIAL_REL,
         }))
 }

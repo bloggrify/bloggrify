@@ -47,7 +47,7 @@ const gallery = computed(() => config.gallery ?? [])
           variant="ghost"
           size="lg"
           target="_blank"
-          rel="nofollow noopener noreferrer"
+          :rel="link.rel"
         />
       </div>
     </template>

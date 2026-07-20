@@ -31,7 +31,7 @@ const socialLinks = computed(() => resolveSocialLinks(config.socials))
           variant="ghost"
           size="sm"
           target="_blank"
-          rel="nofollow noopener noreferrer"
+          :rel="link.rel"
         />
       </div>
     </footer>
