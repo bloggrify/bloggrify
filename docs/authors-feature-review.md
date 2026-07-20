@@ -35,7 +35,7 @@ Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côt
 | P17 | `bluesky` rendu mais absent du type | ✅ Fait | 2 |
 | P18 | Le fallback s'applique à l'affichage mais pas au listing | ✅ Fait | 1 |
 | P19 | `twitter_username` posé en `twitter:creator` | ✅ Fait | 2 |
-| P20 | `rel="me"` (vérification Mastodon) perdu par la mutualisation P9 | 🟡 Core fait ; les 3 thèmes basculent au prochain bump de core | 3 |
+| P20 | `rel="me"` (vérification Mastodon) perdu par la mutualisation P9 | ✅ Fait (core 3.3.0 + les 3 thèmes) | 3 |
 
 **Le lot 2 est clos.** Tout le lot 3 (dette) reste ouvert. P13 à P17 ont été découverts pendant le lot 1, P18 pendant N2, P19 pendant N3.
 
@@ -464,7 +464,16 @@ Traité **côté core**, la bonne maille : le `rel` fait maintenant partie du co
 - `SocialLink.rel` est **requis** : `resolveSocialLinks` retombe sur le défaut. Un consommateur ne peut donc pas obtenir un lien sans `rel`, et n'a plus à connaître la bonne valeur.
 - Les 4 sites d'appel du core bindent `:rel="link.rel"` : `SocialLinks.vue`, `MinimalistFooter`, `MinimalistHero`, `MinimalistProfileHeader`. Typecheck et lint du core à 0.
 
-**Les thèmes ne peuvent pas encore en profiter.** Ils consomment le core **publié** (3.2.0), dont `SocialLink` ne porte pas `rel` : `:rel="link.rel"` sort en `TS2339: Property 'rel' does not exist on type 'SocialLink'` (constaté sur Mistral, puis reverté). Les 4 wrappers gardent donc le `rel` en dur. **À basculer dans le même commit que le prochain bump de `@bloggrify/core`**, sur les 3 thèmes à la fois. C'est le cas général du décalage core/thèmes déjà vu en P13 : une feature core ne se propage qu'à la release suivante.
+**Les thèmes ont dû attendre la release.** Contre le core publié 3.2.0, `:rel="link.rel"` sortait en `TS2339: Property 'rel' does not exist on type 'SocialLink'` (constaté sur Mistral, puis reverté) : les 4 wrappers ont gardé le `rel` en dur jusqu'au bump. Même décalage core/thèmes qu'en P13 — une feature core ne se propage qu'à la release suivante.
+
+**Clos avec le bump en core 3.3.0.** Les 4 wrappers bindent `:rel="link.rel"`. Vérifié dans le HTML généré de Mistral, pas seulement au typecheck :
+
+```html
+<a href="https://piaille.fr" rel="me nofollow noopener noreferrer" ...>
+<a href="https://github.com" rel="nofollow noopener noreferrer" ...>
+```
+
+Le `nofollow` est conservé sur mastodon : les tokens `rel` se cumulent, on ne troque pas l'hygiène SEO contre la vérification de profil.
 
 ### Hors auteurs : `socials.sharing_networks` migré vers `sharing.networks`
 
@@ -558,7 +567,7 @@ Corrigé au passage : `repository.url` d'Epoxia pointait encore sur `hlassiege/b
 - [x] **P14** Vérifié sur 3.2.0 (session N6) : `nuxt generate` de Mistral rend les pages d'articles **commentaires activés** (`provider: 'hakanai'`), aucun crash `website_id`. Le build sortait en erreur sur des `IPX_FILE_NOT_FOUND` de covers, désormais **résolu** (conflit de convention de chemin, voir N13) : generate passe à 95 routes, 0 erreur.
 - [x] **P17** `bluesky` ajouté au type via `SocialPlatform` (session N3, avec P9).
 - [x] **P19** `twitter:creator` posé depuis `twitter_username` dans `[...slug].vue` (session N4, avec P7c).
-- [~] **P20** (découvert et traité côté core en N7) `rel` par plateforme dans `SOCIAL_PLATFORMS` (`app/utils/socials.ts`), remonté comme champ **requis** de `SocialLink` : `me nofollow noopener noreferrer` pour mastodon, `DEFAULT_SOCIAL_REL` (`nofollow noopener noreferrer`) partout ailleurs. Les 4 sites d'appel du core (`SocialLinks.vue`, `MinimalistFooter`, `MinimalistHero`, `MinimalistProfileHeader`) bindent `:rel="link.rel"` au lieu de le coder en dur. **Reste : les 4 wrappers des thèmes**, qui gardent le `rel` en dur — `link.rel` ne compile pas contre le core **publié** 3.2.0 (`TS2339: Property 'rel' does not exist on type 'SocialLink'`, vérifié sur Mistral). À basculer dans le même commit que le prochain bump de `@bloggrify/core`. Détail en section 2 sexies.
+- [x] **P20** (découvert et traité en N7) `rel` par plateforme dans `SOCIAL_PLATFORMS` (`app/utils/socials.ts`), remonté comme champ **requis** de `SocialLink` : `me nofollow noopener noreferrer` pour mastodon, `DEFAULT_SOCIAL_REL` (`nofollow noopener noreferrer`) partout ailleurs. Les 4 sites d'appel du core (`SocialLinks.vue`, `MinimalistFooter`, `MinimalistHero`, `MinimalistProfileHeader`) bindent `:rel="link.rel"`. Les 4 wrappers des thèmes ont suivi **au bump en core 3.3.0**, une fois `SocialLink.rel` réellement publié (contre 3.2.0 : `TS2339`). **Vérifié dans le HTML généré de Mistral** : `rel="me nofollow noopener noreferrer"` sur mastodon, `rel="nofollow noopener noreferrer"` sur github. Détail en section 2 sexies.
 - [ ] **P16** Nettoyer `logo: '/images/logo.png'` et `avatar: '/images/profile-john.jpg'` du core (fichiers inexistants), ou ajouter les images. Décider aussi du sort de ces champs dans `SAMPLE.app.config.ts`, qui est publié : un utilisateur qui copie le template hérite de chemins morts.
 - [ ] **P6a** Rendre `Author.username` requis dans `app/types/app-config.d.ts`.
 - [ ] **P6b** Faire importer le type `Author` du core par le CLI au lieu de la duplication de `cli/utils/author.ts:5-21`.
