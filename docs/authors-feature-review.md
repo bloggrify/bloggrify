@@ -4,9 +4,9 @@ Audit réalisé le 2026-07-17 sur `bloggrify` (core) et les thèmes `bloggrify-b
 
 Ce document est un plan de travail réutilisable d'une session à l'autre. Les cases à cocher indiquent l'avancement. Les chemins sans préfixe de dépôt sont relatifs à `bloggrify` (le core) ; les autres sont préfixés par le nom du dépôt.
 
-**Dernière mise à jour : 2026-07-18 (session N6). Core 3.2.0 releasé : N11 débloqué. Lot 2 thèmes livré **pour Mistral uniquement** (P9-social + P12-layout `authors.vue`), P13 et P14 clos côté Mistral. Bento et Epoxia restent à faire.**
+**Dernière mise à jour : 2026-07-19 (session N7). Lot 2 thèmes porté sur Bento et Epoxia : le lot 2 est clos sur les 3 thèmes. P9, P12, P13, N10 et N11 sont désormais faits partout. Seule la validation runtime (`nuxt generate`, donc P14) reste en attente d'une licence pour Bento et Epoxia.**
 
-Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côté core (N3), puis le SEO auteur (N4), puis la page `/authors` (N5), puis la release 3.2.0 et le lot 2 thèmes côté Mistral (N6). Le détail archéologique des sessions closes a été élagué au fil de l'eau ; seul ce qui guide un travail restant est conservé.
+Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côté core (N3), puis le SEO auteur (N4), puis la page `/authors` (N5), puis la release 3.2.0 et le lot 2 thèmes côté Mistral (N6), puis le portage sur Bento et Epoxia (N7). Le détail archéologique des sessions closes a été élagué au fil de l'eau ; seul ce qui guide un travail restant est conservé.
 
 ---
 
@@ -24,36 +24,37 @@ Historique condensé : lot 1 (feature réparée) + N2 + P18, puis P9/P17/N3 côt
 | P6 | Le typage ment (3 vérités) | ⬜ À faire | 3 |
 | P7 | Auteur absent du SEO (schema.org, RSS, OG) | ✅ Fait (a/b/c) | 2 |
 | P8 | Un seul auteur par article | ⬜ À faire | 3 |
-| P9 | Rendu des socials dupliqué dans les thèmes | 🟡 Core + Mistral faits, Bento/Epoxia restants | 2 |
+| P9 | Rendu des socials dupliqué dans les thèmes | ✅ Fait (core + les 3 thèmes) | 2 |
 | P10 | Déréférencements non gardés (crash potentiel) | ✅ Fait | 1 |
 | P11 | Contrat incohérent entre pages de listing | ⬜ À faire | 3 |
-| P12 | Page `/authors` manquante | ✅ Core + layout Mistral ; Bento/Epoxia restants | 2 |
-| P13 | Core publié ne propage pas le type `Author` | 🟡 Mistral nettoyé (3.2.0) ; Bento/Epoxia restants | 3 |
-| P14 | Core publié casse le build de Mistral | ✅ Vérifié sur 3.2.0 (comments activés, aucun crash `website_id`) | 3 |
+| P12 | Page `/authors` manquante | ✅ Fait (core + les 3 thèmes) | 2 |
+| P13 | Core publié ne propage pas le type `Author` | ✅ Fait (workaround retiré des 3 thèmes) | 3 |
+| P14 | Core publié casse le build de Mistral | ✅ Vérifié sur 3.2.0 (comments activés, aucun crash `website_id`) ; non rejouable sur Bento/Epoxia sans licence | 3 |
 | P15 | `BentoListing` / `EpoxiaListing` ignoraient `author` | ✅ Fait | 1 |
 | P16 | Le core référence 2 images inexistantes | ⬜ À faire (inerte) | 3 |
 | P17 | `bluesky` rendu mais absent du type | ✅ Fait | 2 |
 | P18 | Le fallback s'applique à l'affichage mais pas au listing | ✅ Fait | 1 |
 | P19 | `twitter_username` posé en `twitter:creator` | ✅ Fait | 2 |
+| P20 | `rel="me"` (vérification Mastodon) perdu par la mutualisation P9 | 🟡 Core fait ; les 3 thèmes basculent au prochain bump de core | 3 |
 
-Reste ouvert du lot 2 : **P9 thèmes + P12 layout pour Bento et Epoxia** (Mistral est fait). Tout le lot 3 (dette) reste ouvert. P13 à P17 ont été découverts pendant le lot 1, P18 pendant N2, P19 pendant N3.
+**Le lot 2 est clos.** Tout le lot 3 (dette) reste ouvert. P13 à P17 ont été découverts pendant le lot 1, P18 pendant N2, P19 pendant N3.
 
 ### État par thème du portage lot 2 (côté thèmes)
 
-Depuis la release 3.2.0, le lot 2 se porte thème par thème. **Seul Mistral est fait (session N6).**
+Depuis la release 3.2.0, le lot 2 s'est porté thème par thème : **Mistral en N6, Bento et Epoxia en N7.**
 
 | Livrable | Fichier (relatif au dépôt du thème) | Minimalist (core) | Mistral | Bento | Epoxia |
 |---|---|---|---|---|---|
-| P9 — socials via `resolveSocialLinks` | composant `*SocialLinks` en `components/content/` | ✅ (core) | ✅ N6 | ⬜ | ⬜ |
-| P12 — layout `authors.vue` | `app/layouts/themes/{theme}/authors.vue` | ✅ (core) | ✅ N6 | ⬜ | ⬜ |
-| P13 — `import type { Author }` | `app/layouts/themes/{theme}/author.vue` | ✅ (core) | ✅ N6 | ⬜ | ⬜ |
+| P9 — socials via `resolveSocialLinks` | composant `*SocialLinks` en `components/content/` | ✅ (core) | ✅ N6 | ✅ N7 | ✅ N7 |
+| P12 — layout `authors.vue` | `app/layouts/themes/{theme}/authors.vue` | ✅ (core) | ✅ N6 | ✅ N7 | ✅ N7 |
+| P13 — `import type { Author }` | `app/layouts/themes/{theme}/author.vue` | ✅ (core) | ✅ N6 | ✅ N7 | ✅ N7 |
 | P14 — `nuxt generate` vert (comments on) | — | n/a | ✅ N6 | ⬜ (licence) | ⬜ (licence) |
-| N11 — deps transitives re-résolues | `node_modules` après `npm install` | n/a | ✅ N6 | ⬜ | ⬜ |
-| N10 — collection lucide bundlée | `@iconify-json/lucide` en `dependencies` du thème | ✅ (core en dev) | ✅ N6 | ⬜ | ⬜ |
+| N11 — deps transitives re-résolues | `node_modules` après `npm install` | n/a | ✅ N6 | ✅ N7 | ✅ N7 |
+| N10 — collection lucide bundlée | `@iconify-json/lucide` en `dependencies` du thème | ✅ (core en dev) | ✅ N6 | ✅ N7 | ✅ N7 |
 
-Détail des trois fichiers Mistral touchés en N6 : voir section 2 quinquies. Bento et Epoxia ne sont pas validables au runtime sans leur licence (`BLOGGRIFY_BENTO_LICENSE` / `BLOGGRIFY_EPOXIA_LICENSE`), cf. lot 1.
+Détail des fichiers Mistral touchés en N6 : section 2 quinquies. Détail Bento/Epoxia (N7) : section 2 sexies. **Seule case restante : P14**, qui suppose un `nuxt generate` — impossible sans `BLOGGRIFY_BENTO_LICENSE` / `BLOGGRIFY_EPOXIA_LICENSE`, absentes de la machine (cf. lot 1). Bento et Epoxia sont validés par typecheck + lint uniquement.
 
-Hors portage lot 2, Mistral a aussi reçu en N6 : le nettoyage du FIXME `url` (N7) et un bloc `seo` centralisé (`indexable: false` + `ai.llms: true`). Voir les notes correspondantes.
+Hors portage lot 2, les trois thèmes ont reçu un bloc `seo` centralisé (`indexable: false` + `ai.llms: true`) : Mistral en N6, Bento et Epoxia en N7. Le FIXME `url` (N7 note) ne concernait que Mistral.
 
 ### Notes annexes, hors périmètre auteurs (détail en section 4)
 
@@ -64,10 +65,11 @@ Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 | N1 | Le bug de P1 à l'identique pour les **catégories** : pas de `category.vue` sur minimalist (thème par défaut) ni Mistral | 🔴 Feature cassée, masquée par l'absence de `category:` dans le contenu | core, mistral |
 | N2 | `fallback='invalid'` renvoie une erreur développeur au visiteur au lieu d'une 404 | ✅ Fait (404 + warn dev) | core |
 | N3 | `sharing_networks` rangé dans `socials` alors que ce n'en est pas un, casse le typage des thèmes | ✅ Fait (`sharing.networks` + fallback déprécié) | core (+ tous les thèmes) |
-| N11 | Les thèmes ne peuvent pas charger le core packé : leurs dépendances transitives sont périmées | ✅ Résolu par la release 3.2.0 + réinstall (vérifié sur Mistral : content 3.15.0, schema-org 6.2.3) ; à revérifier sur Bento/Epoxia | les 3 thèmes |
-| N10 | `@iconify-json/lucide` est en devDependency du core, donc absent chez les thèmes | 🟢 Décision : le devDep core est **volontaire** (ne pas imposer lucide à tous les consommateurs) ; chaque thème embarque la collection. Mistral fait (N6), Bento/Epoxia restants | chaque thème |
+| N11 | Les thèmes ne peuvent pas charger le core packé : leurs dépendances transitives sont périmées | ✅ Clos : release 3.2.0 + `npm install` sur les 3 thèmes (Mistral N6, Bento/Epoxia N7) | les 3 thèmes |
+| N10 | `@iconify-json/lucide` est en devDependency du core, donc absent chez les thèmes | ✅ Clos. Décision : le devDep core est **volontaire** (ne pas imposer lucide à tous les consommateurs) ; chaque thème embarque la collection. Fait sur les 3 (Mistral N6, Bento/Epoxia N7) | chaque thème |
 | N9 | Le template publié sur npm embarque `url: 'https://minimalist.bloggrify.com/'` | 🟠 Impact SEO sur chaque nouveau blog | core (`SAMPLE.app.config.ts`) |
-| N4 | Dette de typecheck des thèmes : Bento 42, Epoxia 24, Mistral 31→18 (contre 3.2.0), core 0 | 🟡 Aucune CI ne la retient ; Mistral remesuré à 18 contre 3.2.0 (N6), Bento/Epoxia à remesurer | les 3 thèmes |
+| N4 | Dette de typecheck des thèmes. **Baselines à jour, mesurées contre 3.2.0 : Bento 12, Epoxia 14, Mistral 0, core 0** (les anciennes 42/24/31 étaient mesurées contre le core périmé) | 🟡 Aucune CI ne la retient. Les 3 thèmes ont un script `npm run typecheck` depuis N7 : brancher la CI dessus est trivial, **mais lire N14 d'abord** (le script peut sortir vert sans rien vérifier) | les 3 thèmes |
+| N14 | `typecheck` faux vert : `vue-router` 4.x hoisté fait tomber le plugin Volar, `vue-tsc` sort 0 sans vérifier | 🔴 Piège CI. Corrigé sur Mistral (N7) ; le hoist reste non déterministe sur les 3 thèmes | les 3 thèmes |
 | N8 | `useAuthor()` est mort, seul le `findAuthor` **déprécié** est utilisé. `hasAuthor` jamais appelé | 🟡 La dépréciation est à l'envers de l'usage | core |
 | N5 | Warnings CSS `Expected ";" but found "}"` à chaque build | 🟡 Bruit permanent | core + thèmes |
 | N6 | Fichiers parasites : `nul` à la racine de la galaxie, `bash.exe.stackdump` ×2 | ⚪ Cosmétique | galaxie, core, bloggrify.com |
@@ -77,7 +79,7 @@ Collectées au fil des sessions. N2 et N3 sont faites, le reste est ouvert.
 
 **N1 et N2 relèvent du lot 1 par nature** (feature cassée). N2 est fait. **N1 reste le meilleur candidat à traiter ensuite** si on ne passe pas directement au lot 2, mais il n'est plus urgent : N2 lui a retiré son impact visiteur.
 
-**N11 est levé depuis la release 3.2.0** (vérifié sur Mistral). Le prochain vrai sujet est le **portage du lot 2 sur Bento et Epoxia** (P9-social + P12-layout + P13-nettoyage), sur le même patron que Mistral en N6. Voir la section 2 quater et 2 quinquies.
+**Le lot 2 est clos sur les 3 thèmes depuis N7.** Le prochain sujet est au choix **N1** (la page catégorie absente de minimalist et Mistral) ou le **lot 3** (dette : P5/P6/P8/P11/P16, plus N8 et N9). Brancher `npm run typecheck` en CI sur les thèmes est le geste le moins cher pour figer la dette N4.
 
 ---
 
@@ -256,7 +258,7 @@ Il manquait une page listant les auteurs. Sur un blog multi-auteurs, les fiches 
 
 Validé au runtime (`nuxt generate` du core, flag activé temporairement) : `/authors/index.html` généré avec « Hugo » et le lien vers `/authors/hlassiege`, la fiche individuelle intacte, typecheck 0 erreur, ESLint clean.
 
-**Reste pour les autres thèmes** : bento/epoxia/mistral n'ont pas de layout `authors.vue`. Un blog sous ces thèmes qui active le flag obtient une 404 sur `/authors` (via le fallback `invalid` → 404 de N2), tant que leur layout n'est pas livré. À traiter avec **P9-thèmes**, bloqué par N11.
+**✅ Clos pour les autres thèmes** : `authors.vue` livré sur Mistral (N6), Bento et Epoxia (N7). Les 4 thèmes de la galaxie répondent donc à `/authors` quand le flag est actif.
 
 ---
 
@@ -439,6 +441,80 @@ Reste non bloquant, à traiter côté **contenu** (hors Mistral) : le contenu pa
 
 Investigué et **corrigé en N6**. Voir la note N7 en section 4 : jusqu'à 3.1 le champ `url` d'`app.config.ts` était mort (l'URL venait de `BASE_URL`), depuis 3.2 il est lu **et prioritaire** sur `BASE_URL` (canonical, `og:url`, sitemap, RSS). Le FIXME (« à retirer ») était donc inversé : c'est le commentaire qui part, pas le champ. Fait, sur décision produit de tout centraliser dans `app.config`.
 
+## 2 sexies. Découvertes de la session N7 (2026-07-19, lot 2 Bento + Epoxia)
+
+### Le portage a suivi le patron de Mistral sans surprise
+
+Même séquence que N6, dans cet ordre (l'upgrade d'abord, sinon `import type { Author }` ne compile pas) :
+
+1. **`package.json`** : `@bloggrify/core` 3.1.2 → **3.2.0**, `nuxt` → **4.4.8** (la version épinglée par le core 3.2.0, vérifiée avec `npm view @bloggrify/core@3.2.0 dependencies.nuxt` — un skew nuxt casse le build standalone, cf. skill `release` A.2), `@iconify-json/lucide` `^1.2.117` en **dependencies** (N10), et les scripts `prepare` + `typecheck` alignés sur Mistral. Puis `npm install` (N11).
+2. **P9** : `BentoSocialLinks`, `BentoPostAuthorSocialLinks` et `EpoxiaPostAuthorSocialLinks` réécrits en wrappers de `resolveSocialLinks` + `UIcon`. Les trois embarquaient la **même** map de 8 SVG Font Awesome copiée-collée ; elle disparaît des trois. L'API `:socials` est inchangée, donc les appelants (`BentoAuthorCard`, `bento/AuthorCard`, les deux `author.vue`) ne bougent pas.
+3. **P9 bonus, propre à Epoxia** : `themes/epoxia/AuthorPortfolioHeader.vue` inlinait **6 réseaux en SVG à la main** (le plus gros foyer de duplication de la galaxie, noté en P9). Il délègue désormais à `EpoxiaPostAuthorSocialLinks`. Le fichier passe de 262 à 55 lignes.
+4. **P13** : `type Author = NonNullable<ReturnType<typeof findAuthor>>` retiré des deux `author.vue`, remplacé par `import type { Author } from '@nuxt/schema'`. Le hook `prepare:types` de 3.2.0 fait son travail dans les deux thèmes.
+5. **P12** : nouveaux layouts `themes/bento/authors.vue` et `themes/epoxia/authors.vue`, grille de cartes `UAvatar` liées à `/authors/{username}`, dans le shell et les tokens de chaque thème (carte `rounded-2xl` + `font-stylish` + accent rouge pour Bento, carte `rounded-lg` + accent rose pour Epoxia).
+
+### P20 — `rel="me"` perdu sur Mastodon, devenu une feature du core
+
+`AuthorPortfolioHeader` d'Epoxia posait `rel="me"` sur les liens **Mastodon et YouTube**, là où le composant mutualisé posait `rel="nofollow noopener noreferrer"` partout. Sur Mastodon, `rel="me"` n'est pas décoratif : c'est le mécanisme de **vérification de profil** (Mastodon affiche le lien en vert si la page pointée le référence en retour). Minimalist et Mistral avaient perdu la même chose en N3/N6 sans que ce soit noté.
+
+Traité **côté core**, la bonne maille : le `rel` fait maintenant partie du contrat d'un lien social, au même titre que l'icône et le label.
+
+- `DEFAULT_SOCIAL_REL = 'nofollow noopener noreferrer'` exporté de `app/utils/socials.ts`.
+- `SOCIAL_PLATFORMS` accepte un `rel` optionnel par plateforme ; seul `mastodon` le renseigne (`me ${DEFAULT_SOCIAL_REL}` — les tokens `rel` se cumulent, on ne perd pas le `nofollow`).
+- `SocialLink.rel` est **requis** : `resolveSocialLinks` retombe sur le défaut. Un consommateur ne peut donc pas obtenir un lien sans `rel`, et n'a plus à connaître la bonne valeur.
+- Les 4 sites d'appel du core bindent `:rel="link.rel"` : `SocialLinks.vue`, `MinimalistFooter`, `MinimalistHero`, `MinimalistProfileHeader`. Typecheck et lint du core à 0.
+
+**Les thèmes ne peuvent pas encore en profiter.** Ils consomment le core **publié** (3.2.0), dont `SocialLink` ne porte pas `rel` : `:rel="link.rel"` sort en `TS2339: Property 'rel' does not exist on type 'SocialLink'` (constaté sur Mistral, puis reverté). Les 4 wrappers gardent donc le `rel` en dur. **À basculer dans le même commit que le prochain bump de `@bloggrify/core`**, sur les 3 thèmes à la fois. C'est le cas général du décalage core/thèmes déjà vu en P13 : une feature core ne se propage qu'à la release suivante.
+
+### Hors auteurs : `socials.sharing_networks` migré vers `sharing.networks`
+
+Le `npm install` a fait sortir le warn de dépréciation N3 du core sur les deux thèmes. Les trois `app.config.ts` sont passés au bloc `sharing: { networks: [...] }` (Bento et Epoxia, puis Mistral dans la foulée), le `socials` ne contient plus que des profils. **Plus aucun thème n'émet le warn.**
+
+### Nouveau N14 : le `typecheck` de Mistral était un faux vert (vue-router hoisté en 4.x)
+
+**Trouvé en voulant vérifier un « 0 erreur » qui paraissait trop beau après la migration `sharing`.** `npm run typecheck` de Mistral rapportait **0 erreur et sortait en `EXIT=0`** alors qu'il ne typecheckait presque rien.
+
+Cause : deux versions de `vue-router` cohabitent dans l'arbre. `nuxt@4.4.8` exige `^5.1.0`, `@nuxt/ui@4.10.0` (dépendance du core) accepte `^4.5.0 || ^5.0.0`. **Laquelle atterrit à la racine de `node_modules` dépend de l'ordre d'installation**, et le lockfile de Mistral y avait figé **4.6.4**. Or `vue-tsc` charge `vue-router/volar/sfc-route-blocks`, un sous-chemin qui n'existe pas en 4.x :
+
+```
+[Vue] Resolve plugin path failed: vue-router/volar/sfc-route-blocks
+Error [ERR_PACKAGE_PATH_NOT_EXPORTED]
+```
+
+Le plugin Volar tombe, `vue-tsc` continue en mode dégradé, ne trouve rien, et **rend un code de sortie 0**. Le piège est là : une CI branchée sur `npm run typecheck` aurait été verte en ne vérifiant rien. Bento et Epoxia, fraîchement installés en N7, avaient hérité de 5.2.0 à la racine et n'étaient pas concernés (`@nuxt/ui` y est dédupliqué sur 5.2.0).
+
+Correctif appliqué : `npm update vue-router` sur Mistral (pas d'`overrides`, la contrainte de `@nuxt/ui` accepte déjà 5.x) → 5.2.0 à la racine, plugin résolu.
+
+**Vérifié empiriquement plutôt que sur la foi du 0** : en réintroduisant une erreur connue (`:rel="link.rel"`, cf. P20), le typecheck la remonte et sort en `EXIT=2`. Le 0 est donc réel.
+
+**Ce n'est pas réglé sur le fond** : rien n'empêche un futur `npm install` de re-hoister 4.x dans n'importe lequel des thèmes, et l'échec est silencieux. Deux pistes : un `overrides: { "vue-router": "^5.2.0" }` dans chaque thème, ou attendre que `@nuxt/ui` resserre sa plage. À décider. En attendant, **toute mesure de typecheck doit d'abord vérifier l'absence de `Resolve plugin path failed` dans la sortie**, sinon le chiffre ne veut rien dire.
+
+### Baselines de typecheck remesurées contre 3.2.0
+
+**Bento 12** (contre 42 avant), **Epoxia 14** (contre 24), **Mistral 0** (contre 18 en N6). Les trois mesures sont prises plugin Volar résolu (cf. N14). La chute de Bento et Epoxia ne vient pas d'un nettoyage : les anciennes baselines étaient mesurées contre le core périmé (même biais que Mistral 31 → 18 en N6). Mistral passe à 0 après le `npm install` de N7, qui a re-résolu ses transitives — **la dette N4 de Mistral est donc résorbée**, pas contournée.
+
+Les erreurs restantes de Bento et Epoxia sont la dette N4 pré-existante (`readingTime` possibly undefined, `subtitle` unknown dans `PageSidebar`) plus, côté Bento, `BentoPaginationBar` et `BentoHomeCategories`. **0 erreur sur les fichiers touchés en N7**, et l'erreur `TS2559` de `BentoAuthorCard` citée en N3 a disparu (le composant reçoit maintenant un `Socials` typé).
+
+ESLint : 19 erreurs sur Bento, 2 sur Epoxia, **toutes dans des fichiers non touchés** (dette pré-existante : `vue/max-attributes-per-line` sur des SVG inline, `consistent-type-imports` dans les deux `modules/*/license.ts`, un `any` dans `epoxia/portfolio.vue`).
+
+### Ce qui n'a PAS pu être validé
+
+`nuxt generate` (donc P14, et le rendu réel des icônes `simple-icons` en bundle local) exige `BLOGGRIFY_BENTO_LICENSE` / `BLOGGRIFY_EPOXIA_LICENSE`, absentes de la machine. **À rejouer avec une licence**, en vérifiant les deux points contrôlés sur Mistral en N6 : aucun `api.iconify.design` dans le HTML généré, et `/authors/index.html` produit en activant temporairement `authors_page.enabled`.
+
+Bonne nouvelle au passage : `nuxt prepare` (donc `npm install` et `npm run typecheck`) tourne **sans** licence. Le module de licence ne bloque que le build.
+
+### Mise en place de release-please + npm OIDC sur les deux thèmes
+
+Setup A.3 du skill `release`, à l'identique de Mistral : `.release-please-manifest.json` (initialisé au dernier tag publié, `3.0.1` pour Bento et `3.0.2` pour Epoxia — vérifiés contre `git tag` **et** contre npm), `release-please-config.json`, `.github/workflows/release.yml`. Le `deploy.yml` existant n'est pas touché.
+
+**Différence assumée avec Mistral : pas de `--provenance`.** Ces deux dépôts sont privés et npm exige un dépôt public pour la provenance. Le commentaire est dans le workflow pour éviter qu'on « répare » l'écart plus tard.
+
+**Deux gestes manuels restent à faire par l'utilisateur**, l'agent ne peut pas les faire (cf. skill `release` A.3.2 et A.3.3) :
+- déclarer le **trusted publisher** sur npmjs.com pour `@bloggrify/bento` et `@bloggrify/epoxia` (org `bloggrify`, repo correspondant, workflow `release.yml`, environment vide) ;
+- vérifier que l'org autorise Actions à créer des PR (déjà fait pour Mistral, donc probablement acquis au niveau org).
+
+Corrigé au passage : `repository.url` d'Epoxia pointait encore sur `hlassiege/bloggrify-epoxia` alors que le remote est `bloggrify/bloggrify-epoxia`.
+
 ---
 
 ## 3. Plan d'action
@@ -472,16 +548,17 @@ Investigué et **corrigé en N6**. Voir la note N7 en section 4 : jusqu'à 3.1 l
 - [x] **P7b** (session N4) `<dc:creator>` par item dans `server/routes/rss.xml.ts`, fallback défaut mirroir de `findAuthor` (non importable côté serveur), namespace `xmlns:dc` injecté à la main. Validé : 12 items crédités.
 - [x] **P7c + P19** (session N4) prop `author` passée à `BlogPost.satori.vue`, et `twitter:creator` posé depuis `twitter_username`. Validés au runtime (OG cache key `author_Hugo`, `<meta name="twitter:creator">`).
 - [x] **P12** (session N5) Page `/authors` **opt-in** (`authors_page.enabled`, off par défaut), prérendue conditionnellement via `_readAppConfig` (patron `llms.txt`). Layout minimalist livré ; validée au runtime. Voir P12 en section 2. Layouts des autres thèmes à livrer avec P9-thèmes (bloqué N11).
-- [~] **P9 (thèmes)** Remplacer les composants dupliqués par de fins wrappers de style, **et** livrer le layout `authors.vue` des thèmes (P12). Garder leurs noms publics (`components/content/`, utilisables en MDC). **Mistral fait en N6** (`MistralAuthorCardSocialLinks` réécrit en wrapper de `resolveSocialLinks` + `UIcon` ; `app/layouts/themes/mistral/authors.vue` livré). **Restent Bento (`BentoSocialLinks`, `BentoPostAuthorSocialLinks`) et Epoxia (`EpoxiaPostAuthorSocialLinks`)**, non validables au runtime sans licence (voir lot 1). Choix retenu pour Mistral, à rejouer : wrapper `resolveSocialLinks` plutôt que le composant `SocialLinks` du core, car ce dernier n'expose pas de classe de conteneur (pas de `flex`/`gap`), exactement comme le fait déjà `MinimalistProfileHeader`.
+- [x] **P9 (thèmes)** Composants dupliqués remplacés par de fins wrappers de style, layouts `authors.vue` livrés (P12). Noms publics conservés (`components/content/`, utilisables en MDC). **Mistral en N6**, **Bento et Epoxia en N7** (`BentoSocialLinks`, `BentoPostAuthorSocialLinks`, `EpoxiaPostAuthorSocialLinks`, plus `AuthorPortfolioHeader` d'Epoxia qui inlinait 6 réseaux). Choix retenu partout : wrapper `resolveSocialLinks` plutôt que le composant `SocialLinks` du core, car ce dernier n'expose pas de classe de conteneur (pas de `flex`/`gap`), exactement comme le fait déjà `MinimalistProfileHeader`. **Non validé au runtime sur Bento/Epoxia** (licence, voir lot 1). Régression connue à traiter côté core : le `rel="me"` de Mastodon, voir section 2 sexies.
 
 ### Lot 3 : dette
 
-- [~] **N11** Levé par la release 3.2.0. **Vérifié sur Mistral** : `npm install` a re-résolu les transitives (`@nuxt/content` 3.15.0, `nuxt-schema-org` 6.2.3, `@iconify-json/simple-icons` 1.2.90), le hook `prepare:types` est bien dans le paquet, typecheck et generate tournent. **Reste à revérifier sur Bento et Epoxia** (réinstall + chargement).
-- [~] **N10** ~~Passer `@iconify-json/lucide` en `dependencies` du core~~ — **décision inversée** : le core le garde en `devDependencies` volontairement (ne pas imposer la collection à tous les consommateurs). Chaque thème embarque la collection dont il a besoin. **Mistral fait (N6)** : `@iconify-json/lucide` ajouté à ses `dependencies`, build vérifié en `local bundle mode` sans appel Iconify. **Restent Bento et Epoxia.** (`simple-icons`, lui, est en `dependencies` du core depuis 3.2.0 car requis par le composant `SocialLinks` partagé.)
-- [~] **P13** Retirer le `type Author = NonNullable<ReturnType<typeof findAuthor>>` des `author.vue` et repasser à `import type { Author } from '@nuxt/schema'`. **Mistral fait en N6** (hook `prepare:types` bien publié en 3.2.0, typecheck 0 erreur sur le fichier). **Restent Bento et Epoxia.** **Ne couvre pas le contexte serveur** : `rss.xml.ts` ne peut de toute façon pas importer `Author` (le hook ne câble que le tsconfig de l'app), il garde son type structurel local. Voir la note serveur en P7.
+- [x] **N11** Levé par la release 3.2.0 et clos sur les 3 thèmes : `npm install` re-résout les transitives (`@nuxt/content` 3.15.0, `nuxt-schema-org` 6.2.3, `@iconify-json/simple-icons`), le hook `prepare:types` est bien dans le paquet, typecheck et `nuxt prepare` tournent. Mistral en N6, Bento et Epoxia en N7.
+- [x] **N10** ~~Passer `@iconify-json/lucide` en `dependencies` du core~~ — **décision inversée** : le core le garde en `devDependencies` volontairement (ne pas imposer la collection à tous les consommateurs). Chaque thème embarque la collection dont il a besoin. Fait sur les 3 thèmes (Mistral N6, Bento et Epoxia N7). Vérifié au build en `local bundle mode` sans appel Iconify **sur Mistral uniquement** : à revérifier sur Bento/Epoxia avec une licence. (`simple-icons`, lui, est en `dependencies` du core depuis 3.2.0 car requis par le composant `SocialLinks` partagé.)
+- [x] **P13** `type Author = NonNullable<ReturnType<typeof findAuthor>>` retiré des 3 `author.vue`, remplacé par `import type { Author } from '@nuxt/schema'` (hook `prepare:types` bien publié en 3.2.0, typecheck 0 erreur sur les fichiers concernés). Mistral en N6, Bento et Epoxia en N7. **Ne couvre pas le contexte serveur** : `rss.xml.ts` ne peut de toute façon pas importer `Author` (le hook ne câble que le tsconfig de l'app), il garde son type structurel local. Voir la note serveur en P7.
 - [x] **P14** Vérifié sur 3.2.0 (session N6) : `nuxt generate` de Mistral rend les pages d'articles **commentaires activés** (`provider: 'hakanai'`), aucun crash `website_id`. Le build sortait en erreur sur des `IPX_FILE_NOT_FOUND` de covers, désormais **résolu** (conflit de convention de chemin, voir N13) : generate passe à 95 routes, 0 erreur.
 - [x] **P17** `bluesky` ajouté au type via `SocialPlatform` (session N3, avec P9).
 - [x] **P19** `twitter:creator` posé depuis `twitter_username` dans `[...slug].vue` (session N4, avec P7c).
+- [~] **P20** (découvert et traité côté core en N7) `rel` par plateforme dans `SOCIAL_PLATFORMS` (`app/utils/socials.ts`), remonté comme champ **requis** de `SocialLink` : `me nofollow noopener noreferrer` pour mastodon, `DEFAULT_SOCIAL_REL` (`nofollow noopener noreferrer`) partout ailleurs. Les 4 sites d'appel du core (`SocialLinks.vue`, `MinimalistFooter`, `MinimalistHero`, `MinimalistProfileHeader`) bindent `:rel="link.rel"` au lieu de le coder en dur. **Reste : les 4 wrappers des thèmes**, qui gardent le `rel` en dur — `link.rel` ne compile pas contre le core **publié** 3.2.0 (`TS2339: Property 'rel' does not exist on type 'SocialLink'`, vérifié sur Mistral). À basculer dans le même commit que le prochain bump de `@bloggrify/core`. Détail en section 2 sexies.
 - [ ] **P16** Nettoyer `logo: '/images/logo.png'` et `avatar: '/images/profile-john.jpg'` du core (fichiers inexistants), ou ajouter les images. Décider aussi du sort de ces champs dans `SAMPLE.app.config.ts`, qui est publié : un utilisateur qui copie le template hérite de chemins morts.
 - [ ] **P6a** Rendre `Author.username` requis dans `app/types/app-config.d.ts`.
 - [ ] **P6b** Faire importer le type `Author` du core par le CLI au lieu de la duplication de `cli/utils/author.ts:5-21`.
@@ -581,7 +658,7 @@ Interaction avec P12 : `/authors` est une route **statique** (opt-in). Quand le 
 
 Validé en dev : `/nexiste-pas-xyz` → 404, `/authors` (off) → 404 minimalist, `/` et `/seo` → 200. Doc utilisateur : `bloggrify.com/content/3.reference/7.theming.md` (« Custom error page »). Relié à N2 (le fallback `invalid` → 404).
 
-**Reste pour les autres thèmes** : bento/epoxia/mistral n'ont pas de `error.vue` → ils tombent sur `error-default` (correct, pas cassé). Leur donner une 404 stylée est optionnel, à faire avec P9-thèmes (bloqué N11) si souhaité.
+**Reste pour les autres thèmes** : bento/epoxia/mistral n'ont pas de `error.vue` → ils tombent sur `error-default` (correct, pas cassé). Leur donner une 404 stylée reste **optionnel et non fait** : écarté sur Mistral en N6, écarté sur Bento et Epoxia en N7 (décision produit, hors périmètre du lot 2).
 
 ### N7. FIXME en attente dans Mistral
 
