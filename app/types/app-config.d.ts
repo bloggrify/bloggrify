@@ -42,6 +42,7 @@ declare module '@nuxt/schema' {
     socials?: Socials
   }
 
+  // 'blogtally' is the former name of Hakanai, kept for backward compatibility.
   type AnalyticsProvider = 'hakanai' | 'blogtally' | 'pirsch' | 'plausible' | 'umami' | 'fathom' | 'google' | 'openpanel'
 
   type AnalyticsProviderConfig = {

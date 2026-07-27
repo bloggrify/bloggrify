@@ -26,6 +26,7 @@ export const useAnalytics = () => {
                 defer: true,
                 'data-site': provider.code,
             }],
+            // Former name of Hakanai, kept as an alias for existing configs.
             blogtally: [{
                 src: 'https://tracker.hakanai.io/hakanai.min.js',
                 defer: true,

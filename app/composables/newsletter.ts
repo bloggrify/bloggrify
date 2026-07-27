@@ -43,7 +43,9 @@ export async function subscribe(email: string, subscribeForm: HTMLFormElement | 
             }
         }
     }
-    else if (provider === 'blogtally' || provider === 'rssfeedpulse'|| provider === 'hakanai') {
+    // 'blogtally' and 'rssfeedpulse' are the former names of Hakanai Broadcast.
+    // They are no longer documented, but existing configs must keep working.
+    else if (provider === 'hakanai' || provider === 'blogtally' || provider === 'rssfeedpulse') {
         try {
             const response = await fetch(`${formAction}?email=${email}`, {
                 method: 'POST',
