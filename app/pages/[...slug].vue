@@ -1,10 +1,24 @@
 <template>
-    <NuxtLayout :name="theme" :doc="doc"  fallback='invalid' />
+    <!-- A redirecting page has no content of its own to show, and the visitor leaves within the
+         same tick. Only the manual way out is rendered, for the case where neither the meta
+         refresh nor the script ran. -->
+    <div v-if="redirectTarget" class="flex flex-1 items-center justify-center p-8 text-center">
+        <p>
+            Redirecting to
+            <a :href="redirectTarget" class="underline">{{ redirectTarget }}</a>
+        </p>
+    </div>
+    <NuxtLayout
+        v-else
+        :name="theme"
+        :doc="doc"
+        fallback='invalid'
+    />
 </template>
 <script setup lang="ts">
 import type { LayoutKey, NuxtError } from "#app"
 import {joinURL, withoutTrailingSlash} from 'ufo'
-import {findAuthor, msToISO8601Duration, resolveSocialLinks} from '#imports'
+import {findAuthor, msToISO8601Duration, resolveSocialLinks, useContentRedirect} from '#imports'
 
 const route = useRoute()
 const config = useAppConfig()
@@ -77,130 +91,117 @@ if (doc.value?.layout) {
     }
 }
 
-if (doc.value?.redirect_to_domain) {
-    const redirect = doc.value?.redirect_to_domain + doc.value?.path
-    useHead({
-        script: [
-            {
-                innerHTML: `window.location = "${redirect || '/'}"`,
-            },
-        ],
-    })
-}
-if (doc.value?.redirect_to_full_url) {
-    const redirect = doc.value?.redirect_to_full_url
-    useHead({
-        script: [
-            {
-                innerHTML: `window.location = "${redirect || '/'}"`,
-            },
-        ],
-    })
-}
+// A page whose frontmatter declares a destination is a signpost, not an article: the composable
+// emits the redirection and points the canonical at the destination. Everything below describes
+// an article to crawlers and social networks, which on a redirecting page would only compete
+// with the destination it just pointed to, so all of it is skipped.
+const redirectTarget = useContentRedirect(doc.value)
 
-const runtimeConfig = useRuntimeConfig()
-const url = withoutTrailingSlash(runtimeConfig.public.url)
+if (!redirectTarget) {
+    const runtimeConfig = useRuntimeConfig()
+    const url = withoutTrailingSlash(runtimeConfig.public.url)
 
-const postLink = withoutTrailingSlash(joinURL(url, doc.value?.path || '/'))
+    const postLink = withoutTrailingSlash(joinURL(url, doc.value?.path || '/'))
 
-const author = findAuthor(doc.value?.author)
-let schemaAuthor
+    const author = findAuthor(doc.value?.author)
+    let schemaAuthor
 
-if (author?.name) {
-    // Link the Person to their author page (`url`) and their profiles (`sameAs`) so
-    // search engines can reconcile the byline across the site and the wider web.
-    // `sameAs` reuses `resolveSocialLinks` rather than re-mapping the socials block.
-    const sameAs = resolveSocialLinks(author.socials).map(link => link.url)
-    schemaAuthor = {
-        '@type': 'Person',
-        name: author.name,
-        url: author.username
-            ? withoutTrailingSlash(joinURL(url, 'authors', author.username))
-            : undefined,
-        sameAs: sameAs.length ? sameAs : undefined,
-    }
-}
-
-// `twitter_username` is a handle, not a profile URL: its only job is to attribute
-// the post to its author on X. Rendered here as `twitter:creator` (P19).
-const twitterCreator = author?.socials?.twitter_username
-    ? `@${author.socials.twitter_username}`
-    : undefined
-let timeRequired
-if (doc.value?.readingTime?.time && doc.value?.readingTime?.time > 0) {
-    timeRequired = msToISO8601Duration(doc.value.readingTime.time)
-}
-
-useSchemaOrg([
-    defineArticle({
-        '@type': 'BlogPosting',
-        datePublished: doc.value?.date,
-        headline: doc.value?.title,
-        author: schemaAuthor,
-        timeRequired: timeRequired,
-    }),
-])
-
-useHead({
-    link: [
-        {
-            rel: 'canonical',
-            href: postLink
+    if (author?.name) {
+        // Link the Person to their author page (`url`) and their profiles (`sameAs`) so
+        // search engines can reconcile the byline across the site and the wider web.
+        // `sameAs` reuses `resolveSocialLinks` rather than re-mapping the socials block.
+        const sameAs = resolveSocialLinks(author.socials).map(link => link.url)
+        schemaAuthor = {
+            '@type': 'Person',
+            name: author.name,
+            url: author.username
+                ? withoutTrailingSlash(joinURL(url, 'authors', author.username))
+                : undefined,
+            sameAs: sameAs.length ? sameAs : undefined,
         }
-    ]
-})
+    }
 
-// `seo` is typed loosely by Nuxt Content, and `@nuxtjs/robots` injects `seo.robots`
-// after parsing, so the resolved directive string is not visible to the schema.
-const docRobots = doc.value?.seo?.robots as string | undefined
+    // `twitter_username` is a handle, not a profile URL: its only job is to attribute
+    // the post to its author on X. Rendered here as `twitter:creator` (P19).
+    const twitterCreator = author?.socials?.twitter_username
+        ? `@${author.socials.twitter_username}`
+        : undefined
+    let timeRequired
+    if (doc.value?.readingTime?.time && doc.value?.readingTime?.time > 0) {
+        timeRequired = msToISO8601Duration(doc.value.readingTime.time)
+    }
 
-useSeoMeta({
-    title: doc.value?.title,
-    description: doc.value?.description,
-    // `@nuxtjs/robots` turns the `robots` frontmatter into `seo.robots` at parse time,
-    // but it is up to the page to emit it. Left undefined, the module's own site-wide
-    // default applies, so this only ever narrows a single page.
-    robots: docRobots,
-    ogTitle: doc.value?.title,
-    ogDescription: doc.value?.description,
-    author: author?.name,
-    articleAuthor: author?.name ? [author.name] : undefined,
-    ogType: 'article',
-    ogUrl: withoutTrailingSlash(postLink),
-    twitterTitle: doc.value?.title,
-    twitterDescription: doc.value?.description,
-    twitterCreator: twitterCreator,
-    twitterCard: 'summary',
-    articleTag: doc.value?.tags ? doc.value.tags : [],
-})
+    useSchemaOrg([
+        defineArticle({
+            '@type': 'BlogPosting',
+            datePublished: doc.value?.date,
+            headline: doc.value?.title,
+            author: schemaAuthor,
+            timeRequired: timeRequired,
+        }),
+    ])
 
-if (doc.value?.readingTime?.time && doc.value?.readingTime?.time > 0) {
-    useSeoMeta({
-        twitterLabel1: 'Est. reading time',
-        twitterData1: doc.value?.readingTime?.text,
-        twitterLabel2: 'Est. reading time',
-        twitterData2: doc.value?.readingTime?.text,
+    useHead({
+        link: [
+            {
+                rel: 'canonical',
+                href: postLink
+            }
+        ]
     })
-}
 
-if (doc.value?.cover) {
-    useSeoMeta({
-        ogImage: joinURL(url, 'images', doc.value?.cover),
-        ogImageAlt: doc.value?.title,
-        twitterImage: joinURL(url ,'images/', doc.value?.cover)
-    })
-} else {
-  defineOgImage('BlogPostSatori', {
-    title: doc.value?.title,
-    description: doc.value?.description,
-    author: author?.name,
-  })
-}
+    // `seo` is typed loosely by Nuxt Content, and `@nuxtjs/robots` injects `seo.robots`
+    // after parsing, so the resolved directive string is not visible to the schema.
+    const docRobots = doc.value?.seo?.robots as string | undefined
 
-if (doc.value?.date) {
     useSeoMeta({
-        articlePublishedTime: new Date(doc.value?.date).toISOString(),
-        articleModifiedTime: new Date(doc.value?.date).toISOString()
+        title: doc.value?.title,
+        description: doc.value?.description,
+        // `@nuxtjs/robots` turns the `robots` frontmatter into `seo.robots` at parse time,
+        // but it is up to the page to emit it. Left undefined, the module's own site-wide
+        // default applies, so this only ever narrows a single page.
+        robots: docRobots,
+        ogTitle: doc.value?.title,
+        ogDescription: doc.value?.description,
+        author: author?.name,
+        articleAuthor: author?.name ? [author.name] : undefined,
+        ogType: 'article',
+        ogUrl: withoutTrailingSlash(postLink),
+        twitterTitle: doc.value?.title,
+        twitterDescription: doc.value?.description,
+        twitterCreator: twitterCreator,
+        twitterCard: 'summary',
+        articleTag: doc.value?.tags ? doc.value.tags : [],
     })
+
+    if (doc.value?.readingTime?.time && doc.value?.readingTime?.time > 0) {
+        useSeoMeta({
+            twitterLabel1: 'Est. reading time',
+            twitterData1: doc.value?.readingTime?.text,
+            twitterLabel2: 'Est. reading time',
+            twitterData2: doc.value?.readingTime?.text,
+        })
+    }
+
+    if (doc.value?.cover) {
+        useSeoMeta({
+            ogImage: joinURL(url, 'images', doc.value?.cover),
+            ogImageAlt: doc.value?.title,
+            twitterImage: joinURL(url ,'images/', doc.value?.cover)
+        })
+    } else {
+        defineOgImage('BlogPostSatori', {
+            title: doc.value?.title,
+            description: doc.value?.description,
+            author: author?.name,
+        })
+    }
+
+    if (doc.value?.date) {
+        useSeoMeta({
+            articlePublishedTime: new Date(doc.value?.date).toISOString(),
+            articleModifiedTime: new Date(doc.value?.date).toISOString()
+        })
+    }
 }
 </script>

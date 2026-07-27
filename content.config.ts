@@ -77,13 +77,19 @@ export default defineContentConfig({
         // Drafts are never generated, so leaving one in the sitemap advertises a 404.
         // `robots: false` pages do exist, but asking Google to index a page that says
         // noindex earns a "Submitted URL marked noindex" error, so they come out too.
+        // Redirecting pages come out for the same reason: they carry no content, point their
+        // canonical at another URL and ask not to be indexed, so advertising them only sends
+        // crawlers on a detour.
         // Note this filter is on us: unlike its Nuxt Content v2 integration, @nuxtjs/sitemap
         // does not exclude `robots: false` entries by itself on v3.
         // Unlisted pages stay in, they are real, reachable pages and `/about` is one.
         sitemap: defineSitemapSchema({
           name: 'page',
           z,
-          filter: entry => entry.draft !== true && entry.robots !== false,
+          filter: entry => entry.draft !== true
+            && entry.robots !== false
+            && !entry.redirect_to_full_url
+            && !entry.redirect_to_domain,
         }),
 
 
