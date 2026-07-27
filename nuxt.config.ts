@@ -94,8 +94,14 @@ export default defineNuxtConfig({
             'scala',
             'kotlin',
           ],
+          // @nuxtjs/color-mode puts `light` or `dark` on `<html>`, so `light` is the theme
+          // that actually renders in light mode and `default` only shows in the brief
+          // window where neither class is set. Both sit on a light `pre`, so both must be
+          // *light* Shiki themes. `light` is declared explicitly rather than inherited from
+          // the @nuxt/ui default so a Nuxt UI upgrade cannot silently recolour the blocks.
           theme: {
-            default: 'catppuccin-frappe',
+            light: 'material-theme-lighter',
+            default: 'material-theme-lighter',
             // Theme used if `html.dark`
             dark: 'github-dark',
           },

@@ -4,6 +4,28 @@
 
 @plugin "@tailwindcss/typography";
 
+/* `@tailwindcss/typography` and the Nuxt UI prose components both style `pre` and `code`,
+   and every theme layout wraps the rendered article in `.prose`, so the two collide.
+   Typography wins on the properties Nuxt UI does not set, and its opinions are the wrong
+   ones here:
+
+   - it colours `pre` for a *dark* code block (`--tw-prose-pre-code`, a light grey) while
+     `ProsePre` paints the light `bg-muted`. Highlighted fences hide the problem because
+     Shiki colours every token, but a fence with no language produces no token span, so its
+     text keeps that light grey and is unreadable on the light background;
+   - it wraps inline `code` in literal backticks via `::before`/`::after`, which show up
+     inside the chip `ProseCode` already renders.
+
+   Nuxt UI owns both elements, so drop those two rules. */
+.prose :where(pre) {
+  color: inherit;
+}
+
+.prose :where(code)::before,
+.prose :where(code)::after {
+  content: none;
+}
+
 /* Minimalist theme scope. These choices belong to the minimalist theme only and must not
    leak into the other themes (bento/epoxia/mistral) that also consume this core, so they
    are keyed on the `.minimalist` class carried by the theme shell rather than `:root`.
