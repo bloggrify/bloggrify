@@ -45,8 +45,12 @@ export default defineAppConfig({
 
   newsletter: {
     enabled: true,
-    form_action: 'YOUR_NEWSLETTER_FORM_ACTION',
-    provider: 'demo'
+    // Real campaign of minimalist.bloggrify.com on Hakanai Broadcast. The campaign
+    // id is public (it ships in the HTML), the API action URL is the one exposed by
+    // the forms section. This file is not part of the npm package, the distributed
+    // template is SAMPLE.app.config.ts, which stays on the demo provider.
+    form_action: 'https://broadcast.hakanai.io/api/campaign/996539cf-73e4-47b5-8d7c-2d7450174467/subscribe',
+    provider: 'hakanai'
   },
 
   comments: {
