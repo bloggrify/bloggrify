@@ -27,7 +27,7 @@ jobs:
         runs-on: ubuntu-latest
         permissions:
             contents: read
-            id-token: write # requis pour l'authentification npm via OIDC (trusted publishing)
+            id-token: write # required for npm authentication via OIDC (trusted publishing)
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -38,10 +38,34 @@ jobs:
                   node-version: '22'
                   registry-url: 'https://registry.npmjs.org'
 
-            - name: Upgrade npm (OIDC trusted publishing exige npm >= 11.5.1)
+            - name: Upgrade npm (OIDC trusted publishing requires npm >= 11.5.1)
               run: npm install -g npm@latest
 
-            # --ignore-scripts : le package ne publie que des sources (champ "files"),
-            # donc on saute prepare (nuxt) inutile ici.
+            # --ignore-scripts: the package ships sources only ("files" field),
+            # so prepare (nuxt) is useless here.
             - name: Publish to npm
               run: npm publish --provenance --access public --ignore-scripts
+
+    # Development lives on rickub, whose mirror force-pushes main + tags to
+    # GitHub. Without this push back, the commit and tag created here by
+    # release-please would be overwritten by the next rickub push.
+    sync-rickub:
+        needs: release-please
+        if: ${{ needs.release-please.outputs.release_created == 'true' }}
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            # No --force: if rickub moved forward in the meantime, we prefer a
+            # failure to reconcile by hand over a silent overwrite.
+            - name: Push release commit and tags to rickub
+              env:
+                  RICKUB_SYNC_TOKEN: ${{ secrets.RICKUB_SYNC_TOKEN }}
+              run: |
+                  git push "https://${RICKUB_SYNC_TOKEN}@rickub.com/bloggrify/bloggrify.git" \
+                      HEAD:refs/heads/main 'refs/tags/*:refs/tags/*'

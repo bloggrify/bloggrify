@@ -1,0 +1,26 @@
+name: Mirror to GitHub
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    mirror:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            # The mirror deliberately covers only main + tags: a --prune would
+            # delete the release-please--* branch on GitHub and kill the Release PR.
+            - name: Push main and tags to GitHub
+              env:
+                  MIRROR_TOKEN: ${{ secrets.MIRROR_GITHUB_TOKEN }}
+              run: |
+                  git push --force \
+                      "https://x-access-token:${MIRROR_TOKEN}@github.com/bloggrify/bloggrify.git" \
+                      '+HEAD:refs/heads/main' \
+                      '+refs/tags/*:refs/tags/*'
