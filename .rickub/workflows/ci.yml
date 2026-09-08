@@ -67,7 +67,11 @@ jobs:
                   enable-delete-action: true
                   enable-purge-pull-zone: true
                   pull-zone-id: "5063091"
-                  concurrency: 50
+                  # Rickub runners have a narrower uplink than the GitHub-hosted ones this
+                  # job used to run on. With 50 parallel PUTs the largest generated files
+                  # (18 `_payload.json` over 300 KB) blew past the per-request budget and
+                  # failed with "Timeout awaiting 'request'". Fewer connections, more time.
+                  concurrency: 10
                   replication-timeout: "15000"
-                  request-timeout: "10000"
+                  request-timeout: "30000"
                   retry-limit: "5"
