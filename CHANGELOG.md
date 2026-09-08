@@ -1,6 +1,19 @@
 # Changelog
 
 
+## [3.4.0](https://github.com/bloggrify/bloggrify/compare/v3.3.0...v3.4.0) (2026-09-08)
+
+
+### Features
+
+* connect the minimalist demo to a real hakanai broadcast campaign ([49667a2](https://github.com/bloggrify/bloggrify/commit/49667a2696991188f7c73e514fb7b5c18100f895))
+
+
+### Bug Fixes
+
+* make code blocks without a language readable in light mode ([b34191e](https://github.com/bloggrify/bloggrify/commit/b34191ea430a215fdc1ae9a333156cf68bd08e97))
+* make page redirections behave as documented ([fce1cf8](https://github.com/bloggrify/bloggrify/commit/fce1cf8ce442357a8072d7721c50d14473a342eb))
+
 ## [3.3.0](https://github.com/bloggrify/bloggrify/compare/v3.2.0...v3.3.0) (2026-07-20)
 
 
