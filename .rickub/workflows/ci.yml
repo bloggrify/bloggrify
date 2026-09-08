@@ -18,6 +18,15 @@ jobs:
               with:
                   submodules: true
 
+            # `submodules: true` above is not enough on Rickub runners: the build came out with
+            # an empty `content/`, which fails late and obscurely (the site generates with zero
+            # pages, then `/` prerenders as a 404). Fetch it explicitly and stop here if it is
+            # still missing, so the log names the cause.
+            - name: Fetch the content submodule
+              run: |
+                  git submodule update --init content
+                  test -n "$(ls -A content)"
+
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
